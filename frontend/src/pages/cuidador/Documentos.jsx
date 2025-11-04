@@ -1,5 +1,5 @@
 import React from "react";
-import { documentos } from "../data";
+import { documentos } from "../../data";
 
 export default function Documentos({ pacienteId }){
   const list = documentos.filter(d=>d.paciente===pacienteId);

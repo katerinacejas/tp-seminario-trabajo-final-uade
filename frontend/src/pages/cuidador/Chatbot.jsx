@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { bitacorasDemo, documentos } from "../data";
+import { bitacorasDemo, documentos } from "../../data";
 
 export default function Chatbot({ pacienteId }) {
 	const [input, setInput] = useState("");

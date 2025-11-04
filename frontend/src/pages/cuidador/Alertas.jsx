@@ -1,5 +1,5 @@
 import React from "react";
-import { alertas } from "../data";
+import { alertas } from "../../data";
 
 export default function Alertas({ pacienteId }) {
 	const meds = alertas.medicacion.filter(a => a.paciente === pacienteId);

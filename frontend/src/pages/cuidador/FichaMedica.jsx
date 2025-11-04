@@ -1,5 +1,5 @@
 import React from "react";
-import { fichaEmergencia } from "../data";
+import { fichaEmergencia } from "../../data";
 
 export default function FichaMedica({ pacienteId }){
   const f = fichaEmergencia[pacienteId] || fichaEmergencia.p1;

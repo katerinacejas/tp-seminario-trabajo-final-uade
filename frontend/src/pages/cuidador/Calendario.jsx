@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import { eventos } from "../data";
+import { eventos } from "../../data";
 
 function startOfMonth(d){ return new Date(d.getFullYear(), d.getMonth(), 1); }
 function endOfMonth(d){ return new Date(d.getFullYear(), d.getMonth()+1, 0); }

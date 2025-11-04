@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { tareas } from "../data";
+import { tareas } from "../../data";
 
 export default function Tareas({ pacienteId }) {
 	const [list, setList] = useState(tareas.filter(t => t.paciente === pacienteId));

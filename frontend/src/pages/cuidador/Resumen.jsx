@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { bitacorasDemo } from "../data";
+import { bitacorasDemo } from "../../data";
 
 export default function Resumen({ pacienteId }) {
 	const [periodo, setPeriodo] = useState("semanal");

@@ -4,17 +4,19 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "./auth";
 
 // Páginas
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import HomeCuidador from "./pages/HomeCaregiver";
-import HomePaciente from "./pages/HomePatient";
-import Bitacora from "./pages/Bitacora";
-import Calendario from "./pages/Calendario";
-import Documentos from "./pages/Documentos";
-import FichaMedica from "./pages/FichaMedica";
-import Alertas from "./pages/Alertas";
-import Tareas from "./pages/Tareas";
-import PerfilCuidador from "./pages/PerfilCuidador";
+import Login from "./pages/autenticacion/Login";
+import Register from "./pages/autenticacion/Register";
+import HomeCuidador from "./pages/cuidador/HomeCaregiver";
+import HomePaciente from "./pages/paciente/HomePatient";
+import Bitacora from "./pages/cuidador/Bitacora";
+import Calendario from "./pages/cuidador/Calendario";
+import Documentos from "./pages/cuidador/Documentos";
+import FichaMedica from "./pages/cuidador/FichaMedica";
+import Alertas from "./pages/cuidador/Alertas";
+import Tareas from "./pages/cuidador/Tareas";
+import PerfilCuidador from "./pages/cuidador/PerfilCuidador";
+import Chatbot from "./pages/cuidador/Chatbot";
+import MisCuidadores from "./pages/paciente/MisCuidadores";
 import FooterNav from "./components/FooterNav";
 
 function RequireRole({ allow, children }) {
@@ -69,9 +71,10 @@ function AppRoutes() {
       <Route path="/alertas" element={<RequireRole allow={["cuidador"]}><AppShell><Alertas pacienteId="p1"/></AppShell></RequireRole>} />
       <Route path="/tareas" element={<RequireRole allow={["cuidador"]}><AppShell><Tareas pacienteId="p1"/></AppShell></RequireRole>} />
       <Route path="/perfil" element={<RequireRole allow={["cuidador"]}><AppShell><PerfilCuidador/></AppShell></RequireRole>} />
+	  <Route path="/chatbot" element={<RequireRole allow={["cuidador"]}><AppShell><Chatbot/></AppShell></RequireRole>} />
 
       {/* SOLO paciente (ejemplo) */}
-      <Route path="/mis-cuidadores" element={<RequireRole allow={["paciente"]}><AppShell><HomePaciente/></AppShell></RequireRole>} />
+      <Route path="/mis-cuidadores" element={<RequireRole allow={["paciente"]}><AppShell><MisCuidadores/></AppShell></RequireRole>} />
       <Route path="/invitar-cuidador" element={<RequireRole allow={["paciente"]}><AppShell><div className="card"><h2>Invitar cuidador</h2></div></AppShell></RequireRole>} />
 
       {/* fallback */}

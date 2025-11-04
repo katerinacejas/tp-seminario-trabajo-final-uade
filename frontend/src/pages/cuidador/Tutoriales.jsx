@@ -1,5 +1,5 @@
 import React from "react";
-import { tutoriales } from "../data";
+import { tutoriales } from "../../data";
 
 export default function Tutoriales() {
 	return (
