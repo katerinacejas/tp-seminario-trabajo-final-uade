@@ -1,4 +1,4 @@
-package com.backend_ecommerce_api.backend_ecommerce_api.security;
+package com.cuido.cuido.security;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

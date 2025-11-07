@@ -1,15 +1,11 @@
-package com.backend_ecommerce_api.backend_ecommerce_api.security;
+package com.cuido.cuido.security;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.beans.factory.annotation.Value;
-
 import org.springframework.stereotype.Component;
-
 import java.security.Key;
 import java.util.Date;
 import java.util.function.Function;
-
 
 @Component
 public class JwtUtil {

@@ -1,4 +1,4 @@
-package com.backend_ecommerce_api.backend_ecommerce_api.exception;
+package com.cuido.cuido.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

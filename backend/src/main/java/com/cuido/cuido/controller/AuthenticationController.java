@@ -1,12 +1,12 @@
-package com.backend_ecommerce_api.backend_ecommerce_api.controller;
+package com.cuido.cuido.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import com.backend_ecommerce_api.backend_ecommerce_api.dto.request.LoginRequestDTO;
-import com.backend_ecommerce_api.backend_ecommerce_api.dto.request.RegistroRequestDTO;
-import com.backend_ecommerce_api.backend_ecommerce_api.dto.response.JwtResponseDTO;
-import com.backend_ecommerce_api.backend_ecommerce_api.service.AuthenticationService;
+import com.cuido.cuido.dto.request.LoginRequestDTO;
+import com.cuido.cuido.dto.request.RegistroRequestDTO;
+import com.cuido.cuido.dto.response.JwtResponseDTO;
+import com.cuido.cuido.service.AuthenticationService;
 
 @RestController
 @RequestMapping("/auth")

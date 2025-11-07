@@ -1,4 +1,4 @@
-package com.backend_ecommerce_api.backend_ecommerce_api.dto.request;
+package com.cuido.cuido.dto.request;
 
 import lombok.Data;
 import java.sql.Date;

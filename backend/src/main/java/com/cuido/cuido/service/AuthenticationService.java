@@ -1,4 +1,4 @@
-package com.backend_ecommerce_api.backend_ecommerce_api.service;
+package com.cuido.cuido.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -8,13 +8,13 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.backend_ecommerce_api.backend_ecommerce_api.dto.request.LoginRequestDTO;
-import com.backend_ecommerce_api.backend_ecommerce_api.dto.request.RegistroRequestDTO;
-import com.backend_ecommerce_api.backend_ecommerce_api.dto.response.JwtResponseDTO;
-import com.backend_ecommerce_api.backend_ecommerce_api.model.Usuario;
-import com.backend_ecommerce_api.backend_ecommerce_api.model.Rol;
-import com.backend_ecommerce_api.backend_ecommerce_api.repository.UsuarioRepository;
-import com.backend_ecommerce_api.backend_ecommerce_api.security.JwtUtil;
+import com.cuido.cuido.dto.request.LoginRequestDTO;
+import com.cuido.cuido.dto.request.RegistroRequestDTO;
+import com.cuido.cuido.dto.response.JwtResponseDTO;
+import com.cuido.cuido.model.Usuario;
+import com.cuido.cuido.model.Rol;
+import com.cuido.cuido.repository.UsuarioRepository;
+import com.cuido.cuido.security.JwtUtil;
 
 @Service
 public class AuthenticationService {
@@ -66,23 +66,23 @@ public class AuthenticationService {
             nuevoUsuario.setFechaNacimiento(request.getFechaNacimiento());
             nuevoUsuario.setAvatar(request.getAvatar());
             nuevoUsuario.setEmail(request.getEmail());
-			nuevoUsuario.setSolicitudVendedor(false);
+			if (request.getRol() == "CUIDADOR") {
+				nuevoUsuario.setRol(Rol.CUIDADOR);
+			} else {
+				nuevoUsuario.setRol(Rol.PACIENTE);
+			}
 
             String encryptedPassword = passwordEncoder.encode(request.getPassword());
             nuevoUsuario.setPassword(encryptedPassword);
 
-            nuevoUsuario.setRol(Rol.COMPRADOR);
-
-            System.out.println("Rol asignado al usuario: " + nuevoUsuario.getRol());
-
             usuarioRepository.save(nuevoUsuario);
 			System.out.println("guarde un usuario");
 
-            String token = jwtUtil.generateToken(nuevoUsuario.getEmail(), Rol.COMPRADOR.name());
-            return new JwtResponseDTO(token, Rol.COMPRADOR);
+            String token = jwtUtil.generateToken(nuevoUsuario.getEmail(), nuevoUsuario.getRol().name());
+            return new JwtResponseDTO(token, nuevoUsuario.getRol());
 
         } catch (Exception e) {
             throw new RuntimeException("Error al registrar usuario: " + e.getMessage());
         }
     }
-}
+} 
