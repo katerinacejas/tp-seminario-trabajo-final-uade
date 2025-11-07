@@ -1,4 +1,4 @@
-package com.backend_ecommerce_api.backend_ecommerce_api.exception;
+package com.cuido.cuido.exception;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -39,18 +39,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(UsuarioNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorResponse handleUsuarioNotFound(UsuarioNotFoundException ex) {
-        return new ErrorResponse(ex.getMessage());
-    }
-
-    @ExceptionHandler(ProductoNotFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorResponse handleProductoNotFound(ProductoNotFoundException ex) {
-        return new ErrorResponse(ex.getMessage());
-    }
-
-    @ExceptionHandler(CategoriaNotFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorResponse handleCategoriaNotFound(CategoriaNotFoundException ex) {
         return new ErrorResponse(ex.getMessage());
     }
 

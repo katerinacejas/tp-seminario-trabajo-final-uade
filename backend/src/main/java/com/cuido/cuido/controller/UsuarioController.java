@@ -1,14 +1,11 @@
-package com.backend_ecommerce_api.backend_ecommerce_api.controller;
+package com.cuido.cuido.controller;
 
-import com.backend_ecommerce_api.backend_ecommerce_api.dto.response.UsuarioResponseDTO;
-import com.backend_ecommerce_api.backend_ecommerce_api.exception.UsuarioNotFoundException;
-import com.backend_ecommerce_api.backend_ecommerce_api.dto.request.UsuarioUpdateRequestDTO;
-import com.backend_ecommerce_api.backend_ecommerce_api.service.UsuarioService;
-
+import com.cuido.cuido.dto.response.UsuarioResponseDTO;
+import com.cuido.cuido.exception.UsuarioNotFoundException;
+import com.cuido.cuido.dto.request.UsuarioUpdateRequestDTO;
+import com.cuido.cuido.service.UsuarioService;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -21,8 +18,12 @@ public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
 
+	/*
+	 *  TODO: RE-ESCRIBIR LOS ROLES ADAPTADOS A CUIDO
+	 */
+
     @GetMapping("/me")
-    @PreAuthorize("hasAnyRole('COMPRADOR', 'COMPRADOR_VENDEDOR', 'ADMIN')")
+    @PreAuthorize("hasAnyRole('CUIDADOR', 'PACIENTE', 'ADMIN')")
     public UsuarioResponseDTO getPerfilUsuarioAutenticado(Authentication auth) {
         String email = auth.getName();
         return usuarioService.getUsuarioPorMail(email)

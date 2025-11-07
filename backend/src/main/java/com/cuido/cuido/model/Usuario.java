@@ -1,4 +1,4 @@
-package com.backend_ecommerce_api.backend_ecommerce_api.model;
+package com.cuido.cuido.model;
 
 import java.sql.Date;
 import java.util.Collection;
@@ -42,34 +42,7 @@ public class Usuario implements  UserDetails  {
 	private String password;
 
 	@Enumerated(EnumType.STRING)
-	private Rol rol;
-
-	@Column(name = "solicitud_vendedor", nullable = false)
-    private boolean solicitudVendedor;
-
-	public boolean getSolicitudVendedor() {
-		return this.solicitudVendedor;
-	}
-
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(
-		name = "usuarios_productos_comprados", 
-		joinColumns = @JoinColumn(name = "usuario_id"), 
-		inverseJoinColumns = @JoinColumn(name = "producto_id")
-	)
-	private List<Producto> productosComprados;
-
-	public void addProductoComprado(Producto producto){
-		this.productosComprados.add(producto);
-	}
-
-	@OneToMany(mappedBy = "vendedor", fetch = FetchType.LAZY)
-	private List<Producto> productosVendidos;
-
-	public void addProductoVendido(Producto producto){
-		this.productosVendidos.add(producto);
-	}
-	
+	private Rol rol;	
 
 	//metodos de seguridad
 	@Override

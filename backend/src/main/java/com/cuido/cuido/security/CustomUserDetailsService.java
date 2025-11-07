@@ -1,7 +1,6 @@
-package com.backend_ecommerce_api.backend_ecommerce_api.security;
+package com.cuido.cuido.security;
 
-import com.backend_ecommerce_api.backend_ecommerce_api.model.Usuario;
-import com.backend_ecommerce_api.backend_ecommerce_api.repository.UsuarioRepository;
+import com.cuido.cuido.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

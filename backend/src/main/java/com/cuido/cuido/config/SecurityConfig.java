@@ -1,7 +1,7 @@
-package com.backend_ecommerce_api.backend_ecommerce_api.config;
+package com.cuido.cuido.config;
 
-import com.backend_ecommerce_api.backend_ecommerce_api.security.JwtAuthenticationFilter;
-import com.backend_ecommerce_api.backend_ecommerce_api.security.CustomUserDetailsService;
+import com.cuido.cuido.security.JwtAuthenticationFilter;
+import com.cuido.cuido.security.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -36,11 +36,18 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .cors(Customizer.withDefaults()) // Aplica configuración CORS
-            .csrf(CsrfConfigurer::disable)   // CSRF gestionado selectivamente (stateless API)
+            .cors(Customizer.withDefaults())
+            .csrf(CsrfConfigurer::disable)
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
-				// TODO EL MUNDO
+				//
+				/*
+				 *  TODO: RE-ESCRIBIR LOS ROLES ADAPTADOS A CUIDO
+				 * 	*  - ADMIN
+				 * 	*  - PACIENTE
+				 *  *  - CUIDADOR
+				 */
+				// TODOS EL MUNDO
                 .requestMatchers("/auth/**").permitAll()
                 .requestMatchers("/api/images/**").permitAll()
 				.requestMatchers(HttpMethod.GET, "/api/productos/**").permitAll()

@@ -1,6 +1,6 @@
-package com.backend_ecommerce_api.backend_ecommerce_api.dto.response;
+package com.cuido.cuido.dto.response;
 
-import com.backend_ecommerce_api.backend_ecommerce_api.model.Rol;
+import com.cuido.cuido.model.Rol;
 
 import lombok.Data;
 

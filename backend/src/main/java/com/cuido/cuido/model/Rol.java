@@ -1,7 +1,7 @@
-package com.backend_ecommerce_api.backend_ecommerce_api.model;
+package com.cuido.cuido.model;
 
 public enum Rol {
-    COMPRADOR,
-    COMPRADOR_VENDEDOR,
+    CUIDADOR,
+    PACIENTE,
     ADMIN
 }
