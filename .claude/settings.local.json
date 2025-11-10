@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(powershell -ExecutionPolicy Bypass -File extract_docx.ps1:*)",
+      "Bash(ren:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

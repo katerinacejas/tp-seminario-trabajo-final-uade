@@ -39,7 +39,7 @@ export default function HomeCuidador() {
 						<button className="btn pill">Tareas</button>
 						<button className="btn pill">Ficha</button>
 						<button className="btn pill">Documentos</button>
-						<button className="btn pill">Alertas</button>
+						<button className="btn pill">Recordatorios</button>
 						<button className="btn pill">Chatbot</button>
 					</div>
 				</div>

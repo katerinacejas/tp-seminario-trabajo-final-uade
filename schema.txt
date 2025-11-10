@@ -1,0 +1,285 @@
+ESQUEMA RECOMENDADO Y PENSADO PARA LA BASE DE DATOS
+
+-- =============================================
+-- USUARIOS Y AUTENTICACIÓN
+-- =============================================
+
+-- YA EXISTE (con modificaciones sugeridas)
+CREATE TABLE usuarios (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    nombre_completo VARCHAR(255) NOT NULL,
+    direccion VARCHAR(255),
+    telefono VARCHAR(20),  -- ⚠️ CAMBIAR DE INT A VARCHAR
+    fecha_nacimiento DATE,
+    avatar VARCHAR(500),
+    email VARCHAR(255) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    rol ENUM('CUIDADOR', 'PACIENTE', 'ADMIN') NOT NULL,
+    activo BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- =============================================
+-- PACIENTES (INFORMACIÓN MÉDICA)
+-- =============================================
+
+CREATE TABLE pacientes (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    usuario_id BIGINT UNIQUE NOT NULL,
+    tipo_sanguineo VARCHAR(10),
+    peso DECIMAL(5,2),
+    altura DECIMAL(5,2),
+    alergias TEXT,
+    condiciones_medicas TEXT,
+    observaciones TEXT,
+    obra_social VARCHAR(255),
+    numero_afiliado VARCHAR(100),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
+);
+
+-- =============================================
+-- VINCULACIÓN CUIDADORES-PACIENTES
+-- =============================================
+
+CREATE TABLE cuidador_paciente (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    cuidador_id BIGINT NOT NULL,
+    paciente_id BIGINT NOT NULL,
+    es_principal BOOLEAN DEFAULT FALSE,
+    estado ENUM('PENDIENTE', 'ACEPTADO', 'RECHAZADO') DEFAULT 'PENDIENTE',
+    fecha_invitacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    fecha_aceptacion TIMESTAMP NULL,
+    FOREIGN KEY (cuidador_id) REFERENCES usuarios(id) ON DELETE CASCADE,
+    FOREIGN KEY (paciente_id) REFERENCES usuarios(id) ON DELETE CASCADE,
+    UNIQUE KEY (cuidador_id, paciente_id)
+);
+
+-- =============================================
+-- CONTACTOS DE EMERGENCIA
+-- =============================================
+
+CREATE TABLE contactos_emergencia (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    paciente_id BIGINT NOT NULL,
+    nombre VARCHAR(255) NOT NULL,
+    relacion VARCHAR(100),
+    telefono VARCHAR(20) NOT NULL,
+    email VARCHAR(255),
+    es_contacto_principal BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (paciente_id) REFERENCES usuarios(id) ON DELETE CASCADE
+);
+
+-- =============================================
+-- BITÁCORAS
+-- =============================================
+
+CREATE TABLE bitacoras (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    paciente_id BIGINT NOT NULL,
+    cuidador_id BIGINT NOT NULL,
+    fecha DATE NOT NULL,
+    titulo VARCHAR(255),
+    descripcion TEXT NOT NULL,
+    observaciones TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (paciente_id) REFERENCES usuarios(id) ON DELETE CASCADE,
+    FOREIGN KEY (cuidador_id) REFERENCES usuarios(id) ON DELETE SET NULL
+);
+
+-- =============================================
+-- CITAS MÉDICAS
+-- =============================================
+
+CREATE TABLE citas_medicas (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    paciente_id BIGINT NOT NULL,
+    cuidador_id BIGINT NOT NULL,
+    fecha_hora DATETIME NOT NULL,
+    ubicacion VARCHAR(255),
+    nombre_doctor VARCHAR(255),
+    especialidad VARCHAR(100),
+    motivo TEXT,
+    observaciones TEXT,
+    recordatorio_enviado BOOLEAN DEFAULT FALSE,
+    completada BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (paciente_id) REFERENCES usuarios(id) ON DELETE CASCADE,
+    FOREIGN KEY (cuidador_id) REFERENCES usuarios(id) ON DELETE SET NULL
+);
+
+-- =============================================
+-- MEDICAMENTOS
+-- =============================================
+
+CREATE TABLE medicamentos (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    paciente_id BIGINT NOT NULL,
+    cuidador_id BIGINT NOT NULL,
+    nombre VARCHAR(255) NOT NULL,
+    dosis VARCHAR(100),
+    frecuencia VARCHAR(100),
+    via_administracion VARCHAR(100),
+    fecha_inicio DATE,
+    fecha_fin DATE,
+    activo BOOLEAN DEFAULT TRUE,
+    observaciones TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (paciente_id) REFERENCES usuarios(id) ON DELETE CASCADE,
+    FOREIGN KEY (cuidador_id) REFERENCES usuarios(id) ON DELETE SET NULL
+);
+
+-- =============================================
+-- HORARIOS DE MEDICAMENTOS
+-- =============================================
+
+CREATE TABLE horarios_medicamento (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    medicamento_id BIGINT NOT NULL,
+    hora TIME NOT NULL,
+    dias_semana VARCHAR(50),  -- JSON: ["L","M","X","J","V","S","D"]
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (medicamento_id) REFERENCES medicamentos(id) ON DELETE CASCADE
+);
+
+-- =============================================
+-- RECORDATORIOS (INSTANCIAS INDIVIDUALES)
+-- =============================================
+
+CREATE TABLE recordatorios_instancia (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    tipo ENUM('MEDICAMENTO', 'CITA_MEDICA') NOT NULL,
+    referencia_id BIGINT NOT NULL,  -- medicamento_id o cita_medica_id
+    paciente_id BIGINT NOT NULL,
+    fecha_hora DATETIME NOT NULL,
+    estado ENUM('PENDIENTE', 'COMPLETADO', 'CANCELADO') DEFAULT 'PENDIENTE',
+    descripcion VARCHAR(500),
+    observaciones TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (paciente_id) REFERENCES usuarios(id) ON DELETE CASCADE,
+    INDEX idx_paciente_fecha (paciente_id, fecha_hora),
+    INDEX idx_tipo_referencia (tipo, referencia_id)
+);
+
+-- =============================================
+-- TAREAS
+-- =============================================
+
+CREATE TABLE tareas (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    paciente_id BIGINT NOT NULL,
+    cuidador_id BIGINT NOT NULL,
+    titulo VARCHAR(255) NOT NULL,
+    descripcion TEXT,
+    fecha_vencimiento DATETIME,
+    prioridad ENUM('BAJA', 'MEDIA', 'ALTA') DEFAULT 'MEDIA',
+    completada BOOLEAN DEFAULT FALSE,
+    fecha_completada TIMESTAMP NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (paciente_id) REFERENCES usuarios(id) ON DELETE CASCADE,
+    FOREIGN KEY (cuidador_id) REFERENCES usuarios(id) ON DELETE SET NULL
+);
+
+-- =============================================
+-- DOCUMENTOS
+-- =============================================
+
+CREATE TABLE documentos (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    paciente_id BIGINT NOT NULL,
+    cuidador_id BIGINT NOT NULL,
+    nombre VARCHAR(255) NOT NULL,
+    tipo ENUM('FICHA_MEDICA', 'ESTUDIO', 'RECETA', 'OTRO') NOT NULL,
+    url VARCHAR(500) NOT NULL,
+    size_bytes BIGINT,
+    mime_type VARCHAR(100),
+    descripcion TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (paciente_id) REFERENCES usuarios(id) ON DELETE CASCADE,
+    FOREIGN KEY (cuidador_id) REFERENCES usuarios(id) ON DELETE SET NULL
+);
+
+-- =============================================
+-- FORO/COMUNIDAD
+-- =============================================
+
+CREATE TABLE publicaciones (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    cuidador_id BIGINT NOT NULL,
+    titulo VARCHAR(255) NOT NULL,
+    contenido TEXT NOT NULL,
+    categoria VARCHAR(100),
+    me_gusta INT DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (cuidador_id) REFERENCES usuarios(id) ON DELETE CASCADE
+);
+
+CREATE TABLE respuestas (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    publicacion_id BIGINT NOT NULL,
+    cuidador_id BIGINT NOT NULL,
+    contenido TEXT NOT NULL,
+    me_gusta INT DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (publicacion_id) REFERENCES publicaciones(id) ON DELETE CASCADE,
+    FOREIGN KEY (cuidador_id) REFERENCES usuarios(id) ON DELETE CASCADE
+);
+
+-- =============================================
+-- PREGUNTAS FRECUENTES
+-- =============================================
+
+CREATE TABLE preguntas_frecuentes (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    pregunta VARCHAR(500) NOT NULL,
+    respuesta TEXT NOT NULL,
+    categoria VARCHAR(100),
+    orden INT DEFAULT 0,
+    activa BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- =============================================
+-- HISTORIAL DE CHATBOT (OPCIONAL)
+-- =============================================
+
+CREATE TABLE conversaciones_chatbot (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    usuario_id BIGINT NOT NULL,
+    paciente_id BIGINT,
+    mensaje TEXT NOT NULL,
+    respuesta TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE,
+    FOREIGN KEY (paciente_id) REFERENCES usuarios(id) ON DELETE CASCADE
+);
+
+-- =============================================
+-- NOTIFICACIONES
+-- =============================================
+
+CREATE TABLE notificaciones (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    usuario_id BIGINT NOT NULL,
+    tipo ENUM('CITA', 'MEDICAMENTO', 'TAREA', 'INVITACION', 'GENERAL') NOT NULL,
+    titulo VARCHAR(255) NOT NULL,
+    mensaje TEXT NOT NULL,
+    leida BOOLEAN DEFAULT FALSE,
+    referencia_id BIGINT,  -- ID de la entidad relacionada
+    referencia_tipo VARCHAR(50),  -- Nombre de la entidad
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
+);
