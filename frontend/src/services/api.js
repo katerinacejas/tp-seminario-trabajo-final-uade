@@ -195,10 +195,85 @@ export const citasAPI = {
 	},
 };
 
+// ==================== BITÁCORAS ====================
+
+export const bitacorasAPI = {
+	/**
+	 * POST /api/bitacoras
+	 * Crear una nueva bitácora
+	 */
+	crear: async (bitacoraData) => {
+		return apiRequest('/bitacoras', {
+			method: 'POST',
+			body: JSON.stringify(bitacoraData),
+		});
+	},
+
+	/**
+	 * GET /api/bitacoras/paciente/{pacienteId}
+	 * Obtener todas las bitácoras de un paciente
+	 */
+	getByPaciente: async (pacienteId) => {
+		return apiRequest(`/bitacoras/paciente/${pacienteId}`);
+	},
+
+	/**
+	 * GET /api/bitacoras/paciente/{pacienteId}/rango?inicio=...&fin=...
+	 * Obtener bitácoras de un paciente en un rango de fechas
+	 */
+	getByPacienteYRango: async (pacienteId, fechaInicio, fechaFin) => {
+		const inicioStr = fechaInicio instanceof Date
+			? fechaInicio.toISOString().split('T')[0]
+			: fechaInicio;
+		const finStr = fechaFin instanceof Date
+			? fechaFin.toISOString().split('T')[0]
+			: fechaFin;
+		return apiRequest(`/bitacoras/paciente/${pacienteId}/rango?inicio=${inicioStr}&fin=${finStr}`);
+	},
+
+	/**
+	 * GET /api/bitacoras/mis-bitacoras
+	 * Obtener todas las bitácoras creadas por el cuidador autenticado
+	 */
+	getMisBitacoras: async () => {
+		return apiRequest('/bitacoras/mis-bitacoras');
+	},
+
+	/**
+	 * GET /api/bitacoras/{id}
+	 * Obtener una bitácora por ID
+	 */
+	getById: async (bitacoraId) => {
+		return apiRequest(`/bitacoras/${bitacoraId}`);
+	},
+
+	/**
+	 * PUT /api/bitacoras/{id}
+	 * Actualizar una bitácora existente
+	 */
+	actualizar: async (bitacoraId, bitacoraData) => {
+		return apiRequest(`/bitacoras/${bitacoraId}`, {
+			method: 'PUT',
+			body: JSON.stringify(bitacoraData),
+		});
+	},
+
+	/**
+	 * DELETE /api/bitacoras/{id}
+	 * Eliminar una bitácora
+	 */
+	eliminar: async (bitacoraId) => {
+		return apiRequest(`/bitacoras/${bitacoraId}`, {
+			method: 'DELETE',
+		});
+	},
+};
+
 export default {
 	auth: authAPI,
 	usuarios: usuariosAPI,
 	recordatorios: recordatoriosAPI,
 	medicamentos: medicamentosAPI,
 	citas: citasAPI,
+	bitacoras: bitacorasAPI,
 };
