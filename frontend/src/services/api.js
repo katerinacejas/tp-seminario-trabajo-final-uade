@@ -363,6 +363,110 @@ export const documentosAPI = {
 	},
 };
 
+// ==================== TAREAS ====================
+
+export const tareasAPI = {
+	/**
+	 * POST /api/tareas
+	 * Crear una nueva tarea
+	 */
+	crear: async (tareaData) => {
+		return apiRequest('/tareas', {
+			method: 'POST',
+			body: JSON.stringify(tareaData),
+		});
+	},
+
+	/**
+	 * GET /api/tareas/paciente/{pacienteId}
+	 * Obtener todas las tareas de un paciente
+	 */
+	getByPaciente: async (pacienteId) => {
+		return apiRequest(`/tareas/paciente/${pacienteId}`);
+	},
+
+	/**
+	 * GET /api/tareas/paciente/{pacienteId}/estado?completada=true
+	 * Obtener tareas filtradas por estado
+	 */
+	getByPacienteYEstado: async (pacienteId, completada) => {
+		return apiRequest(`/tareas/paciente/${pacienteId}/estado?completada=${completada}`);
+	},
+
+	/**
+	 * GET /api/tareas/paciente/{pacienteId}/rango?inicio=...&fin=...
+	 * Obtener tareas en un rango de fechas
+	 */
+	getByPacienteYRango: async (pacienteId, fechaInicio, fechaFin) => {
+		const inicioStr = fechaInicio instanceof Date
+			? fechaInicio.toISOString()
+			: fechaInicio;
+		const finStr = fechaFin instanceof Date
+			? fechaFin.toISOString()
+			: fechaFin;
+		return apiRequest(`/tareas/paciente/${pacienteId}/rango?inicio=${inicioStr}&fin=${finStr}`);
+	},
+
+	/**
+	 * GET /api/tareas/{id}
+	 * Obtener una tarea por ID
+	 */
+	getById: async (tareaId) => {
+		return apiRequest(`/tareas/${tareaId}`);
+	},
+
+	/**
+	 * PUT /api/tareas/{id}
+	 * Actualizar tarea
+	 */
+	actualizar: async (tareaId, tareaData) => {
+		return apiRequest(`/tareas/${tareaId}`, {
+			method: 'PUT',
+			body: JSON.stringify(tareaData),
+		});
+	},
+
+	/**
+	 * PATCH /api/tareas/{id}/toggle
+	 * Toggle completada
+	 */
+	toggleCompletada: async (tareaId) => {
+		return apiRequest(`/tareas/${tareaId}/toggle`, {
+			method: 'PATCH',
+		});
+	},
+
+	/**
+	 * PATCH /api/tareas/{id}/mover-arriba
+	 * Mover tarea hacia arriba
+	 */
+	moverArriba: async (tareaId) => {
+		return apiRequest(`/tareas/${tareaId}/mover-arriba`, {
+			method: 'PATCH',
+		});
+	},
+
+	/**
+	 * PATCH /api/tareas/{id}/mover-abajo
+	 * Mover tarea hacia abajo
+	 */
+	moverAbajo: async (tareaId) => {
+		return apiRequest(`/tareas/${tareaId}/mover-abajo`, {
+			method: 'PATCH',
+		});
+	},
+
+	/**
+	 * DELETE /api/tareas/{id}
+	 * Eliminar tarea
+	 */
+	eliminar: async (tareaId) => {
+		return apiRequest(`/tareas/${tareaId}`, {
+			method: 'DELETE',
+		});
+	},
+};
+
 export default {
 	auth: authAPI,
 	usuarios: usuariosAPI,
@@ -371,4 +475,5 @@ export default {
 	citas: citasAPI,
 	bitacoras: bitacorasAPI,
 	documentos: documentosAPI,
+	tareas: tareasAPI,
 };

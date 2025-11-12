@@ -185,10 +185,12 @@ CREATE TABLE tareas (
     prioridad ENUM('BAJA', 'MEDIA', 'ALTA') DEFAULT 'MEDIA',
     completada BOOLEAN DEFAULT FALSE,
     fecha_completada TIMESTAMP NULL,
+    orden_manual INT DEFAULT 0,  -- Para ordenamiento manual con flechitas
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (paciente_id) REFERENCES usuarios(id) ON DELETE CASCADE,
-    FOREIGN KEY (cuidador_id) REFERENCES usuarios(id) ON DELETE SET NULL
+    FOREIGN KEY (cuidador_id) REFERENCES usuarios(id) ON DELETE SET NULL,
+    INDEX idx_paciente_orden (paciente_id, orden_manual)
 );
 
 -- =============================================
