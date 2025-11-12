@@ -2,6 +2,7 @@
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "./auth";
+import { PacienteProvider } from "./context/PacienteContext";
 
 // Páginas
 import Login from "./pages/autenticacion/Login";
@@ -95,7 +96,9 @@ function AppRoutes() {
 export default function App() {
   return (
     <AuthProvider>
-      <AppRoutes />
+      <PacienteProvider>
+        <AppRoutes />
+      </PacienteProvider>
     </AuthProvider>
   );
 }

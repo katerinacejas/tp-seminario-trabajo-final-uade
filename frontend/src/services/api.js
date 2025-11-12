@@ -93,6 +93,22 @@ export const usuariosAPI = {
 	},
 };
 
+// ==================== PACIENTES ====================
+
+export const pacientesAPI = {
+	getById: async (id) => {
+		return apiRequest(`/pacientes/${id}`);
+	},
+
+	getByUsuarioId: async (usuarioId) => {
+		return apiRequest(`/pacientes/usuario/${usuarioId}`);
+	},
+
+	getAll: async () => {
+		return apiRequest('/pacientes');
+	},
+};
+
 // ==================== RECORDATORIOS ====================
 
 export const recordatoriosAPI = {
