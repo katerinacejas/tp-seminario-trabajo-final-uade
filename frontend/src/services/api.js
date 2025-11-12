@@ -107,6 +107,13 @@ export const pacientesAPI = {
 	getAll: async () => {
 		return apiRequest('/pacientes');
 	},
+
+	actualizarPerfil: async (usuarioId, perfilData) => {
+		return apiRequest(`/pacientes/perfil/${usuarioId}`, {
+			method: 'PUT',
+			body: JSON.stringify(perfilData),
+		});
+	},
 };
 
 // ==================== RECORDATORIOS ====================
@@ -483,13 +490,65 @@ export const tareasAPI = {
 	},
 };
 
+// ==================== CUIDADORES-PACIENTES ====================
+
+export const cuidadoresPacientesAPI = {
+	invitar: async (pacienteId, emailCuidador) => {
+		return apiRequest(`/cuidadores-pacientes/invitar?pacienteId=${pacienteId}`, {
+			method: 'POST',
+			body: JSON.stringify({ emailCuidador }),
+		});
+	},
+
+	desvincular: async (pacienteId, cuidadorId) => {
+		return apiRequest(`/cuidadores-pacientes/desvincular?pacienteId=${pacienteId}&cuidadorId=${cuidadorId}`, {
+			method: 'DELETE',
+		});
+	},
+
+	getByPaciente: async (pacienteId) => {
+		return apiRequest(`/cuidadores-pacientes/paciente/${pacienteId}`);
+	},
+};
+
+// ==================== CONTACTOS DE EMERGENCIA ====================
+
+export const contactosEmergenciaAPI = {
+	crear: async (pacienteId, contactoData) => {
+		return apiRequest(`/contactos-emergencia?pacienteId=${pacienteId}`, {
+			method: 'POST',
+			body: JSON.stringify(contactoData),
+		});
+	},
+
+	actualizar: async (contactoId, contactoData) => {
+		return apiRequest(`/contactos-emergencia/${contactoId}`, {
+			method: 'PUT',
+			body: JSON.stringify(contactoData),
+		});
+	},
+
+	eliminar: async (contactoId) => {
+		return apiRequest(`/contactos-emergencia/${contactoId}`, {
+			method: 'DELETE',
+		});
+	},
+
+	getByPaciente: async (pacienteId) => {
+		return apiRequest(`/contactos-emergencia/paciente/${pacienteId}`);
+	},
+};
+
 export default {
 	auth: authAPI,
 	usuarios: usuariosAPI,
+	pacientes: pacientesAPI,
 	recordatorios: recordatoriosAPI,
 	medicamentos: medicamentosAPI,
 	citas: citasAPI,
 	bitacoras: bitacorasAPI,
 	documentos: documentosAPI,
 	tareas: tareasAPI,
+	cuidadoresPacientes: cuidadoresPacientesAPI,
+	contactosEmergencia: contactosEmergenciaAPI,
 };
