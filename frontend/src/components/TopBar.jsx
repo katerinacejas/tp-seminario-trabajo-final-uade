@@ -12,7 +12,7 @@ export default function TopBar() {
 		"/tareas": "Tareas",
 		"/ficha": "Ficha médica",
 		"/docs": "Documentos",
-		"/tutoriales": "Tutoriales",
+		"/preguntas-frecuentes": "Preguntas Frecuentes",
 		"/chatbot": "Chatbot",
 		"/perfil": "Perfil",
 		"/paciente/home": "Inicio del Paciente",

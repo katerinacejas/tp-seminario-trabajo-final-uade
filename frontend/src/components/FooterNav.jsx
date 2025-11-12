@@ -30,7 +30,7 @@ export default function FooterNav() {
 		["/tareas", "Tareas"],
 		["/ficha", "Ficha médica"],
 		["/docs", "Documentos"],
-		["/tutoriales", "Tutoriales"],
+		["/preguntas-frecuentes", "Preguntas Frecuentes"],
 		["/perfil", "Perfil cuidador"],
 	];
 

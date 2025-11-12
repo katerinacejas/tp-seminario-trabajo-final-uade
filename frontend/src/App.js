@@ -15,6 +15,7 @@ import FichaMedica from "./pages/cuidador/FichaMedica";
 import Recordatorios from "./pages/cuidador/Recordatorios";
 import Tareas from "./pages/cuidador/Tareas";
 import PerfilCuidador from "./pages/cuidador/PerfilCuidador";
+import PreguntasFrecuentes from "./pages/cuidador/PreguntasFrecuentes";
 import Chatbot from "./pages/cuidador/Chatbot";
 import MisCuidadores from "./pages/paciente/MisCuidadores";
 import FooterNav from "./components/FooterNav";
@@ -71,6 +72,7 @@ function AppRoutes() {
       <Route path="/recordatorios" element={<RequireRole allow={["cuidador"]}><AppShell><Recordatorios pacienteId="p1"/></AppShell></RequireRole>} />
       <Route path="/tareas" element={<RequireRole allow={["cuidador"]}><AppShell><Tareas pacienteId="p1"/></AppShell></RequireRole>} />
       <Route path="/perfil" element={<RequireRole allow={["cuidador"]}><AppShell><PerfilCuidador/></AppShell></RequireRole>} />
+      <Route path="/preguntas-frecuentes" element={<RequireRole allow={["cuidador"]}><AppShell><PreguntasFrecuentes/></AppShell></RequireRole>} />
 	  <Route path="/chatbot" element={<RequireRole allow={["cuidador"]}><AppShell><Chatbot/></AppShell></RequireRole>} />
 
       {/* SOLO paciente (ejemplo) */}
