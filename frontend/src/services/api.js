@@ -269,6 +269,100 @@ export const bitacorasAPI = {
 	},
 };
 
+// ==================== DOCUMENTOS ====================
+
+export const documentosAPI = {
+	/**
+	 * POST /api/documentos (multipart/form-data)
+	 * Subir un documento
+	 */
+	subir: async (formData) => {
+		const token = localStorage.getItem('cuido.token');
+
+		const response = await fetch(`${API_BASE_URL}/documentos`, {
+			method: 'POST',
+			headers: {
+				...(token && { 'Authorization': `Bearer ${token}` }),
+				// NO incluir Content-Type, el navegador lo setea automáticamente con boundary para multipart
+			},
+			body: formData, // FormData object
+		});
+
+		if (response.status === 401) {
+			localStorage.removeItem('cuido.token');
+			localStorage.removeItem('cuido.role');
+			window.location.href = '/login';
+			throw new Error('Sesión expirada');
+		}
+
+		if (!response.ok) {
+			const error = await response.json().catch(() => ({ message: 'Error al subir documento' }));
+			throw new Error(error.message || 'Error al subir documento');
+		}
+
+		return response.json();
+	},
+
+	/**
+	 * GET /api/documentos/paciente/{pacienteId}
+	 * Obtener todos los documentos de un paciente
+	 */
+	getByPaciente: async (pacienteId) => {
+		return apiRequest(`/documentos/paciente/${pacienteId}`);
+	},
+
+	/**
+	 * GET /api/documentos/paciente/{pacienteId}/fichas
+	 * Obtener fichas médicas de un paciente
+	 */
+	getFichasMedicas: async (pacienteId) => {
+		return apiRequest(`/documentos/paciente/${pacienteId}/fichas`);
+	},
+
+	/**
+	 * GET /api/documentos/paciente/{pacienteId}/otros
+	 * Obtener otros documentos (no fichas) de un paciente
+	 */
+	getOtrosDocumentos: async (pacienteId) => {
+		return apiRequest(`/documentos/paciente/${pacienteId}/otros`);
+	},
+
+	/**
+	 * GET /api/documentos/paciente/{pacienteId}/categoria/{categoria}
+	 * Filtrar documentos por categoría (DOCUMENTO, IMAGEN, VIDEO)
+	 */
+	getByCategoria: async (pacienteId, categoria) => {
+		return apiRequest(`/documentos/paciente/${pacienteId}/categoria/${categoria}`);
+	},
+
+	/**
+	 * GET /api/documentos/{id}
+	 * Obtener un documento por ID
+	 */
+	getById: async (documentoId) => {
+		return apiRequest(`/documentos/${documentoId}`);
+	},
+
+	/**
+	 * GET /api/documentos/{id}/descargar
+	 * Descargar/visualizar archivo
+	 */
+	descargar: (documentoId) => {
+		const token = localStorage.getItem('cuido.token');
+		return `${API_BASE_URL}/documentos/${documentoId}/descargar${token ? `?token=${token}` : ''}`;
+	},
+
+	/**
+	 * DELETE /api/documentos/{id}
+	 * Eliminar documento
+	 */
+	eliminar: async (documentoId) => {
+		return apiRequest(`/documentos/${documentoId}`, {
+			method: 'DELETE',
+		});
+	},
+};
+
 export default {
 	auth: authAPI,
 	usuarios: usuariosAPI,
@@ -276,4 +370,5 @@ export default {
 	medicamentos: medicamentosAPI,
 	citas: citasAPI,
 	bitacoras: bitacorasAPI,
+	documentos: documentosAPI,
 };

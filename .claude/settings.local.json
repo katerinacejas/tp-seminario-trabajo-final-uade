@@ -5,7 +5,8 @@
       "Bash(ren:*)",
       "Bash(dir /s /b *.java)",
       "Bash(findstr:*)",
-      "Bash(npm install:*)"
+      "Bash(npm install:*)",
+      "Bash(dir /s /b c:UsersramikOneDriveDesktopcuidobackenduploads)"
     ],
     "deny": [],
     "ask": []
