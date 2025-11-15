@@ -30,7 +30,7 @@ export const eventos = [
 	{ id: "e2", paciente: "p2", fecha: "2025-10-23 18:00", titulo: "Visita nietos", lugar: "Casa" },
 ];
 
-export const alertas = {
+export const recordatorios = {
 	medicacion: [
 		{ id: "m1", paciente: "p1", hora: "08:00", detalle: "Losartán 50mg", activa: true },
 		{ id: "m2", paciente: "p1", hora: "20:00", detalle: "Atorvastatina 20mg", activa: true },

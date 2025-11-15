@@ -2,6 +2,7 @@
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "./auth";
+import { PacienteProvider } from "./context/PacienteContext";
 
 // Páginas
 import Login from "./pages/autenticacion/Login";
@@ -12,9 +13,10 @@ import Bitacora from "./pages/cuidador/Bitacora";
 import Calendario from "./pages/cuidador/Calendario";
 import Documentos from "./pages/cuidador/Documentos";
 import FichaMedica from "./pages/cuidador/FichaMedica";
-import Alertas from "./pages/cuidador/Alertas";
+import Recordatorios from "./pages/cuidador/Recordatorios";
 import Tareas from "./pages/cuidador/Tareas";
 import PerfilCuidador from "./pages/cuidador/PerfilCuidador";
+import PreguntasFrecuentes from "./pages/cuidador/PreguntasFrecuentes";
 import Chatbot from "./pages/cuidador/Chatbot";
 import MisCuidadores from "./pages/paciente/MisCuidadores";
 import FooterNav from "./components/FooterNav";
@@ -68,9 +70,10 @@ function AppRoutes() {
       <Route path="/calendario" element={<RequireRole allow={["cuidador"]}><AppShell><Calendario pacienteId="p1"/></AppShell></RequireRole>} />
       <Route path="/docs" element={<RequireRole allow={["cuidador"]}><AppShell><Documentos pacienteId="p1"/></AppShell></RequireRole>} />
       <Route path="/ficha" element={<RequireRole allow={["cuidador"]}><AppShell><FichaMedica pacienteId="p1"/></AppShell></RequireRole>} />
-      <Route path="/alertas" element={<RequireRole allow={["cuidador"]}><AppShell><Alertas pacienteId="p1"/></AppShell></RequireRole>} />
+      <Route path="/recordatorios" element={<RequireRole allow={["cuidador"]}><AppShell><Recordatorios pacienteId="p1"/></AppShell></RequireRole>} />
       <Route path="/tareas" element={<RequireRole allow={["cuidador"]}><AppShell><Tareas pacienteId="p1"/></AppShell></RequireRole>} />
       <Route path="/perfil" element={<RequireRole allow={["cuidador"]}><AppShell><PerfilCuidador/></AppShell></RequireRole>} />
+      <Route path="/preguntas-frecuentes" element={<RequireRole allow={["cuidador"]}><AppShell><PreguntasFrecuentes/></AppShell></RequireRole>} />
 	  <Route path="/chatbot" element={<RequireRole allow={["cuidador"]}><AppShell><Chatbot/></AppShell></RequireRole>} />
 
       {/* SOLO paciente (ejemplo) */}
@@ -93,7 +96,9 @@ function AppRoutes() {
 export default function App() {
   return (
     <AuthProvider>
-      <AppRoutes />
+      <PacienteProvider>
+        <AppRoutes />
+      </PacienteProvider>
     </AuthProvider>
   );
 }

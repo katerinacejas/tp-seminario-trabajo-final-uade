@@ -26,11 +26,11 @@ export default function FooterNav() {
 	// Items base según rol
 	const caregiverMore = [
 		["/resumen", "Resumen"],
-		["/alertas", "Alertas"],
+		["/recordatorios", "Recordatorios"],
 		["/tareas", "Tareas"],
 		["/ficha", "Ficha médica"],
 		["/docs", "Documentos"],
-		["/tutoriales", "Tutoriales"],
+		["/preguntas-frecuentes", "Preguntas Frecuentes"],
 		["/perfil", "Perfil cuidador"],
 	];
 

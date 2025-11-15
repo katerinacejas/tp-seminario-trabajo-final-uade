@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(powershell -ExecutionPolicy Bypass -File extract_docx.ps1:*)",
+      "Bash(ren:*)",
+      "Bash(dir /s /b *.java)",
+      "Bash(findstr:*)",
+      "Bash(npm install:*)",
+      "Bash(dir /s /b c:UsersramikOneDriveDesktopcuidobackenduploads)",
+      "Bash(dir:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
