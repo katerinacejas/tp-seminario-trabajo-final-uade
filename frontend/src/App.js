@@ -1,8 +1,9 @@
 // src/App.jsx
-import React from "react";
+import React, { useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "./auth";
 import { PacienteProvider } from "./context/PacienteContext";
+import * as NotificationService from "./services/notificationService";
 
 // Páginas
 import Login from "./pages/autenticacion/Login";
@@ -43,6 +44,26 @@ function AppShell({ children }) {
 
 function AppRoutes() {
   const { role } = useAuth();
+
+  // Solicitar permisos de notificaciones cuando el usuario inicia sesión
+  useEffect(() => {
+    if (role) {
+      const solicitarPermisos = async () => {
+        try {
+          const permisoConcedido = await NotificationService.solicitarPermisosNotificaciones();
+          if (permisoConcedido) {
+            console.log('✅ Permisos de notificaciones concedidos');
+          } else {
+            console.warn('⚠️ Permisos de notificaciones denegados');
+          }
+        } catch (error) {
+          console.error('Error al solicitar permisos de notificaciones:', error);
+        }
+      };
+      solicitarPermisos();
+    }
+  }, [role]);
+
   return (
     <Routes>
       {/* Auth */}

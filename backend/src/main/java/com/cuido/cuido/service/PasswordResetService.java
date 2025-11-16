@@ -84,6 +84,17 @@ public class PasswordResetService {
         // Marcar el token como usado
         token.setUsado(true);
         tokenRepository.save(token);
+
+        // Enviar email de confirmación de cambio de contraseña
+        try {
+            emailService.enviarConfirmacionCambioPassword(
+                usuario.getEmail(),
+                usuario.getNombreCompleto()
+            );
+        } catch (Exception e) {
+            System.err.println("⚠️ Error al enviar email de confirmación: " + e.getMessage());
+            // No interrumpimos el proceso si falla el email
+        }
     }
 
     /**

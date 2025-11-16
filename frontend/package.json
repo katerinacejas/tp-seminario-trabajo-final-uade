@@ -11,7 +11,11 @@
   },
   "dependencies": {
     "expo": "~54.0.20",
+    "expo-device": "^8.0.9",
+    "expo-linking": "^8.0.8",
+    "expo-notifications": "^0.32.12",
     "expo-status-bar": "~3.0.8",
+    "expo-task-manager": "^14.0.8",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-icons": "^5.5.0",

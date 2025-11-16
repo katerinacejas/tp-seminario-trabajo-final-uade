@@ -31,6 +31,9 @@ public class AuthenticationService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private EmailService emailService;
+
     public JwtResponseDTO authenticate(LoginRequestDTO request) {
         try {
             Authentication authentication = authenticationManager.authenticate(
@@ -78,6 +81,18 @@ public class AuthenticationService {
             nuevoUsuario.setPassword(encryptedPassword);
 
             usuarioRepository.save(nuevoUsuario);
+
+            // Enviar email de bienvenida
+            try {
+                emailService.enviarEmailBienvenida(
+                    nuevoUsuario.getEmail(),
+                    nuevoUsuario.getNombreCompleto(),
+                    nuevoUsuario.getRol().name().toLowerCase()
+                );
+            } catch (Exception e) {
+                System.err.println("⚠️ Error al enviar email de bienvenida: " + e.getMessage());
+                // No interrumpimos el registro si falla el email
+            }
 
             String token = jwtUtil.generateToken(nuevoUsuario.getEmail(), nuevoUsuario.getRol().name());
             return new JwtResponseDTO(token, nuevoUsuario.getRol());

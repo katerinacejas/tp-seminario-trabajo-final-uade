@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { recordatoriosAPI, medicamentosAPI, citasAPI } from "../../services/api";
 import { usePaciente } from "../../context/PacienteContext";
+import * as NotificationService from "../../services/notificationService";
 import "./Recordatorios.css";
 
 export default function Recordatorios() {
@@ -130,7 +131,19 @@ export default function Recordatorios() {
 					}]
 				};
 
-				await medicamentosAPI.crear(medicamentoData);
+				const medicamentoCreado = await medicamentosAPI.crear(medicamentoData);
+
+				// Programar notificación para el medicamento
+				try {
+					await NotificationService.programarNotificacionMedicamento({
+						id: medicamentoCreado.id,
+						nombre: formData.nombreMedicamento,
+						horaProgramada: formData.hora
+					});
+					console.log('✅ Notificación programada para medicamento');
+				} catch (notifError) {
+					console.warn('No se pudo programar la notificación del medicamento:', notifError);
+				}
 			} else {
 				// Crear cita médica
 				const citaData = {
@@ -143,7 +156,20 @@ export default function Recordatorios() {
 					observaciones: null
 				};
 
-				await citasAPI.crear(citaData);
+				const citaCreada = await citasAPI.crear(citaData);
+
+				// Programar notificación 1 hora antes de la cita
+				try {
+					await NotificationService.programarNotificacionCita({
+						id: citaCreada.id,
+						titulo: formData.descripcion,
+						fechaHora: citaCreada.fechaHora,
+						lugar: formData.ubicacion
+					});
+					console.log('✅ Notificación programada para cita médica');
+				} catch (notifError) {
+					console.warn('No se pudo programar la notificación de la cita:', notifError);
+				}
 			}
 
 			// Recargar recordatorios

@@ -8,7 +8,9 @@
       "Bash(npm install:*)",
       "Bash(dir /s /b c:UsersramikOneDriveDesktopcuidobackenduploads)",
       "Bash(dir:*)",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "Bash(git checkout:*)",
+      "Bash(notificationService.js)"
     ],
     "deny": [],
     "ask": []
