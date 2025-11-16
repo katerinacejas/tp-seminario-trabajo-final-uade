@@ -153,3 +153,15 @@
 .auth-link:hover {
 	background: #eaf3ff
 }
+
+/* Mensaje de error */
+.auth-error {
+	background: #fee;
+	border: 1px solid #fcc;
+	color: #c33;
+	padding: 12px 14px;
+	border-radius: 12px;
+	margin-bottom: 12px;
+	font-size: 0.95rem;
+	text-align: center;
+}

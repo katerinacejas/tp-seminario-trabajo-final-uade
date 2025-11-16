@@ -13,9 +13,13 @@ import {
 	IoClose,
 } from 'react-icons/io5';
 import { tareasAPI } from '../../services/api';
+import { usePaciente } from '../../context/PacienteContext';
 import './Tareas.css';
 
-export default function Tareas({ pacienteId }) {
+export default function Tareas() {
+	// Obtener paciente seleccionado del contexto
+	const { pacienteSeleccionado } = usePaciente();
+	const pacienteId = pacienteSeleccionado?.id;
 	const [tareas, setTareas] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);

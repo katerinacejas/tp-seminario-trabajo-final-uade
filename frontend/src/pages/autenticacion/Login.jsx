@@ -1,19 +1,45 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../../auth";
-import "./Login.css"; // ← estilos locales
+import { authAPI } from "../../services/api";
+import "./Login.css";
 
 export default function Login() {
 	const [email, setEmail] = useState("");
-	const [pass, setPass] = useState("");
-	const [rol, setRol] = useState("cuidador");
+	const [password, setPassword] = useState("");
+	const [loading, setLoading] = useState(false);
+	const [error, setError] = useState("");
 	const nav = useNavigate();
 	const { login } = useAuth();
 
-	const submit = (e) => {
+	const submit = async (e) => {
 		e.preventDefault();
-		login(rol);
-		nav(rol === "cuidador" ? "/" : "/paciente", { replace: true });
+		setError("");
+		setLoading(true);
+
+		try {
+			// Llamar al backend
+			const response = await authAPI.login(email, password);
+
+			// Guardar token y rol
+			localStorage.setItem("cuido.token", response.token);
+			localStorage.setItem("cuido.role", response.rol);
+
+			// Actualizar contexto de auth
+			login(response.rol);
+
+			// Redirigir según rol
+			if (response.rol === "CUIDADOR") {
+				nav("/", { replace: true });
+			} else if (response.rol === "PACIENTE") {
+				nav("/paciente", { replace: true });
+			}
+		} catch (err) {
+			console.error("Error en login:", err);
+			setError(err.response?.data?.message || "Credenciales inválidas. Por favor, verifica tu email y contraseña.");
+		} finally {
+			setLoading(false);
+		}
 	};
 
 	return (
@@ -26,13 +52,11 @@ export default function Login() {
 				</div>
 
 				<form className="auth-form" onSubmit={submit}>
-					<div className="auth-row">
-						<label>Rol</label>
-						<select value={rol} onChange={e => setRol(e.target.value)}>
-							<option value="cuidador">Cuidador</option>
-							<option value="paciente">Paciente</option>
-						</select>
-					</div>
+					{error && (
+						<div className="auth-error">
+							{error}
+						</div>
+					)}
 
 					<div className="auth-row">
 						<label>Email</label>
@@ -42,22 +66,32 @@ export default function Login() {
 							type="email"
 							required
 							placeholder="usuario@correo.com"
+							disabled={loading}
 						/>
 					</div>
 
 					<div className="auth-row">
 						<label>Contraseña</label>
 						<input
-							value={pass}
-							onChange={e => setPass(e.target.value)}
+							value={password}
+							onChange={e => setPassword(e.target.value)}
 							type="password"
 							required
 							placeholder="••••••••"
+							disabled={loading}
+							minLength={6}
 						/>
 					</div>
 
 					<div className="auth-actions">
-						<button className="auth-btn auth-btn--primary" type="submit">Ingresar</button>
+						<button
+							className="auth-btn auth-btn--primary"
+							type="submit"
+							disabled={loading}
+						>
+							{loading ? "Ingresando..." : "Ingresar"}
+						</button>
+						<Link to="/forgot-password" className="auth-link">¿Olvidaste tu contraseña?</Link>
 						<Link to="/register" className="auth-link">Crear cuenta</Link>
 					</div>
 				</form>

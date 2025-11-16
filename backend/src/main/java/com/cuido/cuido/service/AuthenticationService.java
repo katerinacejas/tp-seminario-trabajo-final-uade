@@ -66,17 +66,18 @@ public class AuthenticationService {
             nuevoUsuario.setFechaNacimiento(request.getFechaNacimiento());
             nuevoUsuario.setAvatar(request.getAvatar());
             nuevoUsuario.setEmail(request.getEmail());
-			if (request.getRol() == "CUIDADOR") {
+			if ("CUIDADOR".equals(request.getRol())) {
 				nuevoUsuario.setRol(Rol.CUIDADOR);
-			} else {
+			} else if ("PACIENTE".equals(request.getRol())) {
 				nuevoUsuario.setRol(Rol.PACIENTE);
+			} else {
+				throw new RuntimeException("Rol inválido: " + request.getRol());
 			}
 
             String encryptedPassword = passwordEncoder.encode(request.getPassword());
             nuevoUsuario.setPassword(encryptedPassword);
 
             usuarioRepository.save(nuevoUsuario);
-			System.out.println("guarde un usuario");
 
             String token = jwtUtil.generateToken(nuevoUsuario.getEmail(), nuevoUsuario.getRol().name());
             return new JwtResponseDTO(token, nuevoUsuario.getRol());

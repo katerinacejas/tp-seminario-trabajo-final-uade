@@ -40,45 +40,64 @@ public class SecurityConfig {
             .csrf(CsrfConfigurer::disable)
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
-				//
-				/*
-				 *  TODO: RE-ESCRIBIR LOS ROLES ADAPTADOS A CUIDO
-				 * 	*  - ADMIN
-				 * 	*  - PACIENTE
-				 *  *  - CUIDADOR
-				 */
-				// TODOS EL MUNDO
+				// =============================================
+				// RUTAS PÚBLICAS (sin autenticación)
+				// =============================================
                 .requestMatchers("/auth/**").permitAll()
-                .requestMatchers("/api/images/**").permitAll()
-				.requestMatchers(HttpMethod.GET, "/api/productos/**").permitAll()
-				.requestMatchers(HttpMethod.GET, "/api/categorias/**").permitAll()
+                .requestMatchers("/api/imagenes/**").permitAll()
 
-				// SOLO COMPRADOR
-				.requestMatchers("/api/usuarios/solicitudVendedor").hasRole("COMPRADOR")
+				// =============================================
+				// RUTAS PARA CUIDADORES
+				// =============================================
+				// Bitácoras - solo cuidadores pueden crear/editar
+				.requestMatchers(HttpMethod.POST, "/api/bitacoras/**").hasRole("CUIDADOR")
+				.requestMatchers(HttpMethod.PUT, "/api/bitacoras/**").hasRole("CUIDADOR")
+				.requestMatchers(HttpMethod.DELETE, "/api/bitacoras/**").hasRole("CUIDADOR")
+				.requestMatchers(HttpMethod.GET, "/api/bitacoras/**").hasAnyRole("CUIDADOR", "PACIENTE")
 
-                // SOLO COMPRADOR_VENDEDOR O ADMIN
-                .requestMatchers(HttpMethod.POST, "/api/productos/**").hasAnyRole("COMPRADOR_VENDEDOR", "ADMIN")
-                .requestMatchers(HttpMethod.PUT, "/api/productos/**").hasAnyRole("COMPRADOR_VENDEDOR", "ADMIN")
-                .requestMatchers(HttpMethod.DELETE, "/api/productos/**").hasAnyRole("COMPRADOR_VENDEDOR", "ADMIN")
+				// Tareas - solo cuidadores pueden gestionar
+				.requestMatchers("/api/tareas/**").hasRole("CUIDADOR")
 
-				.requestMatchers(HttpMethod.POST, "/api/categorias/**").hasAnyRole("COMPRADOR_VENDEDOR", "ADMIN")
+				// Recordatorios y medicamentos - solo cuidadores
+				.requestMatchers(HttpMethod.POST, "/api/recordatorios/**").hasRole("CUIDADOR")
+				.requestMatchers(HttpMethod.PATCH, "/api/recordatorios/**").hasRole("CUIDADOR")
+				.requestMatchers(HttpMethod.DELETE, "/api/recordatorios/**").hasRole("CUIDADOR")
+				.requestMatchers(HttpMethod.GET, "/api/recordatorios/**").hasAnyRole("CUIDADOR", "PACIENTE")
 
+				// Documentos - solo cuidadores pueden subir/eliminar
+				.requestMatchers(HttpMethod.POST, "/api/documentos/**").hasRole("CUIDADOR")
+				.requestMatchers(HttpMethod.DELETE, "/api/documentos/**").hasRole("CUIDADOR")
+				.requestMatchers(HttpMethod.GET, "/api/documentos/**").hasAnyRole("CUIDADOR", "PACIENTE")
 
-                // SOLO COMPRADOR O COMPRADOR_VENDEDOR
-                .requestMatchers("/api/carrito/**").hasAnyRole("COMPRADOR", "COMPRADOR_VENDEDOR")
+				// =============================================
+				// RUTAS PARA PACIENTES
+				// =============================================
+				// Contactos de emergencia - solo pacientes pueden gestionar
+				.requestMatchers("/api/contactos-emergencia/**").hasRole("PACIENTE")
 
-                .requestMatchers("/api/usuarios/me").hasAnyRole("COMPRADOR", "COMPRADOR_VENDEDOR")
+				// Gestión de cuidadores - solo pacientes pueden invitar/desvincular
+				.requestMatchers(HttpMethod.POST, "/api/cuidadores-pacientes/invitar").hasRole("PACIENTE")
+				.requestMatchers(HttpMethod.DELETE, "/api/cuidadores-pacientes/**").hasRole("PACIENTE")
+				.requestMatchers(HttpMethod.GET, "/api/cuidadores-pacientes/**").hasAnyRole("PACIENTE", "CUIDADOR")
 
+				// Aceptar invitación - solo cuidadores
+				.requestMatchers(HttpMethod.POST, "/api/cuidadores-pacientes/*/aceptar").hasRole("CUIDADOR")
 
-                // SOLO ADMIN
-                .requestMatchers("/api/usuarios/**").hasRole("ADMIN")
+				// Perfil paciente - solo pacientes pueden actualizar su propio perfil
+				.requestMatchers(HttpMethod.PUT, "/api/pacientes/perfil/**").hasRole("PACIENTE")
+				.requestMatchers(HttpMethod.GET, "/api/pacientes/**").hasAnyRole("CUIDADOR", "PACIENTE")
 
-				.requestMatchers(HttpMethod.PUT, "/api/categorias/**").hasRole("ADMIN")
-                .requestMatchers(HttpMethod.DELETE, "/api/categorias/**").hasRole("ADMIN")
+				// =============================================
+				// RUTAS COMPARTIDAS (CUIDADOR Y PACIENTE)
+				// =============================================
+				// Perfil de usuario
+				.requestMatchers("/api/usuarios/me").hasAnyRole("CUIDADOR", "PACIENTE")
+				.requestMatchers(HttpMethod.PUT, "/api/usuarios/**").hasAnyRole("CUIDADOR", "PACIENTE")
+				.requestMatchers(HttpMethod.GET, "/api/usuarios/**").hasAnyRole("CUIDADOR", "PACIENTE")
 
-
+				// Cualquier otra petición requiere autenticación
                 .anyRequest().authenticated()
-            ) 
+            )
 
             .authenticationProvider(authenticationProvider())
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
@@ -107,8 +126,8 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("http://localhost:5173"));
-        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        config.setAllowedOrigins(List.of("http://localhost:5173", "http://localhost:19006", "http://localhost:8081"));
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

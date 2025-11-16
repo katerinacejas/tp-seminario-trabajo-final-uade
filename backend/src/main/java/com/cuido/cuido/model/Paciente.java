@@ -3,6 +3,12 @@ package com.cuido.cuido.model;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Data
 @Entity
@@ -29,8 +35,19 @@ public class Paciente {
     @Column(columnDefinition = "TEXT")
     private String alergias;
 
+    // Condiciones médicas ahora como JSON array
     @Column(name = "condiciones_medicas", columnDefinition = "TEXT")
-    private String condicionesMedicas;
+    private String condicionesMedicasJson;
+
+    @Transient
+    private List<String> condicionesMedicas = new ArrayList<>();
+
+    // Notas importantes ahora como JSON array
+    @Column(name = "notas_importantes", columnDefinition = "TEXT")
+    private String notasImportantesJson;
+
+    @Transient
+    private List<String> notasImportantes = new ArrayList<>();
 
     @Column(columnDefinition = "TEXT")
     private String observaciones;
@@ -51,10 +68,42 @@ public class Paciente {
     protected void onCreate() {
         createdAt = LocalDateTime.now();
         updatedAt = LocalDateTime.now();
+        serializeArrays();
     }
 
     @PreUpdate
     protected void onUpdate() {
         updatedAt = LocalDateTime.now();
+        serializeArrays();
+    }
+
+    @PostLoad
+    protected void deserializeArrays() {
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            if (condicionesMedicasJson != null && !condicionesMedicasJson.isEmpty()) {
+                condicionesMedicas = mapper.readValue(condicionesMedicasJson, new TypeReference<List<String>>() {});
+            }
+            if (notasImportantesJson != null && !notasImportantesJson.isEmpty()) {
+                notasImportantes = mapper.readValue(notasImportantesJson, new TypeReference<List<String>>() {});
+            }
+        } catch (JsonProcessingException e) {
+            condicionesMedicas = new ArrayList<>();
+            notasImportantes = new ArrayList<>();
+        }
+    }
+
+    private void serializeArrays() {
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            condicionesMedicasJson = (condicionesMedicas != null && !condicionesMedicas.isEmpty())
+                ? mapper.writeValueAsString(condicionesMedicas)
+                : null;
+            notasImportantesJson = (notasImportantes != null && !notasImportantes.isEmpty())
+                ? mapper.writeValueAsString(notasImportantes)
+                : null;
+        } catch (JsonProcessingException e) {
+            // Mantener valores anteriores si hay error
+        }
     }
 }

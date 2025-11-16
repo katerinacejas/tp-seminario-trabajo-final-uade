@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { documentosAPI } from '../../services/api';
+import { usePaciente } from '../../context/PacienteContext';
 import {
 	IoInformationCircleOutline,
 	IoCloudUploadOutline,
@@ -15,8 +16,9 @@ import {
 import './Documentos.css';
 
 export default function Documentos() {
-	// Estado para el paciente seleccionado (en producción vendrá del contexto/props)
-	const [pacienteId] = useState(1); // Mock - cambiar según flujo real
+	// Obtener paciente seleccionado del contexto
+	const { pacienteSeleccionado } = usePaciente();
+	const pacienteId = pacienteSeleccionado?.id;
 
 	// Estado de tabs
 	const [tabActivo, setTabActivo] = useState('FICHA_MEDICA'); // 'FICHA_MEDICA' | 'OTROS'

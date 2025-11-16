@@ -1,7 +1,11 @@
 import React from "react";
 import { fichaEmergencia } from "../../data";
+import { usePaciente } from "../../context/PacienteContext";
 
-export default function FichaMedica({ pacienteId }){
+export default function FichaMedica(){
+  // Obtener paciente seleccionado del contexto
+  const { pacienteSeleccionado } = usePaciente();
+  const pacienteId = pacienteSeleccionado?.id || "p1";
   const f = fichaEmergencia[pacienteId] || fichaEmergencia.p1;
   return (
     <div className="card">

@@ -1,11 +1,14 @@
 package com.cuido.cuido.service;
 
+import com.cuido.cuido.dto.request.ActualizarPerfilPacienteRequest;
 import com.cuido.cuido.dto.response.PacienteResponseDTO;
 import com.cuido.cuido.model.Paciente;
 import com.cuido.cuido.model.Usuario;
 import com.cuido.cuido.repository.PacienteRepository;
+import com.cuido.cuido.repository.UsuarioRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -18,10 +21,14 @@ import java.util.Optional;
 public class PacienteService {
 
     private final PacienteRepository pacienteRepository;
+    private final UsuarioRepository usuarioRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public PacienteService(PacienteRepository pacienteRepository) {
+    public PacienteService(PacienteRepository pacienteRepository, UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder) {
         this.pacienteRepository = pacienteRepository;
+        this.usuarioRepository = usuarioRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public Optional<PacienteResponseDTO> getPacientePorId(Long id) {
@@ -41,11 +48,61 @@ public class PacienteService {
                 .toList();
     }
 
+    public PacienteResponseDTO actualizarPerfil(Long usuarioId, ActualizarPerfilPacienteRequest request) {
+        Usuario usuario = usuarioRepository.findById(usuarioId)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        Paciente paciente = pacienteRepository.findByUsuarioId(usuarioId)
+                .orElseThrow(() -> new RuntimeException("Perfil de paciente no encontrado"));
+
+        // Actualizar datos del usuario
+        if (request.getNombreCompleto() != null) {
+            usuario.setNombreCompleto(request.getNombreCompleto());
+        }
+        if (request.getEmail() != null) {
+            usuario.setEmail(request.getEmail());
+        }
+        if (request.getPassword() != null && !request.getPassword().isEmpty()) {
+            usuario.setPassword(passwordEncoder.encode(request.getPassword()));
+        }
+        usuarioRepository.save(usuario);
+
+        // Actualizar datos del paciente
+        if (request.getTipoSanguineo() != null) {
+            paciente.setTipoSanguineo(request.getTipoSanguineo());
+        }
+        if (request.getPeso() != null) {
+            paciente.setPeso(request.getPeso());
+        }
+        if (request.getAltura() != null) {
+            paciente.setAltura(request.getAltura());
+        }
+        if (request.getAlergias() != null) {
+            paciente.setAlergias(request.getAlergias());
+        }
+        if (request.getCondicionesMedicas() != null) {
+            paciente.setCondicionesMedicas(request.getCondicionesMedicas());
+        }
+        if (request.getNotasImportantes() != null) {
+            paciente.setNotasImportantes(request.getNotasImportantes());
+        }
+        if (request.getObraSocial() != null) {
+            paciente.setObraSocial(request.getObraSocial());
+        }
+        if (request.getNumeroAfiliado() != null) {
+            paciente.setNumeroAfiliado(request.getNumeroAfiliado());
+        }
+
+        pacienteRepository.save(paciente);
+        return mapToResponseDTO(paciente);
+    }
+
     private PacienteResponseDTO mapToResponseDTO(Paciente paciente) {
         PacienteResponseDTO dto = new PacienteResponseDTO();
         dto.setId(paciente.getId());
         dto.setUsuarioId(paciente.getUsuario().getId());
         dto.setNombreCompleto(paciente.getUsuario().getNombreCompleto());
+        dto.setEmail(paciente.getUsuario().getEmail());
 
         // Calcular edad desde fechaNacimiento
         Usuario usuario = paciente.getUsuario();
@@ -60,6 +117,7 @@ public class PacienteService {
         dto.setAltura(paciente.getAltura());
         dto.setAlergias(paciente.getAlergias());
         dto.setCondicionesMedicas(paciente.getCondicionesMedicas());
+        dto.setNotasImportantes(paciente.getNotasImportantes());
         dto.setObservaciones(paciente.getObservaciones());
         dto.setObraSocial(paciente.getObraSocial());
         dto.setNumeroAfiliado(paciente.getNumeroAfiliado());

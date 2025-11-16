@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { bitacorasAPI } from '../../services/api';
+import { usePaciente } from '../../context/PacienteContext';
 import {
 	IoAddCircleOutline,
 	IoInformationCircleOutline,
@@ -11,8 +12,9 @@ import {
 import './Bitacora.css';
 
 export default function Bitacora() {
-	// Estado para el paciente seleccionado (en producción vendrá del contexto/props)
-	const [pacienteId] = useState(1); // Mock - cambiar según flujo real
+	// Obtener paciente seleccionado del contexto
+	const { pacienteSeleccionado } = usePaciente();
+	const pacienteId = pacienteSeleccionado?.id;
 
 	// Estado del formulario
 	const [mostrarFormulario, setMostrarFormulario] = useState(false);

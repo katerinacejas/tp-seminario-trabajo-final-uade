@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { recordatoriosAPI, medicamentosAPI, citasAPI } from "../../services/api";
+import { usePaciente } from "../../context/PacienteContext";
 import "./Recordatorios.css";
 
-export default function Recordatorios({ pacienteId }) {
+export default function Recordatorios() {
+	// Obtener paciente seleccionado del contexto
+	const { pacienteSeleccionado } = usePaciente();
+	const pacienteId = pacienteSeleccionado?.id;
 	const [mostrarFormulario, setMostrarFormulario] = useState(false);
 	const [tipoRecordatorio, setTipoRecordatorio] = useState("MEDICAMENTO"); // MEDICAMENTO o CITA_MEDICA
 	const [formData, setFormData] = useState({

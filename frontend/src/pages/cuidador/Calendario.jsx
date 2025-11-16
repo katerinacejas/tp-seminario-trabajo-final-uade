@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from "react";
 import { eventos } from "../../data";
+import { usePaciente } from "../../context/PacienteContext";
 
 function startOfMonth(d){ return new Date(d.getFullYear(), d.getMonth(), 1); }
 function endOfMonth(d){ return new Date(d.getFullYear(), d.getMonth()+1, 0); }
@@ -7,7 +8,10 @@ function addMonths(d, n){ const x=new Date(d); x.setMonth(x.getMonth()+n); retur
 function fmtDate(d){ return d.toISOString().slice(0,10); }
 function isTodayDate(d){ const t=new Date(); return d.getFullYear()===t.getFullYear() && d.getMonth()===t.getMonth() && d.getDate()===t.getDate(); }
 
-export default function Calendario({ pacienteId }){
+export default function Calendario(){
+  // Obtener paciente seleccionado del contexto
+  const { pacienteSeleccionado } = usePaciente();
+  const pacienteId = pacienteSeleccionado?.id;
   const [refDate, setRefDate] = useState(new Date());
 
   const monthLabel = refDate.toLocaleDateString("es-AR", { month:"long", year:"numeric" });

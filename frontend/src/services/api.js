@@ -62,6 +62,20 @@ export const authAPI = {
 			body: JSON.stringify(userData),
 		});
 	},
+
+	forgotPassword: async (email) => {
+		return apiRequest('/auth/forgot-password', {
+			method: 'POST',
+			body: JSON.stringify({ email }),
+		});
+	},
+
+	resetPassword: async (codigoOtp, nuevaPassword) => {
+		return apiRequest('/auth/reset-password', {
+			method: 'POST',
+			body: JSON.stringify({ codigoOtp, nuevaPassword }),
+		});
+	},
 };
 
 // ==================== USUARIOS ====================
