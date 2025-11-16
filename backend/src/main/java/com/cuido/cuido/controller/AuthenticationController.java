@@ -1,5 +1,6 @@
 package com.cuido.cuido.controller;
 
+import com.cuido.cuido.security.RateLimited;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -26,11 +27,13 @@ public class AuthenticationController {
     private PasswordResetService passwordResetService;
 
     @PostMapping("/login")
+    @RateLimited(limit = 5, periodSeconds = 300) // 5 intentos cada 5 minutos
     public JwtResponseDTO login(@Valid @RequestBody LoginRequestDTO request) {
         return authenticationService.authenticate(request);
     }
 
     @PostMapping("/register")
+    @RateLimited(limit = 3, periodSeconds = 3600) // 3 registros por hora
     public JwtResponseDTO register(@Valid @RequestBody RegistroRequestDTO request) {
         return authenticationService.register(request);
     }
@@ -39,6 +42,7 @@ public class AuthenticationController {
      * Solicita recuperación de contraseña y envía OTP por email
      */
     @PostMapping("/forgot-password")
+    @RateLimited(limit = 3, periodSeconds = 3600) // 3 intentos por hora
     public ResponseEntity<Map<String, String>> forgotPassword(@Valid @RequestBody ForgotPasswordRequestDTO request) {
         passwordResetService.solicitarRecuperacion(request.getEmail());
         return ResponseEntity.ok(Map.of(
@@ -51,6 +55,7 @@ public class AuthenticationController {
      * Resetea la contraseña usando el código OTP
      */
     @PostMapping("/reset-password")
+    @RateLimited(limit = 5, periodSeconds = 300) // 5 intentos cada 5 minutos
     public ResponseEntity<Map<String, String>> resetPassword(@Valid @RequestBody ResetPasswordRequestDTO request) {
         passwordResetService.resetearPassword(request.getCodigoOtp(), request.getNuevaPassword());
         return ResponseEntity.ok(Map.of(

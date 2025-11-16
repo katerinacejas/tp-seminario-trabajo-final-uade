@@ -3,6 +3,37 @@
 const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080/api';
 
 /**
+ * Clase de error personalizada para errores de API
+ */
+export class APIError extends Error {
+	constructor(message, status, data) {
+		super(message);
+		this.name = 'APIError';
+		this.status = status;
+		this.data = data;
+	}
+}
+
+/**
+ * Maneja diferentes tipos de errores HTTP
+ */
+function handleHTTPError(status, data) {
+	const errorMessages = {
+		400: 'Solicitud inválida. Verifica los datos enviados.',
+		401: 'Sesión expirada. Por favor, inicia sesión nuevamente.',
+		403: 'No tienes permisos para realizar esta acción.',
+		404: 'Recurso no encontrado.',
+		409: 'Conflicto: El recurso ya existe.',
+		429: 'Demasiadas solicitudes. Por favor, espera un momento.',
+		500: 'Error del servidor. Intenta nuevamente más tarde.',
+		503: 'Servicio no disponible temporalmente.',
+	};
+
+	const message = data?.message || errorMessages[status] || `Error ${status}`;
+	return new APIError(message, status, data);
+}
+
+/**
  * Wrapper para fetch con manejo de errores y autenticación
  */
 async function apiRequest(endpoint, options = {}) {
@@ -24,8 +55,13 @@ async function apiRequest(endpoint, options = {}) {
 		if (response.status === 401) {
 			localStorage.removeItem('cuido.token');
 			localStorage.removeItem('cuido.role');
-			window.location.href = '/login';
-			throw new Error('Sesión expirada');
+
+			// Solo redirigir si no estamos ya en login
+			if (typeof window !== 'undefined' && !window.location.pathname.includes('/login')) {
+				window.location.href = '/login';
+			}
+
+			throw handleHTTPError(401, { message: 'Sesión expirada' });
 		}
 
 		// Si es 204 (No Content), no intentar parsear JSON
@@ -33,15 +69,37 @@ async function apiRequest(endpoint, options = {}) {
 			return null;
 		}
 
-		const data = await response.json();
+		// Intentar parsear JSON
+		let data;
+		try {
+			data = await response.json();
+		} catch (parseError) {
+			if (!response.ok) {
+				throw handleHTTPError(response.status, null);
+			}
+			throw new Error('Respuesta inválida del servidor');
+		}
 
 		if (!response.ok) {
-			throw new Error(data.message || `Error ${response.status}`);
+			throw handleHTTPError(response.status, data);
 		}
 
 		return data;
 	} catch (error) {
-		console.error('API Error:', error);
+		// Si ya es un APIError, re-lanzarlo
+		if (error instanceof APIError) {
+			console.error(`API Error [${error.status}]:`, error.message);
+			throw error;
+		}
+
+		// Error de red o timeout
+		if (error.name === 'TypeError' || error.message.includes('fetch')) {
+			console.error('Network Error:', error);
+			throw new APIError('Error de conexión. Verifica tu internet.', 0, null);
+		}
+
+		// Otro tipo de error
+		console.error('Unexpected Error:', error);
 		throw error;
 	}
 }

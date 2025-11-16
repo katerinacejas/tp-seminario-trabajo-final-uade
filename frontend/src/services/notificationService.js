@@ -1,6 +1,10 @@
 import * as Notifications from 'expo-notifications';
 import * as Device from 'expo-device';
 import { Platform } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+// Keys para AsyncStorage
+const NOTIFICATION_MAP_KEY = '@cuido_notifications_map';
 
 // Configurar el comportamiento de las notificaciones
 Notifications.setNotificationHandler({
@@ -16,7 +20,7 @@ Notifications.setNotificationHandler({
  */
 export async function solicitarPermisosNotificaciones() {
 	if (!Device.isDevice) {
-		console.warn('Las notificaciones solo funcionan en dispositivos físicos');
+		console.warn('Las notificaciones solo funcionan en dispositivos fï¿½sicos');
 		return false;
 	}
 
@@ -52,8 +56,8 @@ export async function solicitarPermisosNotificaciones() {
 }
 
 /**
- * Programa una notificación para un medicamento
- * @param {Object} medicamento - Objeto con información del medicamento
+ * Programa una notificaciï¿½n para un medicamento
+ * @param {Object} medicamento - Objeto con informaciï¿½n del medicamento
  * @param {string} medicamento.nombre - Nombre del medicamento
  * @param {string} medicamento.horaProgramada - Hora en formato "HH:mm"
  * @param {number} medicamento.id - ID del medicamento
@@ -63,22 +67,22 @@ export async function programarNotificacionMedicamento(medicamento) {
 		// Parsear la hora programada
 		const [horas, minutos] = medicamento.horaProgramada.split(':').map(Number);
 
-		// Calcular el tiempo hasta la notificación
+		// Calcular el tiempo hasta la notificaciï¿½n
 		const ahora = new Date();
 		const horaMedicamento = new Date();
 		horaMedicamento.setHours(horas, minutos, 0, 0);
 
-		// Si la hora ya pasó hoy, programar para mañana
+		// Si la hora ya pasï¿½ hoy, programar para maï¿½ana
 		if (horaMedicamento < ahora) {
 			horaMedicamento.setDate(horaMedicamento.getDate() + 1);
 		}
 
 		const segundosHastaNotificacion = Math.floor((horaMedicamento - ahora) / 1000);
 
-		// Programar la notificación
+		// Programar la notificaciï¿½n
 		const notificationId = await Notifications.scheduleNotificationAsync({
 			content: {
-				title: '=Š Hora de tomar tu medicamento',
+				title: '=ï¿½ Hora de tomar tu medicamento',
 				body: `Es hora de tomar: ${medicamento.nombre}`,
 				data: {
 					type: 'medicamento',
@@ -96,18 +100,18 @@ export async function programarNotificacionMedicamento(medicamento) {
 			},
 		});
 
-		console.log(` Notificación programada para medicamento ${medicamento.nombre}: ID ${notificationId}`);
+		console.log(` Notificaciï¿½n programada para medicamento ${medicamento.nombre}: ID ${notificationId}`);
 		return notificationId;
 	} catch (error) {
-		console.error('Error al programar notificación de medicamento:', error);
+		console.error('Error al programar notificaciï¿½n de medicamento:', error);
 		return null;
 	}
 }
 
 /**
- * Programa una notificación 1 hora antes de una cita médica
- * @param {Object} cita - Objeto con información de la cita
- * @param {string} cita.titulo - Título de la cita
+ * Programa una notificaciï¿½n 1 hora antes de una cita mï¿½dica
+ * @param {Object} cita - Objeto con informaciï¿½n de la cita
+ * @param {string} cita.titulo - Tï¿½tulo de la cita
  * @param {string} cita.fechaHora - Fecha y hora en formato ISO
  * @param {string} cita.lugar - Lugar de la cita
  * @param {number} cita.id - ID de la cita
@@ -123,18 +127,18 @@ export async function programarNotificacionCita(cita) {
 
 		const ahora = new Date();
 
-		// Solo programar si la notificación es en el futuro
+		// Solo programar si la notificaciï¿½n es en el futuro
 		if (fechaNotificacion <= ahora) {
-			console.log('La cita ya pasó o es muy pronto, no se programa notificación');
+			console.log('La cita ya pasï¿½ o es muy pronto, no se programa notificaciï¿½n');
 			return null;
 		}
 
 		const segundosHastaNotificacion = Math.floor((fechaNotificacion - ahora) / 1000);
 
-		// Programar la notificación
+		// Programar la notificaciï¿½n
 		const notificationId = await Notifications.scheduleNotificationAsync({
 			content: {
-				title: '=Å Recordatorio de cita médica',
+				title: '=ï¿½ Recordatorio de cita mï¿½dica',
 				body: `En 1 hora: ${cita.titulo}${cita.lugar ? ` en ${cita.lugar}` : ''}`,
 				data: {
 					type: 'cita',
@@ -150,24 +154,24 @@ export async function programarNotificacionCita(cita) {
 			},
 		});
 
-		console.log(` Notificación programada para cita ${cita.titulo}: ID ${notificationId}`);
+		console.log(` Notificaciï¿½n programada para cita ${cita.titulo}: ID ${notificationId}`);
 		return notificationId;
 	} catch (error) {
-		console.error('Error al programar notificación de cita:', error);
+		console.error('Error al programar notificaciï¿½n de cita:', error);
 		return null;
 	}
 }
 
 /**
- * Cancela una notificación programada
- * @param {string} notificationId - ID de la notificación a cancelar
+ * Cancela una notificaciï¿½n programada
+ * @param {string} notificationId - ID de la notificaciï¿½n a cancelar
  */
 export async function cancelarNotificacion(notificationId) {
 	try {
 		await Notifications.cancelScheduledNotificationAsync(notificationId);
-		console.log(` Notificación cancelada: ${notificationId}`);
+		console.log(` Notificaciï¿½n cancelada: ${notificationId}`);
 	} catch (error) {
-		console.error('Error al cancelar notificación:', error);
+		console.error('Error al cancelar notificaciï¿½n:', error);
 	}
 }
 
@@ -189,7 +193,7 @@ export async function cancelarTodasLasNotificaciones() {
 export async function obtenerNotificacionesProgramadas() {
 	try {
 		const notificaciones = await Notifications.getAllScheduledNotificationsAsync();
-		console.log(`=Ë Notificaciones programadas: ${notificaciones.length}`);
+		console.log(`=ï¿½ Notificaciones programadas: ${notificaciones.length}`);
 		return notificaciones;
 	} catch (error) {
 		console.error('Error al obtener notificaciones programadas:', error);
@@ -198,9 +202,9 @@ export async function obtenerNotificacionesProgramadas() {
 }
 
 /**
- * Envía una notificación inmediata (para testing)
- * @param {string} titulo - Título de la notificación
- * @param {string} cuerpo - Cuerpo de la notificación
+ * Envï¿½a una notificaciï¿½n inmediata (para testing)
+ * @param {string} titulo - Tï¿½tulo de la notificaciï¿½n
+ * @param {string} cuerpo - Cuerpo de la notificaciï¿½n
  */
 export async function enviarNotificacionInmediata(titulo, cuerpo) {
 	try {
@@ -212,8 +216,8 @@ export async function enviarNotificacionInmediata(titulo, cuerpo) {
 			},
 			trigger: null, // null = inmediato
 		});
-		console.log(' Notificación enviada inmediatamente');
+		console.log(' Notificaciï¿½n enviada inmediatamente');
 	} catch (error) {
-		console.error('Error al enviar notificación inmediata:', error);
+		console.error('Error al enviar notificaciï¿½n inmediata:', error);
 	}
 }

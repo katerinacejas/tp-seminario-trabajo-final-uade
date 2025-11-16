@@ -1,5 +1,9 @@
 package com.cuido.cuido.service;
 
+import com.cuido.cuido.exception.EmailYaRegistradoException;
+import com.cuido.cuido.exception.InvalidCredentialsException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,6 +23,8 @@ import com.cuido.cuido.security.JwtUtil;
 @Service
 public class AuthenticationService {
 
+    private static final Logger logger = LoggerFactory.getLogger(AuthenticationService.class);
+
     @Autowired
     private AuthenticationManager authenticationManager;
 
@@ -35,6 +41,8 @@ public class AuthenticationService {
     private EmailService emailService;
 
     public JwtResponseDTO authenticate(LoginRequestDTO request) {
+        logger.info("Intento de autenticación para email: {}", request.getEmail());
+
         try {
             Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -44,22 +52,27 @@ public class AuthenticationService {
             );
 
             Usuario usuario = (Usuario) authentication.getPrincipal();
-			
-			String rolString = usuario.getRol().name();
-            String jwt = jwtUtil.generateToken(usuario.getEmail(), rolString);
-			Rol rol = usuario.getRol();
 
+            String rolString = usuario.getRol().name();
+            String jwt = jwtUtil.generateToken(usuario.getEmail(), rolString);
+            Rol rol = usuario.getRol();
+
+            logger.info("Autenticación exitosa para usuario ID: {}, Rol: {}", usuario.getId(), rol);
             return new JwtResponseDTO(jwt, rol);
 
         } catch (AuthenticationException ex) {
-            throw new RuntimeException("Credenciales inválidas");
+            logger.warn("Fallo de autenticación para email: {}", request.getEmail());
+            throw new InvalidCredentialsException("Credenciales inválidas");
         }
     }
 
     public JwtResponseDTO register(RegistroRequestDTO request) {
+        logger.info("Intento de registro para email: {}, Rol: {}", request.getEmail(), request.getRol());
+
         try {
             if (usuarioRepository.existsByEmail(request.getEmail())) {
-                throw new RuntimeException("Ya existe un usuario con ese email");
+                logger.warn("Intento de registro con email ya existente: {}", request.getEmail());
+                throw new EmailYaRegistradoException("Ya existe un usuario con ese email");
             }
 
             Usuario nuevoUsuario = new Usuario();
@@ -69,18 +82,22 @@ public class AuthenticationService {
             nuevoUsuario.setFechaNacimiento(request.getFechaNacimiento());
             nuevoUsuario.setAvatar(request.getAvatar());
             nuevoUsuario.setEmail(request.getEmail());
-			if ("CUIDADOR".equals(request.getRol())) {
-				nuevoUsuario.setRol(Rol.CUIDADOR);
-			} else if ("PACIENTE".equals(request.getRol())) {
-				nuevoUsuario.setRol(Rol.PACIENTE);
-			} else {
-				throw new RuntimeException("Rol inválido: " + request.getRol());
-			}
+
+            if ("CUIDADOR".equals(request.getRol())) {
+                nuevoUsuario.setRol(Rol.CUIDADOR);
+            } else if ("PACIENTE".equals(request.getRol())) {
+                nuevoUsuario.setRol(Rol.PACIENTE);
+            } else {
+                logger.error("Intento de registro con rol inválido: {}", request.getRol());
+                throw new IllegalArgumentException("Rol inválido: " + request.getRol());
+            }
 
             String encryptedPassword = passwordEncoder.encode(request.getPassword());
             nuevoUsuario.setPassword(encryptedPassword);
 
             usuarioRepository.save(nuevoUsuario);
+            logger.info("Usuario registrado exitosamente - ID: {}, Email: {}, Rol: {}",
+                       nuevoUsuario.getId(), nuevoUsuario.getEmail(), nuevoUsuario.getRol());
 
             // Enviar email de bienvenida
             try {
@@ -89,16 +106,20 @@ public class AuthenticationService {
                     nuevoUsuario.getNombreCompleto(),
                     nuevoUsuario.getRol().name().toLowerCase()
                 );
+                logger.info("Email de bienvenida enviado a: {}", nuevoUsuario.getEmail());
             } catch (Exception e) {
-                System.err.println("⚠️ Error al enviar email de bienvenida: " + e.getMessage());
+                logger.error("Error al enviar email de bienvenida a {}: {}", nuevoUsuario.getEmail(), e.getMessage());
                 // No interrumpimos el registro si falla el email
             }
 
             String token = jwtUtil.generateToken(nuevoUsuario.getEmail(), nuevoUsuario.getRol().name());
             return new JwtResponseDTO(token, nuevoUsuario.getRol());
 
+        } catch (EmailYaRegistradoException | IllegalArgumentException e) {
+            throw e;
         } catch (Exception e) {
+            logger.error("Error inesperado al registrar usuario: {}", e.getMessage(), e);
             throw new RuntimeException("Error al registrar usuario: " + e.getMessage());
         }
     }
-} 
+}
