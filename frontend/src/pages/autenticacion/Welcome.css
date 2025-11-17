@@ -1,0 +1,193 @@
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap");
+
+/* ===== CONTENEDOR FULL SCREEN ===== */
+.welcome-screen {
+	--bg: #031525;
+	--bg-accent: #0f6be0;
+	--ink: #0f172a;
+	--muted: #6b7280;
+	--brand: #14c4f5;
+	--brand-dark: #0f9bd0;
+
+	width: 100vw;
+	min-height: 100vh;
+	padding: 16px;
+	box-sizing: border-box;
+	background: radial-gradient(900px 380px at 10% -10%, #0f6be0, transparent 60%),
+		var(--bg);
+	display: flex;
+	align-items: center;
+	/* centra vertical */
+	justify-content: center;
+	/* centra horizontal */
+	font-family: "Outfit", system-ui, -apple-system, "Segoe UI", Roboto, Arial,
+		sans-serif;
+	color: var(--ink);
+}
+
+/* ===== CARD TIPO “CELULAR” ===== */
+.welcome-card {
+	width: 100%;
+	max-width: 420px;
+	border-radius: 30px;
+	background: #ffffff;
+	box-shadow: 0 22px 50px rgba(15, 23, 42, 0.45);
+	display: flex;
+	flex-direction: column;
+	padding: 26px 24px 22px;
+	box-sizing: border-box;
+}
+
+/* ===== ILUSTRACIÓN SUPERIOR ===== */
+.welcome-illustration {
+	position: relative;
+	width: 100%;
+	padding-top: 4px;
+	padding-bottom: 16px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.welcome-logo-circle {
+	width: 132px;
+	height: 132px;
+	border-radius: 40px;
+	background: linear-gradient(145deg, #1fb9ff, #0f6be0);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	box-shadow: 0 18px 32px rgba(37, 99, 235, 0.35);
+}
+
+.welcome-logo-circle img {
+	width: 80px;
+	height: 80px;
+	border-radius: 24px;
+	object-fit: contain;
+	background: #ffffff;
+}
+
+/* decoraciones */
+.welcome-badge {
+	position: absolute;
+	border-radius: 999px;
+	background: #ffffff;
+	opacity: 0.9;
+}
+
+.welcome-badge--top {
+	width: 26px;
+	height: 26px;
+	top: 10px;
+	right: 32px;
+	box-shadow: 0 6px 14px rgba(15, 23, 42, 0.18);
+}
+
+.welcome-badge--left {
+	width: 18px;
+	height: 18px;
+	left: 24px;
+	bottom: 18px;
+	box-shadow: 0 5px 12px rgba(15, 23, 42, 0.16);
+}
+
+.welcome-badge--right {
+	width: 14px;
+	height: 14px;
+	right: 40px;
+	bottom: 36px;
+	box-shadow: 0 4px 10px rgba(15, 23, 42, 0.15);
+}
+
+/* ===== CONTENIDO TEXTO + CTA ===== */
+.welcome-content {
+	text-align: center;
+	padding-top: 8px;
+}
+
+.welcome-title {
+	font-size: 24px;
+	line-height: 1.25;
+	font-weight: 800;
+	margin: 0 0 8px;
+	color: var(--ink);
+}
+
+.welcome-title span {
+	color: var(--brand-dark);
+}
+
+.welcome-subtitle {
+	margin: 0 4px 22px;
+	font-size: 14px;
+	line-height: 1.5;
+	color: #6b7280;
+}
+
+/* botón principal */
+.welcome-btn-primary {
+	border: none;
+	width: 100%;
+	max-width: 260px;
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+	padding: 12px 20px;
+	border-radius: 999px;
+	margin: 0 auto 6px;
+	font-size: 15px;
+	font-weight: 700;
+	cursor: pointer;
+	background: linear-gradient(135deg, var(--brand), var(--brand-dark));
+	color: #ffffff;
+	box-shadow: 0 14px 28px rgba(20, 196, 245, 0.4);
+	transition: transform 0.12s ease, box-shadow 0.12s ease,
+		filter 0.12s ease;
+}
+
+.welcome-btn-primary:hover {
+	filter: brightness(1.05);
+	transform: translateY(-1px);
+	box-shadow: 0 12px 22px rgba(20, 196, 245, 0.32);
+}
+
+.welcome-btn-primary:active {
+	transform: translateY(0);
+	box-shadow: 0 9px 18px rgba(20, 196, 245, 0.28);
+}
+
+/* ===== RESPONSIVE ===== */
+
+/* Tablet / Desktop con más aire alrededor */
+@media (min-width: 768px) {
+	.welcome-screen {
+		padding: 32px;
+	}
+
+	.welcome-card {
+		max-height: 720px;
+	}
+}
+
+/* Mobile: card centrada pero sin ocupar todo el alto */
+@media (max-width: 480px) {
+	.welcome-screen {
+		padding: 12px;
+	}
+
+	.welcome-card {
+		border-radius: 32px;
+		padding: 24px 18px 20px;
+		/* sin height: 100vh → altura solo según contenido */
+	}
+
+	.welcome-title {
+		font-size: 22px;
+	}
+
+	.welcome-subtitle {
+		font-size: 13px;
+		margin-bottom: 18px;
+	}
+}
