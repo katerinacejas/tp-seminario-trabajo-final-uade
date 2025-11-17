@@ -127,6 +127,46 @@
   color: var(--ink);
 }
 
+.login-input {
+  width: 100%;
+  border: none;
+  outline: none;
+  font-size: 15px;
+  padding: 4px 0 6px;
+  background: transparent;
+  color: var(--ink);
+}
+
+/* wrapper para input + ojito */
+.login-pass-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.login-input-pass {
+  padding-right: 38px; /* espacio para el ojito */
+}
+
+/* botón del ojito */
+.login-eye-btn {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 4px 4px;
+  font-size: 18px;
+  line-height: 1;
+  color: #9ca3af;
+}
+
+.login-eye-btn:hover {
+  color: #6b7280;
+}
+
 .login-input::placeholder {
   color: #cbd5f5;
 }

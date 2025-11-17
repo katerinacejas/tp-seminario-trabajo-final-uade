@@ -5,6 +5,7 @@ import { AuthProvider, useAuth } from "./auth";
 import { PacienteProvider } from "./context/PacienteContext";
 
 // Páginas
+import Welcome from "./pages/autenticacion/Welcome";
 import Login from "./pages/autenticacion/Login";
 import Register from "./pages/autenticacion/Register";
 import HomeCuidador from "./pages/cuidador/HomeCaregiver";
@@ -22,83 +23,211 @@ import MisCuidadores from "./pages/paciente/MisCuidadores";
 import FooterNav from "./components/FooterNav";
 
 function RequireRole({ allow, children }) {
-  const { role } = useAuth();
-  if (!role) return <Navigate to="/login" replace />;
-  if (!allow.includes(role)) {
-    return <Navigate to={role === "cuidador" ? "/" : "/paciente"} replace />;
-  }
-  return children;
+	const { role } = useAuth();
+	if (!role) return <Navigate to="/login" replace />;
+	if (!allow.includes(role)) {
+		return (
+			<Navigate
+				to={role === "cuidador" ? "/" : "/paciente"}
+				replace
+			/>
+		);
+	}
+	return children;
 }
 
 function AppShell({ children }) {
-  return (
-    <div className="app-shell">
-      <main className="container">{children}</main>
-      <FooterNav />
-    </div>
-  );
+	return (
+		<div className="app-shell">
+			<main className="container">{children}</main>
+			<FooterNav />
+		</div>
+	);
 }
 
 function AppRoutes() {
-  const { role } = useAuth();
-  return (
-    <Routes>
-      {/* Auth */}
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
+	const { role } = useAuth();
 
-      {/* Home por rol */}
-      <Route
-        path="/"
-        element={
-          <RequireRole allow={["cuidador"]}>
-            <AppShell><HomeCuidador /></AppShell>
-          </RequireRole>
-        }
-      />
-      <Route
-        path="/paciente"
-        element={
-          <RequireRole allow={["paciente"]}>
-            <AppShell><HomePaciente /></AppShell>
-          </RequireRole>
-        }
-      />
+	return (
+		<Routes>
+			{/* Bienvenida pública / Home según rol */}
+			<Route
+				path="/"
+				element={
+					!role ? (
+						<Welcome />
+					) : role === "cuidador" ? (
+						<RequireRole allow={["cuidador"]}>
+							<AppShell>
+								<HomeCuidador />
+							</AppShell>
+						</RequireRole>
+					) : (
+						<RequireRole allow={["paciente"]}>
+							<AppShell>
+								<HomePaciente />
+							</AppShell>
+						</RequireRole>
+					)
+				}
+			/>
 
-      {/* SOLO cuidador */}
-      <Route path="/bitacora" element={<RequireRole allow={["cuidador"]}><AppShell><Bitacora/></AppShell></RequireRole>} />
-      <Route path="/calendario" element={<RequireRole allow={["cuidador"]}><AppShell><Calendario pacienteId="p1"/></AppShell></RequireRole>} />
-      <Route path="/docs" element={<RequireRole allow={["cuidador"]}><AppShell><Documentos pacienteId="p1"/></AppShell></RequireRole>} />
-      <Route path="/ficha" element={<RequireRole allow={["cuidador"]}><AppShell><FichaMedica pacienteId="p1"/></AppShell></RequireRole>} />
-      <Route path="/recordatorios" element={<RequireRole allow={["cuidador"]}><AppShell><Recordatorios pacienteId="p1"/></AppShell></RequireRole>} />
-      <Route path="/tareas" element={<RequireRole allow={["cuidador"]}><AppShell><Tareas pacienteId="p1"/></AppShell></RequireRole>} />
-      <Route path="/perfil" element={<RequireRole allow={["cuidador"]}><AppShell><PerfilCuidador/></AppShell></RequireRole>} />
-      <Route path="/preguntas-frecuentes" element={<RequireRole allow={["cuidador"]}><AppShell><PreguntasFrecuentes/></AppShell></RequireRole>} />
-	  <Route path="/chatbot" element={<RequireRole allow={["cuidador"]}><AppShell><Chatbot/></AppShell></RequireRole>} />
+			{/* Auth */}
+			<Route path="/login" element={<Login />} />
+			<Route path="/register" element={<Register />} />
 
-      {/* SOLO paciente (ejemplo) */}
-      <Route path="/mis-cuidadores" element={<RequireRole allow={["paciente"]}><AppShell><MisCuidadores/></AppShell></RequireRole>} />
-      <Route path="/invitar-cuidador" element={<RequireRole allow={["paciente"]}><AppShell><div className="card"><h2>Invitar cuidador</h2></div></AppShell></RequireRole>} />
+			{/* Home paciente explícito (alias de / cuando role === paciente) */}
+			<Route
+				path="/paciente"
+				element={
+					<RequireRole allow={["paciente"]}>
+						<AppShell>
+							<HomePaciente />
+						</AppShell>
+					</RequireRole>
+				}
+			/>
 
-      {/* fallback */}
-      <Route
-        path="*"
-        element={
-          role
-            ? <Navigate to={role === "cuidador" ? "/" : "/paciente"} replace />
-            : <Navigate to="/login" replace />
-        }
-      />
-    </Routes>
-  );
+			{/* SOLO cuidador */}
+			<Route
+				path="/bitacora"
+				element={
+					<RequireRole allow={["cuidador"]}>
+						<AppShell>
+							<Bitacora />
+						</AppShell>
+					</RequireRole>
+				}
+			/>
+			<Route
+				path="/calendario"
+				element={
+					<RequireRole allow={["cuidador"]}>
+						<AppShell>
+							<Calendario pacienteId="p1" />
+						</AppShell>
+					</RequireRole>
+				}
+			/>
+			<Route
+				path="/docs"
+				element={
+					<RequireRole allow={["cuidador"]}>
+						<AppShell>
+							<Documentos pacienteId="p1" />
+						</AppShell>
+					</RequireRole>
+				}
+			/>
+			<Route
+				path="/ficha"
+				element={
+					<RequireRole allow={["cuidador"]}>
+						<AppShell>
+							<FichaMedica pacienteId="p1" />
+						</AppShell>
+					</RequireRole>
+				}
+			/>
+			<Route
+				path="/recordatorios"
+				element={
+					<RequireRole allow={["cuidador"]}>
+						<AppShell>
+							<Recordatorios pacienteId="p1" />
+						</AppShell>
+					</RequireRole>
+				}
+			/>
+			<Route
+				path="/tareas"
+				element={
+					<RequireRole allow={["cuidador"]}>
+						<AppShell>
+							<Tareas pacienteId="p1" />
+						</AppShell>
+					</RequireRole>
+				}
+			/>
+			<Route
+				path="/perfil"
+				element={
+					<RequireRole allow={["cuidador"]}>
+						<AppShell>
+							<PerfilCuidador />
+						</AppShell>
+					</RequireRole>
+				}
+			/>
+			<Route
+				path="/preguntas-frecuentes"
+				element={
+					<RequireRole allow={["cuidador"]}>
+						<AppShell>
+							<PreguntasFrecuentes />
+						</AppShell>
+					</RequireRole>
+				}
+			/>
+			<Route
+				path="/chatbot"
+				element={
+					<RequireRole allow={["cuidador"]}>
+						<AppShell>
+							<Chatbot />
+						</AppShell>
+					</RequireRole>
+				}
+			/>
+
+			{/* SOLO paciente */}
+			<Route
+				path="/mis-cuidadores"
+				element={
+					<RequireRole allow={["paciente"]}>
+						<AppShell>
+							<MisCuidadores />
+						</AppShell>
+					</RequireRole>
+				}
+			/>
+			<Route
+				path="/invitar-cuidador"
+				element={
+					<RequireRole allow={["paciente"]}>
+						<AppShell>
+							<div className="card">
+								<h2>Invitar cuidador</h2>
+							</div>
+						</AppShell>
+					</RequireRole>
+				}
+			/>
+
+			{/* fallback */}
+			<Route
+				path="*"
+				element={
+					role ? (
+						<Navigate
+							to={role === "cuidador" ? "/" : "/paciente"}
+							replace
+						/>
+					) : (
+						<Navigate to="/" replace />
+					)
+				}
+			/>
+		</Routes>
+	);
 }
 
 export default function App() {
-  return (
-    <AuthProvider>
-      <PacienteProvider>
-        <AppRoutes />
-      </PacienteProvider>
-    </AuthProvider>
-  );
+	return (
+		<AuthProvider>
+			<PacienteProvider>
+				<AppRoutes />
+			</PacienteProvider>
+		</AuthProvider>
+	);
 }
