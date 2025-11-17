@@ -1,0 +1,8 @@
+2025-11-17 11:53:50.186 [http-nio-8082-exec-1] INFO  c.c.c.service.AuthenticationService - Intento de registro para email: maria.lopez@cuido.com, Rol: PACIENTE
+2025-11-17 11:53:50.789 [http-nio-8082-exec-1] INFO  c.c.c.service.AuthenticationService - Usuario registrado exitosamente - ID: 1, Email: maria.lopez@cuido.com, Rol: PACIENTE
+2025-11-17 11:53:57.944 [http-nio-8082-exec-1] INFO  c.c.c.service.AuthenticationService - Email de bienvenida enviado a: maria.lopez@cuido.com
+2025-11-17 11:54:41.096 [http-nio-8082-exec-2] INFO  c.c.c.service.AuthenticationService - Intento de registro para email: ramikalinoski@gmail.com, Rol: CUIDADOR
+2025-11-17 11:54:41.254 [http-nio-8082-exec-2] INFO  c.c.c.service.AuthenticationService - Usuario registrado exitosamente - ID: 2, Email: ramikalinoski@gmail.com, Rol: CUIDADOR
+2025-11-17 11:54:48.930 [http-nio-8082-exec-2] INFO  c.c.c.service.AuthenticationService - Email de bienvenida enviado a: ramikalinoski@gmail.com
+2025-11-17 11:55:00.097 [http-nio-8082-exec-3] INFO  c.c.c.service.AuthenticationService - Intento de registro para email: ramikalinoski@gmail.com, Rol: PACIENTE
+2025-11-17 11:55:00.106 [http-nio-8082-exec-3] WARN  c.c.c.service.AuthenticationService - Intento de registro con email ya existente: ramikalinoski@gmail.com

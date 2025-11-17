@@ -7,7 +7,7 @@ import java.sql.Date;
 public class UsuarioUpdateRequestDTO {
     private String nombreCompleto;
     private String direccion;
-    private int telefono;
+    private String telefono;
     private Date fechaNacimiento;
     private String avatar;
 }

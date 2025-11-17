@@ -26,10 +26,10 @@ public class Paciente {
     @Column(name = "tipo_sanguineo")
     private String tipoSanguineo;
 
-    @Column(precision = 5, scale = 2)
+    @Column(precision = 5)
     private Double peso;
 
-    @Column(precision = 5, scale = 2)
+    @Column(precision = 5)
     private Double altura;
 
     @Column(columnDefinition = "TEXT")
