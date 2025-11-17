@@ -83,14 +83,18 @@ public class AuthenticationService {
             nuevoUsuario.setAvatar(request.getAvatar());
             nuevoUsuario.setEmail(request.getEmail());
 
+            // Validar que solo se permita CUIDADOR o PACIENTE (no ADMIN)
             if ("CUIDADOR".equals(request.getRol())) {
                 nuevoUsuario.setRol(Rol.CUIDADOR);
             } else if ("PACIENTE".equals(request.getRol())) {
                 nuevoUsuario.setRol(Rol.PACIENTE);
             } else {
-                logger.error("Intento de registro con rol inválido: {}", request.getRol());
-                throw new IllegalArgumentException("Rol inválido: " + request.getRol());
+                logger.warn("SECURITY: Intento de registro con rol no permitido: {}", request.getRol());
+                throw new IllegalArgumentException("Rol no válido. Debe ser CUIDADOR o PACIENTE.");
             }
+
+            // Validar complejidad de la contraseña
+            validarComplejidadPassword(request.getPassword());
 
             String encryptedPassword = passwordEncoder.encode(request.getPassword());
             nuevoUsuario.setPassword(encryptedPassword);
@@ -121,5 +125,32 @@ public class AuthenticationService {
             logger.error("Error inesperado al registrar usuario: {}", e.getMessage(), e);
             throw new RuntimeException("Error al registrar usuario: " + e.getMessage());
         }
+    }
+
+    /**
+     * Valida que la contraseña cumpla con los requisitos mínimos de seguridad
+     */
+    private void validarComplejidadPassword(String password) {
+        if (password == null || password.length() < 8) {
+            throw new IllegalArgumentException("La contraseña debe tener al menos 8 caracteres");
+        }
+
+        boolean tieneMinuscula = password.chars().anyMatch(Character::isLowerCase);
+        boolean tieneMayuscula = password.chars().anyMatch(Character::isUpperCase);
+        boolean tieneNumero = password.chars().anyMatch(Character::isDigit);
+
+        if (!tieneMinuscula) {
+            throw new IllegalArgumentException("La contraseña debe contener al menos una letra minúscula");
+        }
+
+        if (!tieneMayuscula) {
+            throw new IllegalArgumentException("La contraseña debe contener al menos una letra mayúscula");
+        }
+
+        if (!tieneNumero) {
+            throw new IllegalArgumentException("La contraseña debe contener al menos un número");
+        }
+
+        logger.debug("Contraseña válida según requisitos de complejidad");
     }
 }

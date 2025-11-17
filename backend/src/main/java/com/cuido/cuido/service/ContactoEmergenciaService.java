@@ -18,17 +18,23 @@ public class ContactoEmergenciaService {
 
     private final ContactoEmergenciaRepository contactoRepository;
     private final UsuarioRepository usuarioRepository;
+    private final AuthorizationService authorizationService;
 
     @Autowired
     public ContactoEmergenciaService(
             ContactoEmergenciaRepository contactoRepository,
-            UsuarioRepository usuarioRepository
+            UsuarioRepository usuarioRepository,
+            AuthorizationService authorizationService
     ) {
         this.contactoRepository = contactoRepository;
         this.usuarioRepository = usuarioRepository;
+        this.authorizationService = authorizationService;
     }
 
     public ContactoEmergenciaResponseDTO crear(Long pacienteId, ContactoEmergenciaRequest request) {
+        // VALIDAR ACCESO: Solo el paciente puede crear sus propios contactos de emergencia
+        authorizationService.validarEsPropietario(pacienteId);
+
         Usuario paciente = usuarioRepository.findById(pacienteId)
                 .orElseThrow(() -> new RuntimeException("Paciente no encontrado"));
 
@@ -48,6 +54,9 @@ public class ContactoEmergenciaService {
         ContactoEmergencia contacto = contactoRepository.findById(contactoId)
                 .orElseThrow(() -> new RuntimeException("Contacto no encontrado"));
 
+        // VALIDAR ACCESO: Solo el paciente propietario puede actualizar sus contactos
+        authorizationService.validarEsPropietario(contacto.getPaciente().getId());
+
         contacto.setNombre(request.getNombre());
         contacto.setTelefono(request.getTelefono());
         contacto.setRelacion(request.getRelacion());
@@ -63,10 +72,17 @@ public class ContactoEmergenciaService {
     public void eliminar(Long contactoId) {
         ContactoEmergencia contacto = contactoRepository.findById(contactoId)
                 .orElseThrow(() -> new RuntimeException("Contacto no encontrado"));
+
+        // VALIDAR ACCESO: Solo el paciente propietario puede eliminar sus contactos
+        authorizationService.validarEsPropietario(contacto.getPaciente().getId());
+
         contactoRepository.delete(contacto);
     }
 
     public List<ContactoEmergenciaResponseDTO> getByPaciente(Long pacienteId) {
+        // VALIDAR ACCESO: El paciente o sus cuidadores pueden ver los contactos
+        authorizationService.validarAccesoAPaciente(pacienteId);
+
         List<ContactoEmergencia> contactos = contactoRepository.findByPacienteId(pacienteId);
         return contactos.stream()
                 .map(this::mapToDTO)

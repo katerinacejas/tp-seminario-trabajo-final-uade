@@ -5,6 +5,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,18 +16,17 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.logging.Logger;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
+
+    private static final Logger logger = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
 
     @Autowired
     private JwtUtil jwtUtil;
 
     @Autowired
     private CustomUserDetailsService userDetailsService;
-
-    private static final Logger logger = Logger.getLogger(JwtAuthenticationFilter.class.getName());
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
@@ -39,39 +40,37 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String email = null;
 		String rolNombre = null;
 
-        logger.info("Authorization Header: " + authHeader);
+        // NO loguear el header completo ni el token - contiene credenciales sensibles
+        logger.debug("Procesando request con autenticación JWT");
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             jwt = authHeader.substring(7);
-            logger.info("Token recibido: " + jwt);
 
             try {
                 email = jwtUtil.extractUsername(jwt);
 				rolNombre = jwtUtil.extractRole(jwt);
 
-                logger.info("Email extraído del token: " + email);
-				logger.info("rol extraído del token: " + rolNombre);
+                logger.debug("Token JWT procesado para usuario: {}", email);
             } catch (Exception e) {
-                logger.warning("Error al extraer el email o el rol del token: " + e.getMessage());
+                logger.warn("Error al procesar token JWT: {}", e.getMessage());
             }
         }
 
         if (email != null && rolNombre != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             boolean tokenValido = jwtUtil.isTokenValid(jwt, email);
-            logger.info("¿Token válido? " + tokenValido);
 
             if (tokenValido) {
 				UserDetails userDetails = userDetailsService.loadUserByUsername(email);
-				logger.info("UserDetails cargado: " + userDetails.getUsername());
-                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+				logger.debug("Autenticación exitosa para usuario: {}", email);
+
+                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                    userDetails, null, userDetails.getAuthorities()
+                );
 
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
                 SecurityContextHolder.getContext().setAuthentication(authToken);
-                logger.info("Autenticación seteada en el contexto de seguridad.");
-                logger.info("Authorities asignadas: " + authToken.getAuthorities());
             } else {
-                logger.warning("Token inválido, no se setea autenticación.");
+                logger.warn("Token JWT inválido para usuario: {}", email);
             }
         }
 

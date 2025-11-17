@@ -26,11 +26,15 @@ public class RecordatorioService {
     private final RecordatorioInstanciaRepository recordatorioInstanciaRepository;
     private final MedicamentoRepository medicamentoRepository;
     private final CitaMedicaRepository citaMedicaRepository;
+    private final AuthorizationService authorizationService;
 
     /**
      * Obtiene todos los recordatorios de un paciente
      */
     public List<RecordatorioResponseDTO> obtenerRecordatoriosPorPaciente(Long pacienteId) {
+        // VALIDAR ACCESO: Solo el paciente o sus cuidadores autorizados
+        authorizationService.validarAccesoAPaciente(pacienteId);
+
         List<RecordatorioInstancia> recordatorios = recordatorioInstanciaRepository
             .findByPacienteIdOrderByFechaHoraAsc(pacienteId);
 
@@ -43,6 +47,9 @@ public class RecordatorioService {
      * Obtiene los recordatorios de un paciente para un día específico
      */
     public List<RecordatorioResponseDTO> obtenerRecordatoriosDelDia(Long pacienteId, LocalDate fecha) {
+        // VALIDAR ACCESO: Solo el paciente o sus cuidadores autorizados
+        authorizationService.validarAccesoAPaciente(pacienteId);
+
         LocalDateTime inicioDelDia = fecha.atStartOfDay();
         LocalDateTime finDelDia = fecha.atTime(LocalTime.MAX);
 
@@ -62,6 +69,9 @@ public class RecordatorioService {
         LocalDateTime fechaInicio,
         LocalDateTime fechaFin
     ) {
+        // VALIDAR ACCESO: Solo el paciente o sus cuidadores autorizados
+        authorizationService.validarAccesoAPaciente(pacienteId);
+
         List<RecordatorioInstancia> recordatorios = recordatorioInstanciaRepository
             .findByPacienteIdAndFechaHoraBetweenOrderByFechaHoraAsc(pacienteId, fechaInicio, fechaFin);
 
@@ -74,6 +84,9 @@ public class RecordatorioService {
      * Obtiene los recordatorios pendientes de un paciente
      */
     public List<RecordatorioResponseDTO> obtenerRecordatoriosPendientes(Long pacienteId) {
+        // VALIDAR ACCESO: Solo el paciente o sus cuidadores autorizados
+        authorizationService.validarAccesoAPaciente(pacienteId);
+
         List<RecordatorioInstancia> recordatorios = recordatorioInstanciaRepository
             .findByPacienteIdAndEstadoOrderByFechaHoraAsc(
                 pacienteId,
@@ -92,6 +105,9 @@ public class RecordatorioService {
     public RecordatorioResponseDTO actualizarEstadoRecordatorio(Long recordatorioId, String nuevoEstado) {
         RecordatorioInstancia recordatorio = recordatorioInstanciaRepository.findById(recordatorioId)
             .orElseThrow(() -> new ResourceNotFoundException("Recordatorio no encontrado"));
+
+        // VALIDAR ACCESO: Solo el paciente o sus cuidadores autorizados
+        authorizationService.validarAccesoAPaciente(recordatorio.getPaciente().getId());
 
         try {
             RecordatorioInstancia.EstadoRecordatorio estado =
@@ -112,6 +128,9 @@ public class RecordatorioService {
     public RecordatorioResponseDTO ciclarEstadoRecordatorio(Long recordatorioId) {
         RecordatorioInstancia recordatorio = recordatorioInstanciaRepository.findById(recordatorioId)
             .orElseThrow(() -> new ResourceNotFoundException("Recordatorio no encontrado"));
+
+        // VALIDAR ACCESO: Solo el paciente o sus cuidadores autorizados
+        authorizationService.validarAccesoAPaciente(recordatorio.getPaciente().getId());
 
         // Ciclo: PENDIENTE -> COMPLETADO -> CANCELADO -> PENDIENTE
         RecordatorioInstancia.EstadoRecordatorio estadoActual = recordatorio.getEstado();
@@ -144,6 +163,9 @@ public class RecordatorioService {
     public void eliminarRecordatorioInstancia(Long recordatorioId) {
         RecordatorioInstancia recordatorio = recordatorioInstanciaRepository.findById(recordatorioId)
             .orElseThrow(() -> new ResourceNotFoundException("Recordatorio no encontrado"));
+
+        // VALIDAR ACCESO: Solo cuidadores autorizados pueden eliminar recordatorios
+        authorizationService.validarAccesoAPaciente(recordatorio.getPaciente().getId());
 
         recordatorioInstanciaRepository.delete(recordatorio);
     }

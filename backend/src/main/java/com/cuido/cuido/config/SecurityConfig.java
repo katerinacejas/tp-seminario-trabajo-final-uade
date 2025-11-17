@@ -86,7 +86,7 @@ public class SecurityConfig {
 				.requestMatchers(HttpMethod.GET, "/api/cuidadores-pacientes/**").hasAnyRole("PACIENTE", "CUIDADOR")
 
 				// Aceptar invitación - solo cuidadores
-				.requestMatchers(HttpMethod.POST, "/api/cuidadores-pacientes/*/aceptar").hasRole("CUIDADOR")
+				.requestMatchers(HttpMethod.POST, "/api/cuidadores-pacientes/{relacionId}/aceptar").hasRole("CUIDADOR")
 
 				// Perfil paciente - solo pacientes pueden actualizar su propio perfil
 				.requestMatchers(HttpMethod.PUT, "/api/pacientes/perfil/**").hasRole("PACIENTE")

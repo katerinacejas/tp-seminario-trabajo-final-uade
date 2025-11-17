@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -45,15 +46,22 @@ public class PasswordResetService {
 
     /**
      * Genera un código OTP de 6 dígitos y lo envía por email
+     * IMPORTANTE: Siempre retorna exitoso para prevenir enumeración de usuarios
      */
     public void solicitarRecuperacion(String email) {
         logger.info("Solicitud de recuperación de contraseña para email: {}", email);
 
-        Usuario usuario = usuarioRepository.findByEmail(email)
-                .orElseThrow(() -> {
-                    logger.warn("Intento de recuperación de contraseña para email no registrado: {}", email);
-                    return new UsuarioNotFoundException("No existe un usuario con ese email");
-                });
+        // Buscar usuario sin lanzar excepción si no existe (prevenir enumeración)
+        Optional<Usuario> usuarioOpt = usuarioRepository.findByEmail(email);
+
+        if (usuarioOpt.isEmpty()) {
+            // NO lanzar excepción - prevenir enumeración de usuarios
+            logger.warn("SECURITY: Intento de recuperación para email no registrado (respuesta genérica enviada): {}", email);
+            // Retornar sin hacer nada, el controller ya envía respuesta genérica
+            return;
+        }
+
+        Usuario usuario = usuarioOpt.get();
 
         // Invalidar tokens anteriores del mismo usuario
         List<PasswordResetToken> tokensAnteriores = tokenRepository.findByUsuarioAndUsadoFalse(usuario);
@@ -82,7 +90,7 @@ public class PasswordResetService {
             logger.info("Email de recuperación enviado exitosamente a: {}", email);
         } catch (Exception e) {
             logger.error("Error al enviar email de recuperación a {}: {}", email, e.getMessage());
-            throw new RuntimeException("Error al enviar el código de recuperación por email");
+            // NO lanzar excepción hacia el controller - mantener respuesta genérica
         }
     }
 

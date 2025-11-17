@@ -10,7 +10,8 @@
       "Bash(dir:*)",
       "Bash(find:*)",
       "Bash(git checkout:*)",
-      "Bash(notificationService.js)"
+      "Bash(notificationService.js)",
+      "Bash(cat:*)"
     ],
     "deny": [],
     "ask": []

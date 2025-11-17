@@ -22,9 +22,13 @@ public class BitacoraService {
 
     private final BitacoraRepository bitacoraRepository;
     private final UsuarioRepository usuarioRepository;
+    private final AuthorizationService authorizationService;
 
     @Transactional
     public BitacoraResponseDTO crearBitacora(BitacoraRequestDTO request, Long cuidadorId) {
+        // VALIDAR ACCESO: Solo cuidadores autorizados pueden crear bitácoras
+        authorizationService.validarAccesoAPaciente(request.getPacienteId());
+
         Usuario paciente = usuarioRepository.findById(request.getPacienteId())
             .orElseThrow(() -> new ResourceNotFoundException("Paciente no encontrado"));
 
@@ -72,6 +76,9 @@ public class BitacoraService {
     }
 
     public List<BitacoraResponseDTO> obtenerBitacorasPorPaciente(Long pacienteId) {
+        // VALIDAR ACCESO: Solo el paciente o sus cuidadores autorizados
+        authorizationService.validarAccesoAPaciente(pacienteId);
+
         List<Bitacora> bitacoras = bitacoraRepository.findByPacienteIdOrderByFechaDescCreatedAtDesc(pacienteId);
         return bitacoras.stream()
             .map(this::mapToResponseDTO)
@@ -83,6 +90,9 @@ public class BitacoraService {
         LocalDate fechaInicio,
         LocalDate fechaFin
     ) {
+        // VALIDAR ACCESO: Solo el paciente o sus cuidadores autorizados
+        authorizationService.validarAccesoAPaciente(pacienteId);
+
         List<Bitacora> bitacoras = bitacoraRepository
             .findByPacienteIdAndFechaBetweenOrderByFechaDescCreatedAtDesc(pacienteId, fechaInicio, fechaFin);
         return bitacoras.stream()
@@ -100,6 +110,10 @@ public class BitacoraService {
     public BitacoraResponseDTO obtenerBitacoraPorId(Long id) {
         Bitacora bitacora = bitacoraRepository.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException("Bitácora no encontrada"));
+
+        // VALIDAR ACCESO: Solo el paciente o sus cuidadores autorizados
+        authorizationService.validarAccesoAPaciente(bitacora.getPaciente().getId());
+
         return mapToResponseDTO(bitacora);
     }
 
@@ -107,6 +121,9 @@ public class BitacoraService {
     public BitacoraResponseDTO actualizarBitacora(Long id, BitacoraRequestDTO request, Long cuidadorId) {
         Bitacora bitacora = bitacoraRepository.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException("Bitácora no encontrada"));
+
+        // VALIDAR ACCESO: Solo cuidadores autorizados pueden actualizar
+        authorizationService.validarAccesoAPaciente(bitacora.getPaciente().getId());
 
         // Actualizar campos
         bitacora.setFecha(request.getFecha());
@@ -129,6 +146,9 @@ public class BitacoraService {
     public void eliminarBitacora(Long id) {
         Bitacora bitacora = bitacoraRepository.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException("Bitácora no encontrada"));
+
+        // VALIDAR ACCESO: Solo cuidadores autorizados pueden eliminar
+        authorizationService.validarAccesoAPaciente(bitacora.getPaciente().getId());
 
         bitacoraRepository.delete(bitacora);
     }
