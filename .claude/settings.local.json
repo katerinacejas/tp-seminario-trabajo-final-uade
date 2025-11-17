@@ -15,7 +15,8 @@
       "Bash(services__init__.py)",
       "Bash(utils__init__.py)",
       "Bash(routers__init__.py)",
-      "Bash(bot/__init__.py)"
+      "Bash(bot/__init__.py)",
+      "Bash(mysql:*)"
     ],
     "deny": [],
     "ask": []
