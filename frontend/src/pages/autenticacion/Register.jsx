@@ -32,8 +32,24 @@ export default function Register() {
 			return;
 		}
 
-		if (form.password.length < 6) {
-			setError("La contraseña debe tener al menos 6 caracteres");
+		// Validación de complejidad de contraseña según backend
+		if (form.password.length < 8) {
+			setError("La contraseña debe tener al menos 8 caracteres");
+			return;
+		}
+
+		if (!/[a-z]/.test(form.password)) {
+			setError("La contraseña debe contener al menos una letra minúscula");
+			return;
+		}
+
+		if (!/[A-Z]/.test(form.password)) {
+			setError("La contraseña debe contener al menos una letra mayúscula");
+			return;
+		}
+
+		if (!/[0-9]/.test(form.password)) {
+			setError("La contraseña debe contener al menos un número");
 			return;
 		}
 
@@ -276,10 +292,10 @@ export default function Register() {
 								type={showPassword ? "text" : "password"}
 								value={form.password}
 								onChange={onChange}
-								placeholder="Mínimo 6 caracteres"
+								placeholder="Mínimo 8 caracteres"
 								required
 								disabled={loading}
-								minLength={6}
+								minLength={8}
 								style={{
 									paddingLeft: "44px",
 									paddingRight: "44px",
@@ -309,7 +325,7 @@ export default function Register() {
 							</button>
 						</div>
 						<small style={{ color: "var(--muted)", fontSize: "12px", display: "block", marginTop: "4px" }}>
-							Mínimo 6 caracteres
+							Mínimo 8 caracteres (incluir mayúscula, minúscula y número)
 						</small>
 					</div>
 
@@ -335,7 +351,7 @@ export default function Register() {
 								placeholder="Confirma tu contraseña"
 								required
 								disabled={loading}
-								minLength={6}
+								minLength={8}
 								style={{
 									paddingLeft: "44px",
 									paddingRight: "44px",
