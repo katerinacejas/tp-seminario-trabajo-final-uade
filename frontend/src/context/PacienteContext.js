@@ -39,6 +39,13 @@ export function PacienteProvider({ children }) {
 		try {
 			// Obtener rol del usuario (normalizar a minúsculas por si acaso)
 			const role = localStorage.getItem('cuido.role')?.toLowerCase();
+
+			// Si no hay rol, no hacer nada (usuario no logueado)
+			if (!role) {
+				setPacientes([]);
+				return;
+			}
+
 			let data = [];
 
 			if (role === 'cuidador') {
@@ -48,10 +55,8 @@ export function PacienteProvider({ children }) {
 			} else if (role === 'paciente') {
 				// Para pacientes: no cargar lista (solo tienen su propio perfil)
 				data = [];
-			} else {
-				// Para admin: obtener todos
-				data = await pacientesAPI.getAll();
 			}
+			// Removido el caso default para admin
 
 			setPacientes(data);
 
