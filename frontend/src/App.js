@@ -21,6 +21,7 @@ import PreguntasFrecuentes from "./pages/cuidador/PreguntasFrecuentes";
 import Chatbot from "./pages/cuidador/Chatbot";
 import Pacientes from "./pages/cuidador/Pacientes";
 import MisCuidadores from "./pages/paciente/MisCuidadores";
+import TopBar from "./components/TopBar";
 import FooterNav from "./components/FooterNav";
 
 function RequireRole({ allow, children }) {
@@ -35,6 +36,7 @@ function RequireRole({ allow, children }) {
 function AppShell({ children }) {
   return (
     <div className="app-shell">
+      <TopBar />
       <main className="container">{children}</main>
       <FooterNav />
     </div>

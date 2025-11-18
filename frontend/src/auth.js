@@ -7,7 +7,7 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     const saved = localStorage.getItem("cuido.role");
-    if (saved) setRole(saved);
+    if (saved) setRole(saved.toLowerCase());
   }, []);
 
   const login = (r) => {
