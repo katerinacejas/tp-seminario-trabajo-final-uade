@@ -42,13 +42,22 @@ export default function Pacientes() {
 	}, []);
 
 	useEffect(() => {
+		console.log('🔍 [Pacientes.jsx] useEffect - pacienteSeleccionado:', pacienteSeleccionado);
+		console.log('🔍 [Pacientes.jsx] useEffect - pacientes del contexto:', pacientes);
+
 		// Solo cargar datos si hay un paciente seleccionado Y está en la lista de pacientes vinculados
 		if (pacienteSeleccionado && pacientes.some(p => p.id === pacienteSeleccionado.id)) {
+			console.log('✅ [Pacientes.jsx] Paciente válido, cargando datos...');
 			cargarDatosPaciente();
 		} else if (pacienteSeleccionado && pacientes.length === 0) {
+			console.log('⚠️ [Pacientes.jsx] Paciente seleccionado pero lista vacía');
 			// Si hay un paciente seleccionado pero no está en la lista, limpiar la selección
 			setPacienteDetalle(null);
 			setContactosEmergencia([]);
+		} else if (pacienteSeleccionado && !pacientes.some(p => p.id === pacienteSeleccionado.id)) {
+			console.log('❌ [Pacientes.jsx] Paciente seleccionado NO está en la lista de vinculados');
+		} else {
+			console.log('ℹ️ [Pacientes.jsx] No hay paciente seleccionado');
 		}
 	}, [pacienteSeleccionado, pacientes]);
 

@@ -244,7 +244,10 @@ export default function Recordatorios() {
 					observaciones: formMedicamento.observaciones.trim() || null,
 					horarios: formMedicamento.horarios.map(h => ({
 						hora: h.hora,
-						diasSemana: h.diasSemana
+						// Convertir array a string JSON, o null si es null/vacío
+						diasSemana: h.diasSemana && h.diasSemana.length > 0
+							? JSON.stringify(h.diasSemana)
+							: null
 					}))
 				};
 

@@ -36,16 +36,6 @@ export default function HomeCuidador() {
 		cargarDatos();
 	}, [pacienteSeleccionado]);
 
-	// Limpiar pacienteId del localStorage si no es válido
-	useEffect(() => {
-		const savedPacienteId = localStorage.getItem('cuido.pacienteId');
-		if (savedPacienteId && pacienteSeleccionado?.id &&
-		    savedPacienteId !== pacienteSeleccionado.id.toString()) {
-			// El paciente guardado no coincide con el seleccionado, limpiarlo
-			localStorage.removeItem('cuido.pacienteId');
-		}
-	}, [pacienteSeleccionado]);
-
 	const cargarDatos = async () => {
 		try {
 			setLoading(true);
@@ -271,7 +261,10 @@ export default function HomeCuidador() {
 				<div className="home-welcome-card">
 					<h1 className="home-welcome-titulo">¡Hola, {cuidadorNombre}!</h1>
 					<p className="home-welcome-texto">
-						Por favor, selecciona un paciente en el menú superior para ver las actividades del día.
+						Aún no hay pacientes vinculados a tu cuenta.
+					</p>
+					<p className="home-welcome-texto" style={{ marginTop: '12px', fontSize: '14px' }}>
+						Puedes aceptar invitaciones desde la sección "Pacientes" o esperar a que un paciente te invite como cuidador.
 					</p>
 				</div>
 			</div>

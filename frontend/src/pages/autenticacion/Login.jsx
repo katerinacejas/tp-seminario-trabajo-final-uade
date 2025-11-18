@@ -28,6 +28,11 @@ export default function Login() {
 			// Actualizar contexto de auth (esto normaliza y guarda el rol)
 			login(response.rol);
 
+			// Limpiar pacienteId si es cuidador (se recargará desde el backend)
+			if (response.rol === "CUIDADOR") {
+				localStorage.removeItem("cuido.pacienteId");
+			}
+
 			// Redirigir según rol (comparar con mayúsculas como viene del backend)
 			if (response.rol === "CUIDADOR") {
 				nav("/", { replace: true });
