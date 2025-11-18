@@ -1,0 +1,511 @@
+/* Mis Cuidadores - Mobile First */
+
+.mis-cuidadores-page {
+  padding: 16px;
+  max-width: 600px;
+  margin: 0 auto;
+  min-height: 100vh;
+  background: #f8fafc;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 50vh;
+  font-size: 16px;
+  color: #64748b;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.page-header h1 {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0;
+  color: #1e293b;
+}
+
+.info-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #e0e7ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  color: #3b82f6;
+  cursor: pointer;
+  border: none;
+  transition: background 0.2s;
+}
+
+.info-icon:hover {
+  background: #c7d2fe;
+}
+
+.btn-invitar {
+  width: 100%;
+  padding: 14px;
+  background: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 24px;
+  transition: background 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-invitar:hover {
+  background: #2563eb;
+}
+
+/* ========== SECCION INVITACIONES PENDIENTES ========== */
+
+.seccion-invitaciones {
+  margin-bottom: 32px;
+  background: #fef3c7;
+  padding: 16px;
+  border-radius: 12px;
+}
+
+.seccion-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.seccion-titulo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.seccion-titulo h2 {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+  color: #1e293b;
+}
+
+.seccion-titulo svg {
+  color: #f59e0b;
+}
+
+.badge-count {
+  background: #f59e0b;
+  color: white;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 999px;
+  min-width: 24px;
+  text-align: center;
+}
+
+.invitaciones-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.invitacion-card {
+  background: white;
+  border-left: 4px solid #f59e0b;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+}
+
+.invitacion-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.avatar-invitacion {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 700;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.invitacion-info {
+  flex: 1;
+}
+
+.invitacion-info h3 {
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0 0 4px 0;
+  color: #1e293b;
+}
+
+.invitacion-meta {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  color: #64748b;
+}
+
+.invitacion-meta svg {
+  color: #94a3b8;
+}
+
+.invitacion-detalle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #64748b;
+  margin-bottom: 12px;
+  padding-left: 60px;
+}
+
+.invitacion-detalle svg {
+  color: #94a3b8;
+}
+
+.badge-pendiente {
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  display: inline-block;
+  margin-bottom: 8px;
+}
+
+.invitacion-nota {
+  font-size: 13px;
+  color: #78716c;
+  font-style: italic;
+  line-height: 1.4;
+}
+
+/* ========== SECCION CUIDADORES ACTIVOS ========== */
+
+.seccion-cuidadores {
+  margin-bottom: 24px;
+}
+
+.seccion-cuidadores .seccion-titulo svg {
+  color: #3b82f6;
+}
+
+.cuidadores-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cuidador-card {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+  transition: box-shadow 0.2s;
+}
+
+.cuidador-card:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+}
+
+.cuidador-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.avatar-cuidador {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 700;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.cuidador-info {
+  flex: 1;
+}
+
+.cuidador-info h3 {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0 0 6px 0;
+  color: #1e293b;
+}
+
+.badge-activo {
+  background: #d1fae5;
+  color: #065f46;
+  border-radius: 999px;
+  padding: 4px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.cuidador-detalles {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 16px;
+  padding: 12px;
+  background: #f8fafc;
+  border-radius: 8px;
+}
+
+.detalle-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: #475569;
+}
+
+.detalle-item svg {
+  color: #64748b;
+  flex-shrink: 0;
+}
+
+.detalle-item.fecha-vinculacion {
+  font-size: 13px;
+  color: #64748b;
+}
+
+.btn-desvincular {
+  width: 100%;
+  padding: 12px;
+  background: white;
+  color: #dc2626;
+  border: 1px solid #dc2626;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-desvincular:hover:not(:disabled) {
+  background: #fee2e2;
+}
+
+.btn-desvincular:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ========== ESTADO VACIO ========== */
+
+.estado-vacio {
+  text-align: center;
+  padding: 48px 20px;
+  background: white;
+  border-radius: 12px;
+  border: 2px dashed #e2e8f0;
+}
+
+.estado-vacio svg {
+  color: #cbd5e1;
+  margin-bottom: 16px;
+}
+
+.estado-vacio h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #475569;
+  margin: 0 0 8px 0;
+}
+
+.estado-vacio p {
+  font-size: 14px;
+  color: #94a3b8;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* ========== MODAL ========== */
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  z-index: 1000;
+}
+
+.modal {
+  background: white;
+  border-radius: 16px;
+  padding: 32px 24px;
+  max-width: 400px;
+  width: 100%;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+.modal-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: #f0f9ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  color: #3b82f6;
+  margin: 0 auto 20px;
+}
+
+.modal h2 {
+  font-size: 20px;
+  font-weight: 700;
+  text-align: center;
+  margin: 0 0 12px 0;
+  color: #1e293b;
+}
+
+.modal-description {
+  font-size: 14px;
+  text-align: center;
+  color: #64748b;
+  margin: 0 0 24px 0;
+  line-height: 1.6;
+}
+
+.form-group {
+  margin-bottom: 24px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  color: #1e293b;
+  margin-bottom: 8px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 15px;
+  transition: border 0.2s;
+  box-sizing: border-box;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #3b82f6;
+}
+
+.form-group input::placeholder {
+  color: #94a3b8;
+}
+
+.form-group input:disabled {
+  background: #f1f5f9;
+  cursor: not-allowed;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.btn-modal {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-modal.primary {
+  background: #3b82f6;
+  color: white;
+}
+
+.btn-modal.primary:hover:not(:disabled) {
+  background: #2563eb;
+}
+
+.btn-modal.primary:disabled {
+  background: #94a3b8;
+  cursor: not-allowed;
+}
+
+.btn-modal.secondary {
+  background: #f1f5f9;
+  color: #64748b;
+}
+
+.btn-modal.secondary:hover:not(:disabled) {
+  background: #e2e8f0;
+}
+
+.btn-modal.secondary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ========== RESPONSIVE ========== */
+
+@media (min-width: 768px) {
+  .mis-cuidadores-page {
+    padding: 24px;
+  }
+
+  .page-header h1 {
+    font-size: 28px;
+  }
+
+  .seccion-titulo h2 {
+    font-size: 20px;
+  }
+
+  .invitacion-detalle {
+    padding-left: 0;
+  }
+}

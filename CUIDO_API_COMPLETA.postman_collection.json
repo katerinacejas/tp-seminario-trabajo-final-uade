@@ -1,0 +1,1796 @@
+{
+	"info": {
+		"name": "Cuido API - Completa",
+		"description": "Colección completa de la API de Cuido con ejemplos consistentes.\n\nEscenario de prueba:\n- Paciente: María López (maria.lopez@cuido.com)\n- Cuidador: Juan Pérez (juan.perez@cuido.com)\n- Relación establecida entre ambos\n\nTodos los endpoints incluyen ejemplos completos y tokens de autenticación.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://192.168.0.164:8082",
+			"type": "string"
+		},
+		{
+			"key": "tokenPaciente",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.paciente.token",
+			"type": "string"
+		},
+		{
+			"key": "tokenCuidador",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.cuidador.token",
+			"type": "string"
+		},
+		{
+			"key": "pacienteId",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"key": "cuidadorId",
+			"value": "2",
+			"type": "string"
+		},
+		{
+			"key": "usuarioIdPaciente",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"key": "usuarioIdCuidador",
+			"value": "2",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "🔐 Autenticación",
+			"item": [
+				{
+					"name": "Registrar Paciente - María López",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nombreCompleto\": \"María López\",\n  \"direccion\": \"Av. Libertador 1234, CABA\",\n  \"telefono\": \"1145678901\",\n  \"fechaNacimiento\": \"1955-03-15\",\n  \"avatar\": \"https://i.pravatar.cc/150?img=45\",\n  \"email\": \"maria.lopez@cuido.com\",\n  \"password\": \"Maria123!\",\n  \"rol\": \"PACIENTE\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/register",
+							"host": ["{{baseUrl}}"],
+							"path": ["auth", "register"]
+						}
+					}
+				},
+				{
+					"name": "Registrar Cuidador - Juan Pérez",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nombreCompleto\": \"Juan Pérez\",\n  \"direccion\": \"Calle Corrientes 5678, CABA\",\n  \"telefono\": \"1156789012\",\n  \"fechaNacimiento\": \"1985-07-20\",\n  \"avatar\": \"https://i.pravatar.cc/150?img=12\",\n  \"email\": \"juan.perez@cuido.com\",\n  \"password\": \"Juan123!\",\n  \"rol\": \"CUIDADOR\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/register",
+							"host": ["{{baseUrl}}"],
+							"path": ["auth", "register"]
+						}
+					}
+				},
+				{
+					"name": "Login Paciente - María",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"pm.collectionVariables.set(\"tokenPaciente\", jsonData.token);"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"maria.lopez@cuido.com\",\n  \"password\": \"Maria123!\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/login",
+							"host": ["{{baseUrl}}"],
+							"path": ["auth", "login"]
+						}
+					}
+				},
+				{
+					"name": "Login Cuidador - Juan",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"pm.collectionVariables.set(\"tokenCuidador\", jsonData.token);"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"juan.perez@cuido.com\",\n  \"password\": \"Juan123!\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/login",
+							"host": ["{{baseUrl}}"],
+							"path": ["auth", "login"]
+						}
+					}
+				},
+				{
+					"name": "Olvidé mi Contraseña",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"maria.lopez@cuido.com\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/forgot-password",
+							"host": ["{{baseUrl}}"],
+							"path": ["auth", "forgot-password"]
+						}
+					}
+				},
+				{
+					"name": "Resetear Contraseña",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"codigoOtp\": \"123456\",\n  \"nuevaPassword\": \"NuevaPassword123!\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/reset-password",
+							"host": ["{{baseUrl}}"],
+							"path": ["auth", "reset-password"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "👤 Perfil Paciente",
+			"item": [
+				{
+					"name": "Ver Mi Perfil (Paciente)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenPaciente}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/usuarios/me",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "usuarios", "me"]
+						}
+					}
+				},
+				{
+					"name": "Ver Datos del Paciente",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenPaciente}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/pacientes/{{pacienteId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "pacientes", "{{pacienteId}}"]
+						}
+					}
+				},
+				{
+					"name": "Ver Paciente por Usuario ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenPaciente}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/pacientes/usuario/{{usuarioIdPaciente}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "pacientes", "usuario", "{{usuarioIdPaciente}}"]
+						}
+					}
+				},
+				{
+					"name": "Actualizar Perfil Médico",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenPaciente}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nombreCompleto\": \"María López\",\n  \"email\": \"maria.lopez@cuido.com\",\n  \"tipoSanguineo\": \"A+\",\n  \"peso\": 65.5,\n  \"altura\": 1.62,\n  \"alergias\": \"Penicilina, Polen de gramíneas\",\n  \"condicionesMedicas\": [\n    \"Diabetes Tipo 2\",\n    \"Hipertensión arterial controlada\"\n  ],\n  \"notasImportantes\": [\n    \"Tomar medicación en ayunas\",\n    \"Medir glucosa 2 veces al día\",\n    \"Evitar alimentos con alto índice glucémico\"\n  ],\n  \"obraSocial\": \"OSDE 310\",\n  \"numeroAfiliado\": \"1234567890\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/pacientes/perfil/{{usuarioIdPaciente}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "pacientes", "perfil", "{{usuarioIdPaciente}}"]
+						}
+					}
+				},
+				{
+					"name": "Ver Mis Cuidadores",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenPaciente}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/cuidadores-pacientes/paciente/{{pacienteId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "cuidadores-pacientes", "paciente", "{{pacienteId}}"]
+						}
+					}
+				},
+				{
+					"name": "Invitar Cuidador",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenPaciente}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"emailCuidador\": \"juan.perez@cuido.com\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/cuidadores-pacientes/invitar?pacienteId={{pacienteId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "cuidadores-pacientes", "invitar"],
+							"query": [
+								{
+									"key": "pacienteId",
+									"value": "{{pacienteId}}"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Desvincular Cuidador",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenPaciente}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/cuidadores-pacientes/desvincular?pacienteId={{pacienteId}}&cuidadorId={{cuidadorId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "cuidadores-pacientes", "desvincular"],
+							"query": [
+								{
+									"key": "pacienteId",
+									"value": "{{pacienteId}}"
+								},
+								{
+									"key": "cuidadorId",
+									"value": "{{cuidadorId}}"
+								}
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "🏥 Contactos de Emergencia",
+			"item": [
+				{
+					"name": "Ver Contactos de Emergencia",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenPaciente}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/contactos-emergencia/paciente/{{pacienteId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "contactos-emergencia", "paciente", "{{pacienteId}}"]
+						}
+					}
+				},
+				{
+					"name": "Crear Contacto de Emergencia",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenPaciente}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nombre\": \"Carlos López\",\n  \"telefono\": \"1134567890\",\n  \"relacion\": \"Hijo\",\n  \"email\": \"carlos.lopez@email.com\",\n  \"esContactoPrincipal\": true\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/contactos-emergencia?pacienteId={{pacienteId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "contactos-emergencia"],
+							"query": [
+								{
+									"key": "pacienteId",
+									"value": "{{pacienteId}}"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Actualizar Contacto de Emergencia",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenPaciente}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nombre\": \"Carlos López (Actualizado)\",\n  \"telefono\": \"1134567890\",\n  \"relacion\": \"Hijo\",\n  \"email\": \"carlos.lopez.nuevo@email.com\",\n  \"esContactoPrincipal\": true\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/contactos-emergencia/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "contactos-emergencia", "1"]
+						}
+					}
+				},
+				{
+					"name": "Eliminar Contacto de Emergencia",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenPaciente}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/contactos-emergencia/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "contactos-emergencia", "1"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "👨‍⚕️ Perfil Cuidador",
+			"item": [
+				{
+					"name": "Ver Mi Perfil (Cuidador)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenCuidador}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/usuarios/me",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "usuarios", "me"]
+						}
+					}
+				},
+				{
+					"name": "Aceptar Invitación de Paciente",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenCuidador}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/cuidadores-pacientes/1/aceptar",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "cuidadores-pacientes", "1", "aceptar"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "📝 Bitácora (Cuidador)",
+			"item": [
+				{
+					"name": "Ver Todas las Bitácoras del Paciente",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenCuidador}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/bitacoras/paciente/{{pacienteId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "bitacoras", "paciente", "{{pacienteId}}"]
+						}
+					}
+				},
+				{
+					"name": "Ver Bitácoras por Rango de Fechas",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenCuidador}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/bitacoras/paciente/{{pacienteId}}/rango?inicio=2025-11-01&fin=2025-11-17",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "bitacoras", "paciente", "{{pacienteId}}", "rango"],
+							"query": [
+								{
+									"key": "inicio",
+									"value": "2025-11-01"
+								},
+								{
+									"key": "fin",
+									"value": "2025-11-17"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Ver Mis Bitácoras Creadas",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenCuidador}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/bitacoras/mis-bitacoras",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "bitacoras", "mis-bitacoras"]
+						}
+					}
+				},
+				{
+					"name": "Crear Bitácora",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenCuidador}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"pacienteId\": {{pacienteId}},\n  \"fecha\": \"2025-11-17\",\n  \"descripcion\": \"María realizó caminata matutina de 30 minutos por el parque. Mostró buen ánimo y energía durante toda la actividad.\",\n  \"sintomas\": \"Reporta leve dolor en rodilla derecha al finalizar. Sin otros síntomas.\",\n  \"observaciones\": \"Se recomienda aplicar compresas frías en la rodilla. Buen estado general, medicación tomada según horario.\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/bitacoras",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "bitacoras"]
+						}
+					}
+				},
+				{
+					"name": "Ver Bitácora por ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenCuidador}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/bitacoras/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "bitacoras", "1"]
+						}
+					}
+				},
+				{
+					"name": "Actualizar Bitácora",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenCuidador}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"pacienteId\": {{pacienteId}},\n  \"fecha\": \"2025-11-17\",\n  \"descripcion\": \"Actualización: María completó 45 minutos de caminata. Excelente progreso.\",\n  \"sintomas\": \"Sin molestias en rodilla después del descanso.\",\n  \"observaciones\": \"Muy buen estado. Continuar con ejercicios.\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/bitacoras/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "bitacoras", "1"]
+						}
+					}
+				},
+				{
+					"name": "Eliminar Bitácora",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenCuidador}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/bitacoras/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "bitacoras", "1"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "💊 Medicamentos (Cuidador)",
+			"item": [
+				{
+					"name": "Ver Medicamentos del Paciente",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenCuidador}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/recordatorios/medicamentos/paciente/{{pacienteId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "recordatorios", "medicamentos", "paciente", "{{pacienteId}}"]
+						}
+					}
+				},
+				{
+					"name": "Ver Solo Medicamentos Activos",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenCuidador}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/recordatorios/medicamentos/paciente/{{pacienteId}}?soloActivos=true",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "recordatorios", "medicamentos", "paciente", "{{pacienteId}}"],
+							"query": [
+								{
+									"key": "soloActivos",
+									"value": "true"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Crear Medicamento - Metformina",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenCuidador}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"pacienteId\": {{pacienteId}},\n  \"nombre\": \"Metformina 850mg\",\n  \"dosis\": \"850mg\",\n  \"frecuencia\": \"Cada 12 horas\",\n  \"viaAdministracion\": \"Oral\",\n  \"fechaInicio\": \"2025-11-17\",\n  \"fechaFin\": \"2025-12-17\",\n  \"observaciones\": \"Tomar con alimentos. Para control de diabetes.\",\n  \"horarios\": [\n    {\n      \"hora\": \"08:00:00\",\n      \"diasSemana\": null\n    },\n    {\n      \"hora\": \"20:00:00\",\n      \"diasSemana\": null\n    }\n  ]\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/recordatorios/medicamentos",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "recordatorios", "medicamentos"]
+						}
+					}
+				},
+				{
+					"name": "Crear Medicamento - Enalapril",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenCuidador}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"pacienteId\": {{pacienteId}},\n  \"nombre\": \"Enalapril 10mg\",\n  \"dosis\": \"10mg\",\n  \"frecuencia\": \"1 vez al día\",\n  \"viaAdministracion\": \"Oral\",\n  \"fechaInicio\": \"2025-11-17\",\n  \"fechaFin\": \"2026-11-17\",\n  \"observaciones\": \"Para control de presión arterial. En ayunas.\",\n  \"horarios\": [\n    {\n      \"hora\": \"07:00:00\",\n      \"diasSemana\": null\n    }\n  ]\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/recordatorios/medicamentos",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "recordatorios", "medicamentos"]
+						}
+					}
+				},
+				{
+					"name": "Ver Medicamento por ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenCuidador}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/recordatorios/medicamentos/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "recordatorios", "medicamentos", "1"]
+						}
+					}
+				},
+				{
+					"name": "Desactivar Medicamento",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenCuidador}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/recordatorios/medicamentos/1/desactivar",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "recordatorios", "medicamentos", "1", "desactivar"]
+						}
+					}
+				},
+				{
+					"name": "Eliminar Medicamento",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenCuidador}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/recordatorios/medicamentos/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "recordatorios", "medicamentos", "1"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "📅 Citas Médicas (Cuidador)",
+			"item": [
+				{
+					"name": "Ver Citas del Paciente",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenCuidador}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/recordatorios/citas/paciente/{{pacienteId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "recordatorios", "citas", "paciente", "{{pacienteId}}"]
+						}
+					}
+				},
+				{
+					"name": "Crear Cita - Cardiólogo",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenCuidador}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"pacienteId\": {{pacienteId}},\n  \"fechaHora\": \"2025-11-25T10:30:00\",\n  \"ubicacion\": \"Hospital Italiano, Piso 3, Consultorio 315\",\n  \"nombreDoctor\": \"Dra. Ana García\",\n  \"especialidad\": \"Cardiología\",\n  \"motivo\": \"Control trimestral de presión arterial e hipertensión\",\n  \"observaciones\": \"Llevar estudios de presión de los últimos 3 meses. Ayuno de 8 horas.\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/recordatorios/citas",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "recordatorios", "citas"]
+						}
+					}
+				},
+				{
+					"name": "Crear Cita - Endocrinólogo",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenCuidador}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"pacienteId\": {{pacienteId}},\n  \"fechaHora\": \"2025-12-02T15:00:00\",\n  \"ubicacion\": \"Clínica Las Lomas, Piso 2\",\n  \"nombreDoctor\": \"Dr. Roberto Martínez\",\n  \"especialidad\": \"Endocrinología\",\n  \"motivo\": \"Seguimiento de diabetes tipo 2\",\n  \"observaciones\": \"Llevar planilla de mediciones de glucosa. Análisis de sangre reciente.\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/recordatorios/citas",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "recordatorios", "citas"]
+						}
+					}
+				},
+				{
+					"name": "Ver Cita por ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenCuidador}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/recordatorios/citas/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "recordatorios", "citas", "1"]
+						}
+					}
+				},
+				{
+					"name": "Eliminar Cita",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenCuidador}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/recordatorios/citas/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "recordatorios", "citas", "1"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "⏰ Recordatorios (Cuidador)",
+			"item": [
+				{
+					"name": "Ver Todos los Recordatorios",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenCuidador}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/recordatorios/paciente/{{pacienteId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "recordatorios", "paciente", "{{pacienteId}}"]
+						}
+					}
+				},
+				{
+					"name": "Ver Recordatorios de Hoy",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenCuidador}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/recordatorios/paciente/{{pacienteId}}/dia?fecha=2025-11-17",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "recordatorios", "paciente", "{{pacienteId}}", "dia"],
+							"query": [
+								{
+									"key": "fecha",
+									"value": "2025-11-17"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Ver Recordatorios por Rango",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenCuidador}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/recordatorios/paciente/{{pacienteId}}/rango?inicio=2025-11-17T00:00:00&fin=2025-11-20T23:59:59",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "recordatorios", "paciente", "{{pacienteId}}", "rango"],
+							"query": [
+								{
+									"key": "inicio",
+									"value": "2025-11-17T00:00:00"
+								},
+								{
+									"key": "fin",
+									"value": "2025-11-20T23:59:59"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Ver Recordatorios Pendientes",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenCuidador}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/recordatorios/paciente/{{pacienteId}}/pendientes",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "recordatorios", "paciente", "{{pacienteId}}", "pendientes"]
+						}
+					}
+				},
+				{
+					"name": "Marcar como Completado",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenCuidador}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"estado\": \"COMPLETADO\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/recordatorios/1/estado",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "recordatorios", "1", "estado"]
+						}
+					}
+				},
+				{
+					"name": "Ciclar Estado (Toggle)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenCuidador}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/recordatorios/1/ciclar-estado",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "recordatorios", "1", "ciclar-estado"]
+						}
+					}
+				},
+				{
+					"name": "Eliminar Recordatorio Individual",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenCuidador}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/recordatorios/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "recordatorios", "1"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "✅ Tareas (Cuidador)",
+			"item": [
+				{
+					"name": "Ver Todas las Tareas",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenCuidador}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/tareas/paciente/{{pacienteId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "tareas", "paciente", "{{pacienteId}}"]
+						}
+					}
+				},
+				{
+					"name": "Ver Tareas Pendientes",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenCuidador}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/tareas/paciente/{{pacienteId}}/estado?completada=false",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "tareas", "paciente", "{{pacienteId}}", "estado"],
+							"query": [
+								{
+									"key": "completada",
+									"value": "false"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Ver Tareas Completadas",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenCuidador}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/tareas/paciente/{{pacienteId}}/estado?completada=true",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "tareas", "paciente", "{{pacienteId}}", "estado"],
+							"query": [
+								{
+									"key": "completada",
+									"value": "true"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Ver Tareas por Rango",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenCuidador}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/tareas/paciente/{{pacienteId}}/rango?inicio=2025-11-17T00:00:00&fin=2025-11-20T23:59:59",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "tareas", "paciente", "{{pacienteId}}", "rango"],
+							"query": [
+								{
+									"key": "inicio",
+									"value": "2025-11-17T00:00:00"
+								},
+								{
+									"key": "fin",
+									"value": "2025-11-20T23:59:59"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Crear Tarea - Comprar Medicamentos",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenCuidador}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"pacienteId\": {{pacienteId}},\n  \"titulo\": \"Comprar medicamentos en farmacia\",\n  \"descripcion\": \"Comprar Metformina 850mg x 30 comprimidos y Enalapril 10mg x 30 comprimidos\",\n  \"fechaVencimiento\": \"2025-11-20T18:00:00\",\n  \"prioridad\": \"ALTA\",\n  \"completada\": false\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/tareas",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "tareas"]
+						}
+					}
+				},
+				{
+					"name": "Crear Tarea - Limpiar Casa",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenCuidador}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"pacienteId\": {{pacienteId}},\n  \"titulo\": \"Limpieza general del hogar\",\n  \"descripcion\": \"Aspirar, trapear pisos, limpiar baño y cocina\",\n  \"fechaVencimiento\": \"2025-11-19T14:00:00\",\n  \"prioridad\": \"MEDIA\",\n  \"completada\": false\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/tareas",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "tareas"]
+						}
+					}
+				},
+				{
+					"name": "Ver Tarea por ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenCuidador}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/tareas/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "tareas", "1"]
+						}
+					}
+				},
+				{
+					"name": "Actualizar Tarea",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenCuidador}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"pacienteId\": {{pacienteId}},\n  \"titulo\": \"Comprar medicamentos - ACTUALIZADO\",\n  \"descripcion\": \"Ya comprados. Entregados a María.\",\n  \"fechaVencimiento\": \"2025-11-20T18:00:00\",\n  \"prioridad\": \"ALTA\",\n  \"completada\": true\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/tareas/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "tareas", "1"]
+						}
+					}
+				},
+				{
+					"name": "Toggle Completada",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenCuidador}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/tareas/1/toggle",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "tareas", "1", "toggle"]
+						}
+					}
+				},
+				{
+					"name": "Mover Tarea Arriba",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenCuidador}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/tareas/1/mover-arriba",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "tareas", "1", "mover-arriba"]
+						}
+					}
+				},
+				{
+					"name": "Mover Tarea Abajo",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenCuidador}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/tareas/1/mover-abajo",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "tareas", "1", "mover-abajo"]
+						}
+					}
+				},
+				{
+					"name": "Eliminar Tarea",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenCuidador}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/tareas/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "tareas", "1"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "📄 Documentos (Cuidador)",
+			"item": [
+				{
+					"name": "Ver Todos los Documentos",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenCuidador}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/documentos/paciente/{{pacienteId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "documentos", "paciente", "{{pacienteId}}"]
+						}
+					}
+				},
+				{
+					"name": "Ver Solo Fichas Médicas",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenCuidador}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/documentos/paciente/{{pacienteId}}/fichas",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "documentos", "paciente", "{{pacienteId}}", "fichas"]
+						}
+					}
+				},
+				{
+					"name": "Ver Otros Documentos (no fichas)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenCuidador}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/documentos/paciente/{{pacienteId}}/otros",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "documentos", "paciente", "{{pacienteId}}", "otros"]
+						}
+					}
+				},
+				{
+					"name": "Filtrar por Categoría - DOCUMENTO",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenCuidador}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/documentos/paciente/{{pacienteId}}/categoria/DOCUMENTO",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "documentos", "paciente", "{{pacienteId}}", "categoria", "DOCUMENTO"]
+						}
+					}
+				},
+				{
+					"name": "Filtrar por Categoría - IMAGEN",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenCuidador}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/documentos/paciente/{{pacienteId}}/categoria/IMAGEN",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "documentos", "paciente", "{{pacienteId}}", "categoria", "IMAGEN"]
+						}
+					}
+				},
+				{
+					"name": "Subir Documento (Ficha Médica)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenCuidador}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "archivo",
+									"type": "file",
+									"src": "/path/to/ficha_medica.pdf"
+								},
+								{
+									"key": "pacienteId",
+									"value": "{{pacienteId}}",
+									"type": "text"
+								},
+								{
+									"key": "nombre",
+									"value": "Ficha Médica 2025",
+									"type": "text"
+								},
+								{
+									"key": "tipo",
+									"value": "FICHA_MEDICA",
+									"type": "text"
+								},
+								{
+									"key": "descripcion",
+									"value": "Ficha médica actualizada con historial completo",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/documentos",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "documentos"]
+						}
+					}
+				},
+				{
+					"name": "Ver Documento por ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenCuidador}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/documentos/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "documentos", "1"]
+						}
+					}
+				},
+				{
+					"name": "Descargar Documento",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenCuidador}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/documentos/1/descargar",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "documentos", "1", "descargar"]
+						}
+					}
+				},
+				{
+					"name": "Eliminar Documento",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenCuidador}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/documentos/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "documentos", "1"]
+						}
+					}
+				}
+			]
+		}
+	]
+}

@@ -1,6 +1,7 @@
 package com.cuido.cuido.model;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
@@ -25,9 +26,9 @@ public class Usuario implements  UserDetails  {
 
 	@Column(nullable = true)
 	private String direccion;
-	
-	@Column(nullable = true)
-	private int telefono;
+
+	@Column(length = 20, nullable = true)
+	private String telefono;
 
 	@Column(nullable = true)
 	private Date fechaNacimiento;
@@ -42,7 +43,30 @@ public class Usuario implements  UserDetails  {
 	private String password;
 
 	@Enumerated(EnumType.STRING)
-	private Rol rol;	
+	private Rol rol;
+
+	@Column(nullable = false)
+	private Boolean activo = true;
+
+	@Column(name = "created_at", nullable = false, updatable = false)
+	private LocalDateTime createdAt;
+
+	@Column(name = "updated_at", nullable = false)
+	private LocalDateTime updatedAt;
+
+	@PrePersist
+	protected void onCreate() {
+		createdAt = LocalDateTime.now();
+		updatedAt = LocalDateTime.now();
+		if (activo == null) {
+			activo = true;
+		}
+	}
+
+	@PreUpdate
+	protected void onUpdate() {
+		updatedAt = LocalDateTime.now();
+	}
 
 	//metodos de seguridad
 	@Override

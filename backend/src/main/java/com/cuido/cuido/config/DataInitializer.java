@@ -19,20 +19,8 @@ public class DataInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-
-        String adminEmail = "admin@cuido.com";
-        if (!usuarioRepository.existsByEmail(adminEmail)) {
-            Usuario admin = new Usuario();
-            admin.setNombreCompleto("Administrador");
-            admin.setEmail(adminEmail);
-            admin.setPassword(passwordEncoder.encode("Admin123!"));
-            admin.setRol(Rol.ADMIN);
-            admin.setDireccion("Dirección Admin");
-            admin.setTelefono(0);
-            admin.setAvatar("avatar1.png");
-            admin.setFechaNacimiento(Date.valueOf("1999-09-03"));
-            usuarioRepository.save(admin);
-            System.out.println("Usuario ADMIN creado: " + adminEmail + " / contraseña: Admin123!");
-        }
-	}
+        // No se crean usuarios por defecto
+        // Los usuarios se registran desde la app
+        System.out.println("DataInitializer ejecutado - Sin usuarios por defecto");
+    }
 }
