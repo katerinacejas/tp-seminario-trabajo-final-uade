@@ -59,9 +59,13 @@ public class PacienteService {
         if (request.getNombreCompleto() != null) {
             usuario.setNombreCompleto(request.getNombreCompleto());
         }
-        if (request.getEmail() != null) {
-            usuario.setEmail(request.getEmail());
+
+        // IMPORTANTE: No permitir cambio de email aquí porque invalida el JWT token
+        // El email solo puede cambiarse desde un endpoint dedicado que maneje la renovación del token
+        if (request.getEmail() != null && !request.getEmail().equals(usuario.getEmail())) {
+            throw new IllegalArgumentException("No se puede cambiar el email desde este endpoint. El email es la identidad del usuario y cambiarla requiere un proceso especial.");
         }
+
         if (request.getPassword() != null && !request.getPassword().isEmpty()) {
             usuario.setPassword(passwordEncoder.encode(request.getPassword()));
         }
@@ -118,7 +122,6 @@ public class PacienteService {
         dto.setAlergias(paciente.getAlergias());
         dto.setCondicionesMedicas(paciente.getCondicionesMedicas());
         dto.setNotasImportantes(paciente.getNotasImportantes());
-        dto.setObservaciones(paciente.getObservaciones());
         dto.setObraSocial(paciente.getObraSocial());
         dto.setNumeroAfiliado(paciente.getNumeroAfiliado());
 

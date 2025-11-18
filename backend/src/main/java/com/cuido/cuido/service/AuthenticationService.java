@@ -16,8 +16,10 @@ import com.cuido.cuido.dto.request.LoginRequestDTO;
 import com.cuido.cuido.dto.request.RegistroRequestDTO;
 import com.cuido.cuido.dto.response.JwtResponseDTO;
 import com.cuido.cuido.model.Usuario;
+import com.cuido.cuido.model.Paciente;
 import com.cuido.cuido.model.Rol;
 import com.cuido.cuido.repository.UsuarioRepository;
+import com.cuido.cuido.repository.PacienteRepository;
 import com.cuido.cuido.security.JwtUtil;
 
 @Service
@@ -39,6 +41,9 @@ public class AuthenticationService {
 
     @Autowired
     private EmailService emailService;
+
+    @Autowired
+    private PacienteRepository pacienteRepository;
 
     public JwtResponseDTO authenticate(LoginRequestDTO request) {
         logger.info("Intento de autenticación para email: {}", request.getEmail());
@@ -102,6 +107,14 @@ public class AuthenticationService {
             usuarioRepository.save(nuevoUsuario);
             logger.info("Usuario registrado exitosamente - ID: {}, Email: {}, Rol: {}",
                        nuevoUsuario.getId(), nuevoUsuario.getEmail(), nuevoUsuario.getRol());
+
+            // Si es un paciente, crear también su registro en la tabla pacientes
+            if (nuevoUsuario.getRol() == Rol.PACIENTE) {
+                Paciente nuevoPaciente = new Paciente();
+                nuevoPaciente.setUsuario(nuevoUsuario);
+                pacienteRepository.save(nuevoPaciente);
+                logger.info("Registro de paciente creado exitosamente para usuario ID: {}", nuevoUsuario.getId());
+            }
 
             // Enviar email de bienvenida
             try {

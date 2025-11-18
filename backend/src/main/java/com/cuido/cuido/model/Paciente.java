@@ -49,9 +49,6 @@ public class Paciente {
     @Transient
     private List<String> notasImportantes = new ArrayList<>();
 
-    @Column(columnDefinition = "TEXT")
-    private String observaciones;
-
     @Column(name = "obra_social")
     private String obraSocial;
 

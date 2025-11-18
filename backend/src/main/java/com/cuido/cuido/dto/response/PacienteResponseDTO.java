@@ -16,7 +16,6 @@ public class PacienteResponseDTO {
     private String alergias;
     private List<String> condicionesMedicas;
     private List<String> notasImportantes;
-    private String observaciones;
     private String obraSocial;
     private String numeroAfiliado;
 }
