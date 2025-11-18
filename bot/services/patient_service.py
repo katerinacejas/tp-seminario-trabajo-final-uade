@@ -143,9 +143,10 @@ class PatientService:
         Returns:
             str con el nombre detectado o None
         """
-        # Patrones para detectar nombres
+        # MEJORADO: Patrones MÁS ESTRICTOS para evitar falsos positivos
+        # Solo detecta cuando hay contexto claro de "paciente"
         patrones = [
-            r"(?:del |de |para |sobre |paciente |del paciente |de la paciente )((?:[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+\s?)+)",
+            r"(?:del paciente |de la paciente |para el paciente |sobre el paciente )((?:[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+\s?)+)",
             r"(?:mi paciente |el paciente |la paciente )((?:[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+\s?)+)",
         ]
 
@@ -153,8 +154,9 @@ class PatientService:
             match = re.search(patron, mensaje, re.IGNORECASE)
             if match:
                 nombre = match.group(1).strip()
-                # Verificar que tenga al menos 2 caracteres
-                if len(nombre) >= 2:
+                # Verificar que sea un nombre válido (mínimo 3 caracteres, máximo 3 palabras)
+                palabras = nombre.split()
+                if len(nombre) >= 3 and len(palabras) <= 3:
                     return nombre
 
         return None

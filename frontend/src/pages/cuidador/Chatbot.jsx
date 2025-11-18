@@ -17,6 +17,12 @@ export default function Chatbot() {
 	useEffect(() => {
 		if (pacienteSeleccionado) {
 			cargarHistorial();
+			// Restaurar borrador del input
+			const drafKey = `chatbot-draft-${pacienteSeleccionado.id}`;
+			const savedDraft = localStorage.getItem(drafKey);
+			if (savedDraft) {
+				setInput(savedDraft);
+			}
 		} else {
 			setMensajes([]);
 			setLoading(false);
@@ -31,6 +37,18 @@ export default function Chatbot() {
 	useEffect(() => {
 		scrollToBottom();
 	}, [mensajes, botEscribiendo]);
+
+	// Guardar borrador cuando cambia el input
+	useEffect(() => {
+		if (pacienteSeleccionado) {
+			const draftKey = `chatbot-draft-${pacienteSeleccionado.id}`;
+			if (input.trim()) {
+				localStorage.setItem(draftKey, input);
+			} else {
+				localStorage.removeItem(draftKey);
+			}
+		}
+	}, [input, pacienteSeleccionado]);
 
 	// Cargar historial de conversaciones
 	const cargarHistorial = async () => {
@@ -69,7 +87,8 @@ export default function Chatbot() {
 			setMensajes(mensajesHistorial);
 		} catch (err) {
 			console.error('Error al cargar historial:', err);
-			setError('No se pudo cargar el historial del chatbot');
+			// NO mostrar error en rojo, solo mensaje de bienvenida
+			// setError('No se pudo cargar el historial del chatbot');
 			// Mensaje de bienvenida de fallback
 			setMensajes([{
 				id: 'welcome',
@@ -102,6 +121,9 @@ export default function Chatbot() {
 
 		setMensajes(prev => [...prev, nuevoMensajeUsuario]);
 		setInput("");
+		// Limpiar borrador después de enviar
+		const draftKey = `chatbot-draft-${pacienteSeleccionado.id}`;
+		localStorage.removeItem(draftKey);
 		setBotEscribiendo(true);
 		setError(null);
 

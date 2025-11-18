@@ -613,6 +613,65 @@ export const contactosEmergenciaAPI = {
 	},
 };
 
+// ==================== CHATBOT ====================
+
+const CHATBOT_API_BASE_URL = process.env.REACT_APP_CHATBOT_URL || 'http://localhost:5000/api/chatbot';
+
+/**
+ * Wrapper para fetch al microservicio de chatbot con autenticación
+ */
+async function chatbotRequest(endpoint, options = {}) {
+	const token = localStorage.getItem('cuido.token');
+
+	const config = {
+		headers: {
+			'Content-Type': 'application/json',
+			...(token && { 'Authorization': `Bearer ${token}` }),
+			...options.headers,
+		},
+		...options,
+	};
+
+	try {
+		const response = await fetch(`${CHATBOT_API_BASE_URL}${endpoint}`, config);
+
+		if (!response.ok) {
+			const errorData = await response.json().catch(() => ({}));
+			throw handleHTTPError(response.status, errorData);
+		}
+
+		return await response.json();
+	} catch (error) {
+		if (error instanceof APIError) {
+			throw error;
+		}
+		console.error('Error en chatbot request:', error);
+		throw new APIError('Error de conexión con el chatbot', 0, { originalError: error.message });
+	}
+}
+
+export const chatbotAPI = {
+	enviarMensaje: async (mensaje, pacienteId) => {
+		return chatbotRequest('/message', {
+			method: 'POST',
+			body: JSON.stringify({
+				mensaje,
+				paciente_id: pacienteId
+			}),
+		});
+	},
+
+	obtenerHistorial: async (pacienteId) => {
+		return chatbotRequest(`/history/${pacienteId}`);
+	},
+
+	borrarHistorial: async (pacienteId) => {
+		return chatbotRequest(`/history/${pacienteId}`, {
+			method: 'DELETE',
+		});
+	},
+};
+
 export default {
 	auth: authAPI,
 	usuarios: usuariosAPI,
@@ -625,4 +684,5 @@ export default {
 	tareas: tareasAPI,
 	cuidadoresPacientes: cuidadoresPacientesAPI,
 	contactosEmergencia: contactosEmergenciaAPI,
+	chatbot: chatbotAPI,
 };

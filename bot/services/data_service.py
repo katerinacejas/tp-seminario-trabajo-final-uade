@@ -19,7 +19,7 @@ class DataService:
     async def obtener_bitacoras_recientes(
         db: AsyncSession,
         paciente_id: int,
-        limit: int = 5
+        limit: int = 3
     ) -> List[Bitacora]:
         """
         Obtiene las bitácoras más recientes de un paciente.
@@ -150,7 +150,7 @@ class DataService:
     async def obtener_tareas_pendientes(
         db: AsyncSession,
         paciente_id: int,
-        limit: int = 5
+        limit: int = 3
     ) -> List[Tarea]:
         """
         Obtiene las tareas pendientes de un paciente.
@@ -163,6 +163,7 @@ class DataService:
         Returns:
             Lista de Tarea
         """
+        # MySQL no soporta NULLS FIRST, usar orden manual en su lugar
         query = (
             select(Tarea)
             .where(
@@ -171,7 +172,7 @@ class DataService:
                     Tarea.completada == False
                 )
             )
-            .order_by(Tarea.fecha_vencimiento.asc().nullsfirst(), desc(Tarea.prioridad))
+            .order_by(Tarea.orden_manual.asc(), desc(Tarea.prioridad))
             .limit(limit)
         )
         result = await db.execute(query)

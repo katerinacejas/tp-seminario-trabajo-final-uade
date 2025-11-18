@@ -38,11 +38,11 @@ class Settings(BaseSettings):
 
     # LLM Configuration
     llm_temperature: float = 0.7
-    llm_max_tokens: int = 500
+    llm_max_tokens: int = 250  # Balance entre velocidad y precisión
     llm_context_length: int = 4096
 
     # Historial de conversación
-    max_conversation_history: int = 10
+    max_conversation_history: int = 4  # Reducido para contexto más ligero
 
     # OCR Configuration
     ocr_language: str = "spa"  # español

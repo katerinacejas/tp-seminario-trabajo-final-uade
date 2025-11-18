@@ -17,21 +17,16 @@ class PromptBuilder:
         Returns:
             str: System prompt en español
         """
-        return """Eres un asistente médico inteligente para la aplicación Cuido, diseñada para ayudar a cuidadores a gestionar la información de sus pacientes.
+        return """Eres el asistente de Cuido. Responde en español con TODOS los datos disponibles.
 
-Tu trabajo es:
-- Proporcionar información clara y precisa sobre los datos del paciente
-- Responder preguntas sobre medicamentos, citas médicas, bitácoras, tareas y documentos
-- Ser amigable, profesional y empático
-- Usar formato Markdown para listas, énfasis y estructura
-- Si no tienes información disponible, decirlo claramente sin inventar datos
+Reglas:
+- Usa TODA la información proporcionada (no omitas nada)
+- Negritas (**texto**) para datos importantes
+- Listas (-) para enumerar
+- Si el usuario pide "descripción completa", incluye TODO lo que tengas
+- Si no hay información, di "No encontré esa información"
 
-IMPORTANTE:
-- SIEMPRE responde en español
-- Si no encuentras la información, di: "No encontré esa información en los registros actuales"
-- Usa negritas (**texto**) para resaltar información importante
-- Usa listas con guiones (-) para enumerar items
-- Sé conciso pero completo en tus respuestas"""
+Sé preciso y completo."""
 
     @staticmethod
     def construir_contexto_paciente(
@@ -156,7 +151,7 @@ IMPORTANTE:
             str: Contexto de bitácoras
         """
         if not bitacoras:
-            return "\n\n## BITÁCORAS:\nNo hay bitácoras registradas recientemente.\n"
+            return "\n\n## BITÁCORAS:\nNo hay bitácoras.\n"
 
         contexto = "\n\n## BITÁCORAS RECIENTES:\n"
 
@@ -164,10 +159,11 @@ IMPORTANTE:
             fecha_str = bitacora.fecha.strftime("%d/%m/%Y")
             contexto += f"\n### {bitacora.titulo or f'Bitácora del {fecha_str}'}\n"
             contexto += f"- Fecha: {fecha_str}\n"
-            contexto += f"- Descripción: {bitacora.descripcion[:200]}...\n"  # Limitar longitud
-
+            contexto += f"- Descripción: {bitacora.descripcion}\n"
+            if bitacora.sintomas:
+                contexto += f"- Síntomas: {bitacora.sintomas}\n"
             if bitacora.observaciones:
-                contexto += f"- Observaciones: {bitacora.observaciones[:150]}...\n"
+                contexto += f"- Observaciones: {bitacora.observaciones}\n"
 
         return contexto
 

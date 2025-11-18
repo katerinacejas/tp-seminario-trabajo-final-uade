@@ -17498,3 +17498,7085 @@ Caused by: java.sql.SQLSyntaxErrorException: Unknown database 'cuido_database'
 2025-11-18 01:34:24.688 [http-nio-8082-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
 2025-11-18 01:34:24.688 [http-nio-8082-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
 2025-11-18 01:34:24.693 [http-nio-8082-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 3 ms
+2025-11-18 12:50:02.955 [main] INFO  com.cuido.cuido.CuidoApplication - Starting CuidoApplication using Java 23.0.1 with PID 2508 (C:\Users\ramik\OneDrive\Desktop\cuido\backend\target\classes started by ramik in C:\Users\ramik\OneDrive\Desktop\cuido\backend)
+2025-11-18 12:50:02.962 [main] INFO  com.cuido.cuido.CuidoApplication - No active profile set, falling back to 1 default profile: "default"
+2025-11-18 12:50:06.580 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-11-18 12:50:06.841 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 238 ms. Found 12 JPA repository interfaces.
+2025-11-18 12:50:08.619 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8082 (http)
+2025-11-18 12:50:08.729 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8082"]
+2025-11-18 12:50:08.758 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-11-18 12:50:08.764 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.48]
+2025-11-18 12:50:09.048 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-11-18 12:50:09.048 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 5854 ms
+2025-11-18 12:50:11.457 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-11-18 12:50:11.536 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-11-18 12:50:12.183 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@51297528
+2025-11-18 12:50:12.188 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-11-18 12:50:12.370 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-11-18 12:50:12.373 [main] WARN  org.hibernate.orm.deprecation - HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+2025-11-18 12:50:16.903 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-11-18 12:50:18.832 [main] INFO  o.s.s.c.a.a.c.InitializeAuthenticationProviderBeanManagerConfigurer$InitializeAuthenticationProviderManagerConfigurer - Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2025-11-18 12:50:18.838 [main] WARN  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2025-11-18 12:50:19.945 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-11-18 12:50:24.228 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-11-18 12:50:25.059 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 1 endpoint beneath base path '/actuator'
+2025-11-18 12:50:26.202 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8082"]
+2025-11-18 12:50:26.369 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8082 (http) with context path '/'
+2025-11-18 12:50:26.405 [main] INFO  com.cuido.cuido.CuidoApplication - Started CuidoApplication in 25.02 seconds (process running for 26.408)
+2025-11-18 12:50:28.658 [http-nio-8082-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-11-18 12:50:28.659 [http-nio-8082-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-11-18 12:50:28.662 [http-nio-8082-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 2 ms
+2025-11-18 12:50:29.678 [http-nio-8082-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 12:50:30.493 [http-nio-8082-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 12:50:30.524 [http-nio-8082-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 12:50:33.214 [http-nio-8082-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 12:50:33.230 [http-nio-8082-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 12:50:35.141 [http-nio-8082-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 12:50:35.157 [http-nio-8082-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 12:55:12.364 [http-nio-8082-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 12:55:14.173 [http-nio-8082-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        p1_0.id,
+        p1_0.alergias,
+        p1_0.altura,
+        p1_0.condiciones_medicas,
+        p1_0.created_at,
+        p1_0.notas_importantes,
+        p1_0.numero_afiliado,
+        p1_0.obra_social,
+        p1_0.peso,
+        p1_0.tipo_sanguineo,
+        p1_0.updated_at,
+        p1_0.usuario_id 
+    from
+        pacientes p1_0
+2025-11-18 12:55:14.365 [http-nio-8082-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.id=?
+2025-11-18 12:55:18.828 [http-nio-8082-exec-10] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 12:55:18.998 [http-nio-8082-exec-10] DEBUG org.hibernate.SQL - 
+    select
+        p1_0.id,
+        p1_0.alergias,
+        p1_0.altura,
+        p1_0.condiciones_medicas,
+        p1_0.created_at,
+        p1_0.notas_importantes,
+        p1_0.numero_afiliado,
+        p1_0.obra_social,
+        p1_0.peso,
+        p1_0.tipo_sanguineo,
+        p1_0.updated_at,
+        p1_0.usuario_id,
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        pacientes p1_0 
+    join
+        usuarios u1_0 
+            on u1_0.id=p1_0.usuario_id 
+    where
+        p1_0.id=?
+2025-11-18 12:58:05.302 [http-nio-8082-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 12:58:05.340 [http-nio-8082-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 12:58:05.529 [http-nio-8082-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        p1_0.id,
+        p1_0.alergias,
+        p1_0.altura,
+        p1_0.condiciones_medicas,
+        p1_0.created_at,
+        p1_0.notas_importantes,
+        p1_0.numero_afiliado,
+        p1_0.obra_social,
+        p1_0.peso,
+        p1_0.tipo_sanguineo,
+        p1_0.updated_at,
+        p1_0.usuario_id,
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        pacientes p1_0 
+    join
+        usuarios u1_0 
+            on u1_0.id=p1_0.usuario_id 
+    where
+        p1_0.id=?
+2025-11-18 12:58:05.545 [http-nio-8082-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        p1_0.id,
+        p1_0.alergias,
+        p1_0.altura,
+        p1_0.condiciones_medicas,
+        p1_0.created_at,
+        p1_0.notas_importantes,
+        p1_0.numero_afiliado,
+        p1_0.obra_social,
+        p1_0.peso,
+        p1_0.tipo_sanguineo,
+        p1_0.updated_at,
+        p1_0.usuario_id 
+    from
+        pacientes p1_0
+2025-11-18 12:58:05.552 [http-nio-8082-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.id=?
+2025-11-18 12:58:05.682 [http-nio-8082-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 12:58:05.693 [http-nio-8082-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        p1_0.id,
+        p1_0.alergias,
+        p1_0.altura,
+        p1_0.condiciones_medicas,
+        p1_0.created_at,
+        p1_0.notas_importantes,
+        p1_0.numero_afiliado,
+        p1_0.obra_social,
+        p1_0.peso,
+        p1_0.tipo_sanguineo,
+        p1_0.updated_at,
+        p1_0.usuario_id,
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        pacientes p1_0 
+    join
+        usuarios u1_0 
+            on u1_0.id=p1_0.usuario_id 
+    where
+        p1_0.id=?
+2025-11-18 12:58:15.016 [http-nio-8082-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 12:58:15.381 [http-nio-8082-exec-8] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 12:58:15.401 [http-nio-8082-exec-8] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 12:58:15.574 [http-nio-8082-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 12:58:15.874 [http-nio-8082-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 12:58:15.879 [http-nio-8082-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 12:58:15.925 [http-nio-8082-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 12:58:16.019 [http-nio-8082-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 12:58:16.036 [http-nio-8082-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 12:58:16.051 [http-nio-8082-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 12:58:16.059 [http-nio-8082-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 12:58:16.091 [http-nio-8082-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 12:58:16.115 [http-nio-8082-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 12:58:16.208 [http-nio-8082-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        cp1_0.id,
+        cp1_0.created_at,
+        cp1_0.cuidador_id,
+        cp1_0.es_principal,
+        cp1_0.estado,
+        cp1_0.fecha_aceptacion,
+        cp1_0.fecha_invitacion,
+        cp1_0.paciente_id,
+        cp1_0.updated_at 
+    from
+        cuidadores_pacientes cp1_0 
+    left join
+        usuarios c1_0 
+            on c1_0.id=cp1_0.cuidador_id 
+    left join
+        usuarios p1_0 
+            on p1_0.id=cp1_0.paciente_id 
+    where
+        c1_0.id=? 
+        and p1_0.id=?
+2025-11-18 12:58:16.225 [http-nio-8082-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        cp1_0.id,
+        cp1_0.created_at,
+        cp1_0.cuidador_id,
+        cp1_0.es_principal,
+        cp1_0.estado,
+        cp1_0.fecha_aceptacion,
+        cp1_0.fecha_invitacion,
+        cp1_0.paciente_id,
+        cp1_0.updated_at 
+    from
+        cuidadores_pacientes cp1_0 
+    left join
+        usuarios c1_0 
+            on c1_0.id=cp1_0.cuidador_id 
+    left join
+        usuarios p1_0 
+            on p1_0.id=cp1_0.paciente_id 
+    where
+        c1_0.id=? 
+        and p1_0.id=?
+2025-11-18 12:58:16.231 [http-nio-8082-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        cp1_0.id,
+        cp1_0.created_at,
+        cp1_0.cuidador_id,
+        cp1_0.es_principal,
+        cp1_0.estado,
+        cp1_0.fecha_aceptacion,
+        cp1_0.fecha_invitacion,
+        cp1_0.paciente_id,
+        cp1_0.updated_at 
+    from
+        cuidadores_pacientes cp1_0 
+    left join
+        usuarios c1_0 
+            on c1_0.id=cp1_0.cuidador_id 
+    left join
+        usuarios p1_0 
+            on p1_0.id=cp1_0.paciente_id 
+    where
+        c1_0.id=? 
+        and p1_0.id=?
+2025-11-18 12:58:16.292 [http-nio-8082-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 12:58:16.310 [http-nio-8082-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 12:58:16.318 [http-nio-8082-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        cp1_0.id,
+        cp1_0.created_at,
+        cp1_0.cuidador_id,
+        cp1_0.es_principal,
+        cp1_0.estado,
+        cp1_0.fecha_aceptacion,
+        cp1_0.fecha_invitacion,
+        cp1_0.paciente_id,
+        cp1_0.updated_at 
+    from
+        cuidadores_pacientes cp1_0 
+    left join
+        usuarios c1_0 
+            on c1_0.id=cp1_0.cuidador_id 
+    left join
+        usuarios p1_0 
+            on p1_0.id=cp1_0.paciente_id 
+    where
+        c1_0.id=? 
+        and p1_0.id=?
+2025-11-18 12:58:16.582 [http-nio-8082-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        b1_0.id,
+        b1_0.created_at,
+        b1_0.cuidador_id,
+        b1_0.descripcion,
+        b1_0.fecha,
+        b1_0.observaciones,
+        b1_0.paciente_id,
+        b1_0.sintomas,
+        b1_0.titulo,
+        b1_0.updated_at 
+    from
+        bitacoras b1_0 
+    left join
+        usuarios p1_0 
+            on p1_0.id=b1_0.paciente_id 
+    where
+        p1_0.id=? 
+    order by
+        b1_0.fecha desc,
+        b1_0.created_at desc
+2025-11-18 12:58:16.584 [http-nio-8082-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        t1_0.id,
+        t1_0.completada,
+        t1_0.created_at,
+        t1_0.cuidador_id,
+        t1_0.descripcion,
+        t1_0.fecha_completada,
+        t1_0.fecha_vencimiento,
+        t1_0.orden_manual,
+        t1_0.paciente_id,
+        t1_0.prioridad,
+        t1_0.titulo,
+        t1_0.updated_at 
+    from
+        tareas t1_0 
+    left join
+        usuarios p1_0 
+            on p1_0.id=t1_0.paciente_id 
+    where
+        p1_0.id=? 
+    order by
+        t1_0.orden_manual
+2025-11-18 12:58:16.584 [http-nio-8082-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        cm1_0.id,
+        cm1_0.completada,
+        cm1_0.created_at,
+        cm1_0.cuidador_id,
+        cm1_0.especialidad,
+        cm1_0.fecha_hora,
+        cm1_0.motivo,
+        cm1_0.nombre_doctor,
+        cm1_0.observaciones,
+        cm1_0.paciente_id,
+        cm1_0.recordatorio_enviado,
+        cm1_0.ubicacion,
+        cm1_0.updated_at 
+    from
+        citas_medicas cm1_0 
+    left join
+        usuarios p1_0 
+            on p1_0.id=cm1_0.paciente_id 
+    where
+        p1_0.id=? 
+    order by
+        cm1_0.fecha_hora
+2025-11-18 12:58:16.589 [http-nio-8082-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        m1_0.id,
+        m1_0.activo,
+        m1_0.created_at,
+        m1_0.cuidador_id,
+        m1_0.dosis,
+        m1_0.fecha_fin,
+        m1_0.fecha_inicio,
+        m1_0.frecuencia,
+        m1_0.nombre,
+        m1_0.observaciones,
+        m1_0.paciente_id,
+        m1_0.updated_at,
+        m1_0.via_administracion 
+    from
+        medicamentos m1_0 
+    left join
+        usuarios p1_0 
+            on p1_0.id=m1_0.paciente_id 
+    where
+        p1_0.id=? 
+        and m1_0.activo 
+    order by
+        m1_0.nombre
+2025-11-18 12:58:16.621 [http-nio-8082-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.id=?
+2025-11-18 12:58:16.620 [http-nio-8082-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.id=?
+2025-11-18 12:58:16.627 [http-nio-8082-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.id=?
+2025-11-18 12:58:16.801 [http-nio-8082-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        h1_0.medicamento_id,
+        h1_0.id,
+        h1_0.created_at,
+        h1_0.dias_semana,
+        h1_0.hora 
+    from
+        horarios_medicamento h1_0 
+    where
+        h1_0.medicamento_id=?
+2025-11-18 12:58:16.869 [http-nio-8082-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.id=?
+2025-11-18 12:58:16.872 [http-nio-8082-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        h1_0.medicamento_id,
+        h1_0.id,
+        h1_0.created_at,
+        h1_0.dias_semana,
+        h1_0.hora 
+    from
+        horarios_medicamento h1_0 
+    where
+        h1_0.medicamento_id=?
+2025-11-18 12:58:38.027 [http-nio-8082-exec-10] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 12:58:38.049 [http-nio-8082-exec-10] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 12:58:38.112 [http-nio-8082-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 12:58:38.132 [http-nio-8082-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 12:58:38.132 [http-nio-8082-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 12:58:38.150 [http-nio-8082-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 12:58:38.159 [http-nio-8082-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 12:58:38.164 [http-nio-8082-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        cp1_0.id,
+        cp1_0.created_at,
+        cp1_0.cuidador_id,
+        cp1_0.es_principal,
+        cp1_0.estado,
+        cp1_0.fecha_aceptacion,
+        cp1_0.fecha_invitacion,
+        cp1_0.paciente_id,
+        cp1_0.updated_at 
+    from
+        cuidadores_pacientes cp1_0 
+    left join
+        usuarios c1_0 
+            on c1_0.id=cp1_0.cuidador_id 
+    left join
+        usuarios p1_0 
+            on p1_0.id=cp1_0.paciente_id 
+    where
+        c1_0.id=? 
+        and p1_0.id=?
+2025-11-18 12:58:38.166 [http-nio-8082-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 12:58:38.175 [http-nio-8082-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        cm1_0.id,
+        cm1_0.completada,
+        cm1_0.created_at,
+        cm1_0.cuidador_id,
+        cm1_0.especialidad,
+        cm1_0.fecha_hora,
+        cm1_0.motivo,
+        cm1_0.nombre_doctor,
+        cm1_0.observaciones,
+        cm1_0.paciente_id,
+        cm1_0.recordatorio_enviado,
+        cm1_0.ubicacion,
+        cm1_0.updated_at 
+    from
+        citas_medicas cm1_0 
+    left join
+        usuarios p1_0 
+            on p1_0.id=cm1_0.paciente_id 
+    where
+        p1_0.id=? 
+    order by
+        cm1_0.fecha_hora
+2025-11-18 12:58:38.176 [http-nio-8082-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        cp1_0.id,
+        cp1_0.created_at,
+        cp1_0.cuidador_id,
+        cp1_0.es_principal,
+        cp1_0.estado,
+        cp1_0.fecha_aceptacion,
+        cp1_0.fecha_invitacion,
+        cp1_0.paciente_id,
+        cp1_0.updated_at 
+    from
+        cuidadores_pacientes cp1_0 
+    left join
+        usuarios c1_0 
+            on c1_0.id=cp1_0.cuidador_id 
+    left join
+        usuarios p1_0 
+            on p1_0.id=cp1_0.paciente_id 
+    where
+        c1_0.id=? 
+        and p1_0.id=?
+2025-11-18 12:58:38.184 [http-nio-8082-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        t1_0.id,
+        t1_0.completada,
+        t1_0.created_at,
+        t1_0.cuidador_id,
+        t1_0.descripcion,
+        t1_0.fecha_completada,
+        t1_0.fecha_vencimiento,
+        t1_0.orden_manual,
+        t1_0.paciente_id,
+        t1_0.prioridad,
+        t1_0.titulo,
+        t1_0.updated_at 
+    from
+        tareas t1_0 
+    left join
+        usuarios p1_0 
+            on p1_0.id=t1_0.paciente_id 
+    where
+        p1_0.id=? 
+    order by
+        t1_0.orden_manual
+2025-11-18 12:58:38.186 [http-nio-8082-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.id=?
+2025-11-18 12:58:38.193 [http-nio-8082-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.id=?
+2025-11-18 12:58:38.210 [http-nio-8082-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 12:58:38.211 [http-nio-8082-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 12:58:38.224 [http-nio-8082-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 12:58:38.224 [http-nio-8082-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 12:58:38.230 [http-nio-8082-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 12:58:38.232 [http-nio-8082-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 12:58:38.241 [http-nio-8082-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        cp1_0.id,
+        cp1_0.created_at,
+        cp1_0.cuidador_id,
+        cp1_0.es_principal,
+        cp1_0.estado,
+        cp1_0.fecha_aceptacion,
+        cp1_0.fecha_invitacion,
+        cp1_0.paciente_id,
+        cp1_0.updated_at 
+    from
+        cuidadores_pacientes cp1_0 
+    left join
+        usuarios c1_0 
+            on c1_0.id=cp1_0.cuidador_id 
+    left join
+        usuarios p1_0 
+            on p1_0.id=cp1_0.paciente_id 
+    where
+        c1_0.id=? 
+        and p1_0.id=?
+2025-11-18 12:58:38.242 [http-nio-8082-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        cp1_0.id,
+        cp1_0.created_at,
+        cp1_0.cuidador_id,
+        cp1_0.es_principal,
+        cp1_0.estado,
+        cp1_0.fecha_aceptacion,
+        cp1_0.fecha_invitacion,
+        cp1_0.paciente_id,
+        cp1_0.updated_at 
+    from
+        cuidadores_pacientes cp1_0 
+    left join
+        usuarios c1_0 
+            on c1_0.id=cp1_0.cuidador_id 
+    left join
+        usuarios p1_0 
+            on p1_0.id=cp1_0.paciente_id 
+    where
+        c1_0.id=? 
+        and p1_0.id=?
+2025-11-18 12:58:38.248 [http-nio-8082-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        m1_0.id,
+        m1_0.activo,
+        m1_0.created_at,
+        m1_0.cuidador_id,
+        m1_0.dosis,
+        m1_0.fecha_fin,
+        m1_0.fecha_inicio,
+        m1_0.frecuencia,
+        m1_0.nombre,
+        m1_0.observaciones,
+        m1_0.paciente_id,
+        m1_0.updated_at,
+        m1_0.via_administracion 
+    from
+        medicamentos m1_0 
+    left join
+        usuarios p1_0 
+            on p1_0.id=m1_0.paciente_id 
+    where
+        p1_0.id=? 
+        and m1_0.activo 
+    order by
+        m1_0.nombre
+2025-11-18 12:58:38.248 [http-nio-8082-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        b1_0.id,
+        b1_0.created_at,
+        b1_0.cuidador_id,
+        b1_0.descripcion,
+        b1_0.fecha,
+        b1_0.observaciones,
+        b1_0.paciente_id,
+        b1_0.sintomas,
+        b1_0.titulo,
+        b1_0.updated_at 
+    from
+        bitacoras b1_0 
+    left join
+        usuarios p1_0 
+            on p1_0.id=b1_0.paciente_id 
+    where
+        p1_0.id=? 
+    order by
+        b1_0.fecha desc,
+        b1_0.created_at desc
+2025-11-18 12:58:38.253 [http-nio-8082-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.id=?
+2025-11-18 12:58:38.277 [http-nio-8082-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        h1_0.medicamento_id,
+        h1_0.id,
+        h1_0.created_at,
+        h1_0.dias_semana,
+        h1_0.hora 
+    from
+        horarios_medicamento h1_0 
+    where
+        h1_0.medicamento_id=?
+2025-11-18 12:58:38.282 [http-nio-8082-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.id=?
+2025-11-18 12:58:38.287 [http-nio-8082-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        h1_0.medicamento_id,
+        h1_0.id,
+        h1_0.created_at,
+        h1_0.dias_semana,
+        h1_0.hora 
+    from
+        horarios_medicamento h1_0 
+    where
+        h1_0.medicamento_id=?
+2025-11-18 13:00:00.321 [scheduling-1] DEBUG org.hibernate.SQL - 
+    select
+        prt1_0.id,
+        prt1_0.codigo_otp,
+        prt1_0.created_at,
+        prt1_0.fecha_expiracion,
+        prt1_0.usado,
+        prt1_0.usuario_id 
+    from
+        password_reset_tokens prt1_0 
+    where
+        prt1_0.fecha_expiracion<?
+2025-11-18 13:05:23.749 [SpringApplicationShutdownHook] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-11-18 13:05:23.995 [tomcat-shutdown] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-11-18 13:05:24.293 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-11-18 13:05:24.487 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-11-18 13:05:25.011 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-11-18 13:05:35.325 [main] INFO  com.cuido.cuido.CuidoApplication - Starting CuidoApplication using Java 23.0.1 with PID 17876 (C:\Users\ramik\OneDrive\Desktop\cuido\backend\target\classes started by ramik in C:\Users\ramik\OneDrive\Desktop\cuido\backend)
+2025-11-18 13:05:35.328 [main] INFO  com.cuido.cuido.CuidoApplication - No active profile set, falling back to 1 default profile: "default"
+2025-11-18 13:05:37.794 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-11-18 13:05:38.093 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 280 ms. Found 12 JPA repository interfaces.
+2025-11-18 13:05:39.575 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8082 (http)
+2025-11-18 13:05:39.620 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8082"]
+2025-11-18 13:05:39.624 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-11-18 13:05:39.625 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.48]
+2025-11-18 13:05:39.782 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-11-18 13:05:39.784 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 4313 ms
+2025-11-18 13:05:41.875 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-11-18 13:05:41.928 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-11-18 13:05:42.291 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@4ce18cec
+2025-11-18 13:05:42.294 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-11-18 13:05:42.387 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-11-18 13:05:42.389 [main] WARN  org.hibernate.orm.deprecation - HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+2025-11-18 13:05:44.749 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-11-18 13:05:45.605 [main] INFO  o.s.s.c.a.a.c.InitializeAuthenticationProviderBeanManagerConfigurer$InitializeAuthenticationProviderManagerConfigurer - Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2025-11-18 13:05:45.607 [main] WARN  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2025-11-18 13:05:45.844 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-11-18 13:05:47.564 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-11-18 13:05:48.251 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 1 endpoint beneath base path '/actuator'
+2025-11-18 13:05:48.905 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8082"]
+2025-11-18 13:05:48.933 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8082 (http) with context path '/'
+2025-11-18 13:05:48.962 [main] INFO  com.cuido.cuido.CuidoApplication - Started CuidoApplication in 15.117 seconds (process running for 16.433)
+2025-11-18 13:06:42.192 [http-nio-8082-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-11-18 13:06:42.219 [http-nio-8082-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-11-18 13:06:42.424 [http-nio-8082-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 204 ms
+2025-11-18 13:06:46.869 [http-nio-8082-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:06:47.486 [http-nio-8082-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        p1_0.id,
+        p1_0.alergias,
+        p1_0.altura,
+        p1_0.condiciones_medicas,
+        p1_0.created_at,
+        p1_0.notas_importantes,
+        p1_0.numero_afiliado,
+        p1_0.obra_social,
+        p1_0.peso,
+        p1_0.tipo_sanguineo,
+        p1_0.updated_at,
+        p1_0.usuario_id 
+    from
+        pacientes p1_0
+2025-11-18 13:06:47.549 [http-nio-8082-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.id=?
+2025-11-18 13:06:48.332 [http-nio-8082-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:06:48.402 [http-nio-8082-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        p1_0.id,
+        p1_0.alergias,
+        p1_0.altura,
+        p1_0.condiciones_medicas,
+        p1_0.created_at,
+        p1_0.notas_importantes,
+        p1_0.numero_afiliado,
+        p1_0.obra_social,
+        p1_0.peso,
+        p1_0.tipo_sanguineo,
+        p1_0.updated_at,
+        p1_0.usuario_id,
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        pacientes p1_0 
+    join
+        usuarios u1_0 
+            on u1_0.id=p1_0.usuario_id 
+    where
+        p1_0.id=?
+2025-11-18 13:06:52.739 [http-nio-8082-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:06:53.180 [http-nio-8082-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:06:53.201 [http-nio-8082-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:06:53.311 [http-nio-8082-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:06:53.312 [http-nio-8082-exec-9] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:06:53.344 [http-nio-8082-exec-8] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:06:53.352 [http-nio-8082-exec-9] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:06:53.359 [http-nio-8082-exec-9] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:06:53.366 [http-nio-8082-exec-8] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:06:53.374 [http-nio-8082-exec-8] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:06:53.382 [http-nio-8082-exec-8] DEBUG org.hibernate.SQL - 
+    select
+        cp1_0.id,
+        cp1_0.created_at,
+        cp1_0.cuidador_id,
+        cp1_0.es_principal,
+        cp1_0.estado,
+        cp1_0.fecha_aceptacion,
+        cp1_0.fecha_invitacion,
+        cp1_0.paciente_id,
+        cp1_0.updated_at 
+    from
+        cuidadores_pacientes cp1_0 
+    left join
+        usuarios c1_0 
+            on c1_0.id=cp1_0.cuidador_id 
+    left join
+        usuarios p1_0 
+            on p1_0.id=cp1_0.paciente_id 
+    where
+        c1_0.id=? 
+        and p1_0.id=?
+2025-11-18 13:06:53.384 [http-nio-8082-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:06:53.388 [http-nio-8082-exec-9] DEBUG org.hibernate.SQL - 
+    select
+        cp1_0.id,
+        cp1_0.created_at,
+        cp1_0.cuidador_id,
+        cp1_0.es_principal,
+        cp1_0.estado,
+        cp1_0.fecha_aceptacion,
+        cp1_0.fecha_invitacion,
+        cp1_0.paciente_id,
+        cp1_0.updated_at 
+    from
+        cuidadores_pacientes cp1_0 
+    left join
+        usuarios c1_0 
+            on c1_0.id=cp1_0.cuidador_id 
+    left join
+        usuarios p1_0 
+            on p1_0.id=cp1_0.paciente_id 
+    where
+        c1_0.id=? 
+        and p1_0.id=?
+2025-11-18 13:06:53.419 [http-nio-8082-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:06:53.421 [http-nio-8082-exec-8] DEBUG org.hibernate.SQL - 
+    select
+        t1_0.id,
+        t1_0.completada,
+        t1_0.created_at,
+        t1_0.cuidador_id,
+        t1_0.descripcion,
+        t1_0.fecha_completada,
+        t1_0.fecha_vencimiento,
+        t1_0.orden_manual,
+        t1_0.paciente_id,
+        t1_0.prioridad,
+        t1_0.titulo,
+        t1_0.updated_at 
+    from
+        tareas t1_0 
+    left join
+        usuarios p1_0 
+            on p1_0.id=t1_0.paciente_id 
+    where
+        p1_0.id=? 
+    order by
+        t1_0.orden_manual
+2025-11-18 13:06:53.428 [http-nio-8082-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:06:53.436 [http-nio-8082-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        cp1_0.id,
+        cp1_0.created_at,
+        cp1_0.cuidador_id,
+        cp1_0.es_principal,
+        cp1_0.estado,
+        cp1_0.fecha_aceptacion,
+        cp1_0.fecha_invitacion,
+        cp1_0.paciente_id,
+        cp1_0.updated_at 
+    from
+        cuidadores_pacientes cp1_0 
+    left join
+        usuarios c1_0 
+            on c1_0.id=cp1_0.cuidador_id 
+    left join
+        usuarios p1_0 
+            on p1_0.id=cp1_0.paciente_id 
+    where
+        c1_0.id=? 
+        and p1_0.id=?
+2025-11-18 13:06:53.447 [http-nio-8082-exec-8] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.id=?
+2025-11-18 13:06:53.461 [http-nio-8082-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        m1_0.id,
+        m1_0.activo,
+        m1_0.created_at,
+        m1_0.cuidador_id,
+        m1_0.dosis,
+        m1_0.fecha_fin,
+        m1_0.fecha_inicio,
+        m1_0.frecuencia,
+        m1_0.nombre,
+        m1_0.observaciones,
+        m1_0.paciente_id,
+        m1_0.updated_at,
+        m1_0.via_administracion 
+    from
+        medicamentos m1_0 
+    left join
+        usuarios p1_0 
+            on p1_0.id=m1_0.paciente_id 
+    where
+        p1_0.id=? 
+        and m1_0.activo 
+    order by
+        m1_0.nombre
+2025-11-18 13:06:53.454 [http-nio-8082-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:06:53.510 [http-nio-8082-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:06:53.518 [http-nio-8082-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        cp1_0.id,
+        cp1_0.created_at,
+        cp1_0.cuidador_id,
+        cp1_0.es_principal,
+        cp1_0.estado,
+        cp1_0.fecha_aceptacion,
+        cp1_0.fecha_invitacion,
+        cp1_0.paciente_id,
+        cp1_0.updated_at 
+    from
+        cuidadores_pacientes cp1_0 
+    left join
+        usuarios c1_0 
+            on c1_0.id=cp1_0.cuidador_id 
+    left join
+        usuarios p1_0 
+            on p1_0.id=cp1_0.paciente_id 
+    where
+        c1_0.id=? 
+        and p1_0.id=?
+2025-11-18 13:06:53.530 [http-nio-8082-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        cm1_0.id,
+        cm1_0.completada,
+        cm1_0.created_at,
+        cm1_0.cuidador_id,
+        cm1_0.especialidad,
+        cm1_0.fecha_hora,
+        cm1_0.motivo,
+        cm1_0.nombre_doctor,
+        cm1_0.observaciones,
+        cm1_0.paciente_id,
+        cm1_0.recordatorio_enviado,
+        cm1_0.ubicacion,
+        cm1_0.updated_at 
+    from
+        citas_medicas cm1_0 
+    left join
+        usuarios p1_0 
+            on p1_0.id=cm1_0.paciente_id 
+    where
+        p1_0.id=? 
+    order by
+        cm1_0.fecha_hora
+2025-11-18 13:06:53.534 [http-nio-8082-exec-9] DEBUG org.hibernate.SQL - 
+    select
+        b1_0.id,
+        b1_0.created_at,
+        b1_0.cuidador_id,
+        b1_0.descripcion,
+        b1_0.fecha,
+        b1_0.observaciones,
+        b1_0.paciente_id,
+        b1_0.sintomas,
+        b1_0.titulo,
+        b1_0.updated_at 
+    from
+        bitacoras b1_0 
+    left join
+        usuarios p1_0 
+            on p1_0.id=b1_0.paciente_id 
+    where
+        p1_0.id=? 
+    order by
+        b1_0.fecha desc,
+        b1_0.created_at desc
+2025-11-18 13:06:53.538 [http-nio-8082-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        h1_0.medicamento_id,
+        h1_0.id,
+        h1_0.created_at,
+        h1_0.dias_semana,
+        h1_0.hora 
+    from
+        horarios_medicamento h1_0 
+    where
+        h1_0.medicamento_id=?
+2025-11-18 13:06:53.544 [http-nio-8082-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.id=?
+2025-11-18 13:06:53.546 [http-nio-8082-exec-9] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.id=?
+2025-11-18 13:06:53.565 [http-nio-8082-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.id=?
+2025-11-18 13:06:53.580 [http-nio-8082-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        h1_0.medicamento_id,
+        h1_0.id,
+        h1_0.created_at,
+        h1_0.dias_semana,
+        h1_0.hora 
+    from
+        horarios_medicamento h1_0 
+    where
+        h1_0.medicamento_id=?
+2025-11-18 13:07:01.248 [http-nio-8082-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:07:01.279 [http-nio-8082-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:07:01.290 [http-nio-8082-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:07:01.306 [http-nio-8082-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        cp1_0.id,
+        cp1_0.created_at,
+        cp1_0.cuidador_id,
+        cp1_0.es_principal,
+        cp1_0.estado,
+        cp1_0.fecha_aceptacion,
+        cp1_0.fecha_invitacion,
+        cp1_0.paciente_id,
+        cp1_0.updated_at 
+    from
+        cuidadores_pacientes cp1_0 
+    left join
+        usuarios c1_0 
+            on c1_0.id=cp1_0.cuidador_id 
+    left join
+        usuarios p1_0 
+            on p1_0.id=cp1_0.paciente_id 
+    where
+        c1_0.id=? 
+        and p1_0.id=?
+2025-11-18 13:07:01.319 [http-nio-8082-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        ri1_0.id,
+        ri1_0.created_at,
+        ri1_0.descripcion,
+        ri1_0.estado,
+        ri1_0.fecha_hora,
+        ri1_0.observaciones,
+        ri1_0.paciente_id,
+        ri1_0.referencia_id,
+        ri1_0.tipo,
+        ri1_0.updated_at 
+    from
+        recordatorios_instancia ri1_0 
+    left join
+        usuarios p1_0 
+            on p1_0.id=ri1_0.paciente_id 
+    where
+        p1_0.id=? 
+    order by
+        ri1_0.fecha_hora
+2025-11-18 13:07:01.356 [http-nio-8082-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.id=?
+2025-11-18 13:07:01.365 [http-nio-8082-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        m1_0.id,
+        m1_0.activo,
+        m1_0.created_at,
+        m1_0.cuidador_id,
+        m1_0.dosis,
+        m1_0.fecha_fin,
+        m1_0.fecha_inicio,
+        m1_0.frecuencia,
+        m1_0.nombre,
+        m1_0.observaciones,
+        m1_0.paciente_id,
+        m1_0.updated_at,
+        m1_0.via_administracion 
+    from
+        medicamentos m1_0 
+    where
+        m1_0.id=?
+2025-11-18 13:07:01.382 [http-nio-8082-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        cm1_0.id,
+        cm1_0.completada,
+        cm1_0.created_at,
+        cm1_0.cuidador_id,
+        cm1_0.especialidad,
+        cm1_0.fecha_hora,
+        cm1_0.motivo,
+        cm1_0.nombre_doctor,
+        cm1_0.observaciones,
+        cm1_0.paciente_id,
+        cm1_0.recordatorio_enviado,
+        cm1_0.ubicacion,
+        cm1_0.updated_at 
+    from
+        citas_medicas cm1_0 
+    where
+        cm1_0.id=?
+2025-11-18 13:07:01.410 [http-nio-8082-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        m1_0.id,
+        m1_0.activo,
+        m1_0.created_at,
+        m1_0.cuidador_id,
+        m1_0.dosis,
+        m1_0.fecha_fin,
+        m1_0.fecha_inicio,
+        m1_0.frecuencia,
+        m1_0.nombre,
+        m1_0.observaciones,
+        m1_0.paciente_id,
+        m1_0.updated_at,
+        m1_0.via_administracion 
+    from
+        medicamentos m1_0 
+    where
+        m1_0.id=?
+2025-11-18 13:07:01.609 [http-nio-8082-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        cm1_0.id,
+        cm1_0.completada,
+        cm1_0.created_at,
+        cm1_0.cuidador_id,
+        cm1_0.especialidad,
+        cm1_0.fecha_hora,
+        cm1_0.motivo,
+        cm1_0.nombre_doctor,
+        cm1_0.observaciones,
+        cm1_0.paciente_id,
+        cm1_0.recordatorio_enviado,
+        cm1_0.ubicacion,
+        cm1_0.updated_at 
+    from
+        citas_medicas cm1_0 
+    where
+        cm1_0.id=?
+2025-11-18 13:10:43.795 [http-nio-8082-exec-9] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:10:44.139 [http-nio-8082-exec-9] DEBUG org.hibernate.SQL - 
+    select
+        p1_0.id,
+        p1_0.alergias,
+        p1_0.altura,
+        p1_0.condiciones_medicas,
+        p1_0.created_at,
+        p1_0.notas_importantes,
+        p1_0.numero_afiliado,
+        p1_0.obra_social,
+        p1_0.peso,
+        p1_0.tipo_sanguineo,
+        p1_0.updated_at,
+        p1_0.usuario_id 
+    from
+        pacientes p1_0
+2025-11-18 13:10:44.188 [http-nio-8082-exec-9] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.id=?
+2025-11-18 13:10:44.342 [http-nio-8082-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:10:44.378 [http-nio-8082-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        p1_0.id,
+        p1_0.alergias,
+        p1_0.altura,
+        p1_0.condiciones_medicas,
+        p1_0.created_at,
+        p1_0.notas_importantes,
+        p1_0.numero_afiliado,
+        p1_0.obra_social,
+        p1_0.peso,
+        p1_0.tipo_sanguineo,
+        p1_0.updated_at,
+        p1_0.usuario_id,
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        pacientes p1_0 
+    join
+        usuarios u1_0 
+            on u1_0.id=p1_0.usuario_id 
+    where
+        p1_0.id=?
+2025-11-18 13:10:56.745 [http-nio-8082-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:10:57.817 [http-nio-8082-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:10:58.004 [http-nio-8082-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:10:58.374 [http-nio-8082-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:10:58.534 [http-nio-8082-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:10:58.718 [http-nio-8082-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:10:58.760 [http-nio-8082-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:10:58.839 [http-nio-8082-exec-10] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:10:58.880 [http-nio-8082-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:10:58.900 [http-nio-8082-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:10:58.932 [http-nio-8082-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:10:58.940 [http-nio-8082-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:10:58.965 [http-nio-8082-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:10:58.990 [http-nio-8082-exec-10] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:10:59.036 [http-nio-8082-exec-10] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:10:59.179 [http-nio-8082-exec-10] DEBUG org.hibernate.SQL - 
+    select
+        cp1_0.id,
+        cp1_0.created_at,
+        cp1_0.cuidador_id,
+        cp1_0.es_principal,
+        cp1_0.estado,
+        cp1_0.fecha_aceptacion,
+        cp1_0.fecha_invitacion,
+        cp1_0.paciente_id,
+        cp1_0.updated_at 
+    from
+        cuidadores_pacientes cp1_0 
+    left join
+        usuarios c1_0 
+            on c1_0.id=cp1_0.cuidador_id 
+    left join
+        usuarios p1_0 
+            on p1_0.id=cp1_0.paciente_id 
+    where
+        c1_0.id=? 
+        and p1_0.id=?
+2025-11-18 13:10:59.480 [http-nio-8082-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        cp1_0.id,
+        cp1_0.created_at,
+        cp1_0.cuidador_id,
+        cp1_0.es_principal,
+        cp1_0.estado,
+        cp1_0.fecha_aceptacion,
+        cp1_0.fecha_invitacion,
+        cp1_0.paciente_id,
+        cp1_0.updated_at 
+    from
+        cuidadores_pacientes cp1_0 
+    left join
+        usuarios c1_0 
+            on c1_0.id=cp1_0.cuidador_id 
+    left join
+        usuarios p1_0 
+            on p1_0.id=cp1_0.paciente_id 
+    where
+        c1_0.id=? 
+        and p1_0.id=?
+2025-11-18 13:10:59.510 [http-nio-8082-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        b1_0.id,
+        b1_0.created_at,
+        b1_0.cuidador_id,
+        b1_0.descripcion,
+        b1_0.fecha,
+        b1_0.observaciones,
+        b1_0.paciente_id,
+        b1_0.sintomas,
+        b1_0.titulo,
+        b1_0.updated_at 
+    from
+        bitacoras b1_0 
+    left join
+        usuarios p1_0 
+            on p1_0.id=b1_0.paciente_id 
+    where
+        p1_0.id=? 
+    order by
+        b1_0.fecha desc,
+        b1_0.created_at desc
+2025-11-18 13:10:59.563 [http-nio-8082-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.id=?
+2025-11-18 13:10:59.587 [http-nio-8082-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        cp1_0.id,
+        cp1_0.created_at,
+        cp1_0.cuidador_id,
+        cp1_0.es_principal,
+        cp1_0.estado,
+        cp1_0.fecha_aceptacion,
+        cp1_0.fecha_invitacion,
+        cp1_0.paciente_id,
+        cp1_0.updated_at 
+    from
+        cuidadores_pacientes cp1_0 
+    left join
+        usuarios c1_0 
+            on c1_0.id=cp1_0.cuidador_id 
+    left join
+        usuarios p1_0 
+            on p1_0.id=cp1_0.paciente_id 
+    where
+        c1_0.id=? 
+        and p1_0.id=?
+2025-11-18 13:10:59.610 [http-nio-8082-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        cp1_0.id,
+        cp1_0.created_at,
+        cp1_0.cuidador_id,
+        cp1_0.es_principal,
+        cp1_0.estado,
+        cp1_0.fecha_aceptacion,
+        cp1_0.fecha_invitacion,
+        cp1_0.paciente_id,
+        cp1_0.updated_at 
+    from
+        cuidadores_pacientes cp1_0 
+    left join
+        usuarios c1_0 
+            on c1_0.id=cp1_0.cuidador_id 
+    left join
+        usuarios p1_0 
+            on p1_0.id=cp1_0.paciente_id 
+    where
+        c1_0.id=? 
+        and p1_0.id=?
+2025-11-18 13:10:59.916 [http-nio-8082-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        cm1_0.id,
+        cm1_0.completada,
+        cm1_0.created_at,
+        cm1_0.cuidador_id,
+        cm1_0.especialidad,
+        cm1_0.fecha_hora,
+        cm1_0.motivo,
+        cm1_0.nombre_doctor,
+        cm1_0.observaciones,
+        cm1_0.paciente_id,
+        cm1_0.recordatorio_enviado,
+        cm1_0.ubicacion,
+        cm1_0.updated_at 
+    from
+        citas_medicas cm1_0 
+    left join
+        usuarios p1_0 
+            on p1_0.id=cm1_0.paciente_id 
+    where
+        p1_0.id=? 
+    order by
+        cm1_0.fecha_hora
+2025-11-18 13:10:59.946 [http-nio-8082-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        t1_0.id,
+        t1_0.completada,
+        t1_0.created_at,
+        t1_0.cuidador_id,
+        t1_0.descripcion,
+        t1_0.fecha_completada,
+        t1_0.fecha_vencimiento,
+        t1_0.orden_manual,
+        t1_0.paciente_id,
+        t1_0.prioridad,
+        t1_0.titulo,
+        t1_0.updated_at 
+    from
+        tareas t1_0 
+    left join
+        usuarios p1_0 
+            on p1_0.id=t1_0.paciente_id 
+    where
+        p1_0.id=? 
+    order by
+        t1_0.orden_manual
+2025-11-18 13:10:59.952 [http-nio-8082-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.id=?
+2025-11-18 13:11:00.206 [http-nio-8082-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.id=?
+2025-11-18 13:11:00.205 [http-nio-8082-exec-10] DEBUG org.hibernate.SQL - 
+    select
+        m1_0.id,
+        m1_0.activo,
+        m1_0.created_at,
+        m1_0.cuidador_id,
+        m1_0.dosis,
+        m1_0.fecha_fin,
+        m1_0.fecha_inicio,
+        m1_0.frecuencia,
+        m1_0.nombre,
+        m1_0.observaciones,
+        m1_0.paciente_id,
+        m1_0.updated_at,
+        m1_0.via_administracion 
+    from
+        medicamentos m1_0 
+    left join
+        usuarios p1_0 
+            on p1_0.id=m1_0.paciente_id 
+    where
+        p1_0.id=? 
+        and m1_0.activo 
+    order by
+        m1_0.nombre
+2025-11-18 13:11:00.528 [http-nio-8082-exec-10] DEBUG org.hibernate.SQL - 
+    select
+        h1_0.medicamento_id,
+        h1_0.id,
+        h1_0.created_at,
+        h1_0.dias_semana,
+        h1_0.hora 
+    from
+        horarios_medicamento h1_0 
+    where
+        h1_0.medicamento_id=?
+2025-11-18 13:11:00.546 [http-nio-8082-exec-10] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.id=?
+2025-11-18 13:11:00.566 [http-nio-8082-exec-10] DEBUG org.hibernate.SQL - 
+    select
+        h1_0.medicamento_id,
+        h1_0.id,
+        h1_0.created_at,
+        h1_0.dias_semana,
+        h1_0.hora 
+    from
+        horarios_medicamento h1_0 
+    where
+        h1_0.medicamento_id=?
+2025-11-18 13:17:27.442 [http-nio-8082-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:17:27.627 [http-nio-8082-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        p1_0.id,
+        p1_0.alergias,
+        p1_0.altura,
+        p1_0.condiciones_medicas,
+        p1_0.created_at,
+        p1_0.notas_importantes,
+        p1_0.numero_afiliado,
+        p1_0.obra_social,
+        p1_0.peso,
+        p1_0.tipo_sanguineo,
+        p1_0.updated_at,
+        p1_0.usuario_id 
+    from
+        pacientes p1_0
+2025-11-18 13:17:27.636 [http-nio-8082-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.id=?
+2025-11-18 13:17:27.741 [http-nio-8082-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:17:27.761 [http-nio-8082-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        p1_0.id,
+        p1_0.alergias,
+        p1_0.altura,
+        p1_0.condiciones_medicas,
+        p1_0.created_at,
+        p1_0.notas_importantes,
+        p1_0.numero_afiliado,
+        p1_0.obra_social,
+        p1_0.peso,
+        p1_0.tipo_sanguineo,
+        p1_0.updated_at,
+        p1_0.usuario_id,
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        pacientes p1_0 
+    join
+        usuarios u1_0 
+            on u1_0.id=p1_0.usuario_id 
+    where
+        p1_0.id=?
+2025-11-18 13:17:45.034 [http-nio-8082-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:17:45.213 [http-nio-8082-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:17:45.226 [http-nio-8082-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:17:45.303 [http-nio-8082-exec-10] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:17:45.304 [http-nio-8082-exec-9] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:17:45.304 [http-nio-8082-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:17:45.304 [http-nio-8082-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:17:45.318 [http-nio-8082-exec-10] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:17:45.318 [http-nio-8082-exec-9] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:17:45.321 [http-nio-8082-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:17:45.323 [http-nio-8082-exec-10] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:17:45.324 [http-nio-8082-exec-9] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:17:45.327 [http-nio-8082-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:17:45.333 [http-nio-8082-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:17:45.338 [http-nio-8082-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        cp1_0.id,
+        cp1_0.created_at,
+        cp1_0.cuidador_id,
+        cp1_0.es_principal,
+        cp1_0.estado,
+        cp1_0.fecha_aceptacion,
+        cp1_0.fecha_invitacion,
+        cp1_0.paciente_id,
+        cp1_0.updated_at 
+    from
+        cuidadores_pacientes cp1_0 
+    left join
+        usuarios c1_0 
+            on c1_0.id=cp1_0.cuidador_id 
+    left join
+        usuarios p1_0 
+            on p1_0.id=cp1_0.paciente_id 
+    where
+        c1_0.id=? 
+        and p1_0.id=?
+2025-11-18 13:17:45.338 [http-nio-8082-exec-9] DEBUG org.hibernate.SQL - 
+    select
+        cp1_0.id,
+        cp1_0.created_at,
+        cp1_0.cuidador_id,
+        cp1_0.es_principal,
+        cp1_0.estado,
+        cp1_0.fecha_aceptacion,
+        cp1_0.fecha_invitacion,
+        cp1_0.paciente_id,
+        cp1_0.updated_at 
+    from
+        cuidadores_pacientes cp1_0 
+    left join
+        usuarios c1_0 
+            on c1_0.id=cp1_0.cuidador_id 
+    left join
+        usuarios p1_0 
+            on p1_0.id=cp1_0.paciente_id 
+    where
+        c1_0.id=? 
+        and p1_0.id=?
+2025-11-18 13:17:45.338 [http-nio-8082-exec-10] DEBUG org.hibernate.SQL - 
+    select
+        cp1_0.id,
+        cp1_0.created_at,
+        cp1_0.cuidador_id,
+        cp1_0.es_principal,
+        cp1_0.estado,
+        cp1_0.fecha_aceptacion,
+        cp1_0.fecha_invitacion,
+        cp1_0.paciente_id,
+        cp1_0.updated_at 
+    from
+        cuidadores_pacientes cp1_0 
+    left join
+        usuarios c1_0 
+            on c1_0.id=cp1_0.cuidador_id 
+    left join
+        usuarios p1_0 
+            on p1_0.id=cp1_0.paciente_id 
+    where
+        c1_0.id=? 
+        and p1_0.id=?
+2025-11-18 13:17:45.339 [http-nio-8082-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:17:45.345 [http-nio-8082-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        cp1_0.id,
+        cp1_0.created_at,
+        cp1_0.cuidador_id,
+        cp1_0.es_principal,
+        cp1_0.estado,
+        cp1_0.fecha_aceptacion,
+        cp1_0.fecha_invitacion,
+        cp1_0.paciente_id,
+        cp1_0.updated_at 
+    from
+        cuidadores_pacientes cp1_0 
+    left join
+        usuarios c1_0 
+            on c1_0.id=cp1_0.cuidador_id 
+    left join
+        usuarios p1_0 
+            on p1_0.id=cp1_0.paciente_id 
+    where
+        c1_0.id=? 
+        and p1_0.id=?
+2025-11-18 13:17:45.360 [http-nio-8082-exec-9] DEBUG org.hibernate.SQL - 
+    select
+        b1_0.id,
+        b1_0.created_at,
+        b1_0.cuidador_id,
+        b1_0.descripcion,
+        b1_0.fecha,
+        b1_0.observaciones,
+        b1_0.paciente_id,
+        b1_0.sintomas,
+        b1_0.titulo,
+        b1_0.updated_at 
+    from
+        bitacoras b1_0 
+    left join
+        usuarios p1_0 
+            on p1_0.id=b1_0.paciente_id 
+    where
+        p1_0.id=? 
+    order by
+        b1_0.fecha desc,
+        b1_0.created_at desc
+2025-11-18 13:17:45.364 [http-nio-8082-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        m1_0.id,
+        m1_0.activo,
+        m1_0.created_at,
+        m1_0.cuidador_id,
+        m1_0.dosis,
+        m1_0.fecha_fin,
+        m1_0.fecha_inicio,
+        m1_0.frecuencia,
+        m1_0.nombre,
+        m1_0.observaciones,
+        m1_0.paciente_id,
+        m1_0.updated_at,
+        m1_0.via_administracion 
+    from
+        medicamentos m1_0 
+    left join
+        usuarios p1_0 
+            on p1_0.id=m1_0.paciente_id 
+    where
+        p1_0.id=? 
+        and m1_0.activo 
+    order by
+        m1_0.nombre
+2025-11-18 13:17:45.376 [http-nio-8082-exec-9] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.id=?
+2025-11-18 13:17:45.381 [http-nio-8082-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        h1_0.medicamento_id,
+        h1_0.id,
+        h1_0.created_at,
+        h1_0.dias_semana,
+        h1_0.hora 
+    from
+        horarios_medicamento h1_0 
+    where
+        h1_0.medicamento_id=?
+2025-11-18 13:17:45.383 [http-nio-8082-exec-10] DEBUG org.hibernate.SQL - 
+    select
+        cm1_0.id,
+        cm1_0.completada,
+        cm1_0.created_at,
+        cm1_0.cuidador_id,
+        cm1_0.especialidad,
+        cm1_0.fecha_hora,
+        cm1_0.motivo,
+        cm1_0.nombre_doctor,
+        cm1_0.observaciones,
+        cm1_0.paciente_id,
+        cm1_0.recordatorio_enviado,
+        cm1_0.ubicacion,
+        cm1_0.updated_at 
+    from
+        citas_medicas cm1_0 
+    left join
+        usuarios p1_0 
+            on p1_0.id=cm1_0.paciente_id 
+    where
+        p1_0.id=? 
+    order by
+        cm1_0.fecha_hora
+2025-11-18 13:17:45.390 [http-nio-8082-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.id=?
+2025-11-18 13:17:45.392 [http-nio-8082-exec-10] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.id=?
+2025-11-18 13:17:45.394 [http-nio-8082-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        h1_0.medicamento_id,
+        h1_0.id,
+        h1_0.created_at,
+        h1_0.dias_semana,
+        h1_0.hora 
+    from
+        horarios_medicamento h1_0 
+    where
+        h1_0.medicamento_id=?
+2025-11-18 13:17:45.400 [http-nio-8082-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        t1_0.id,
+        t1_0.completada,
+        t1_0.created_at,
+        t1_0.cuidador_id,
+        t1_0.descripcion,
+        t1_0.fecha_completada,
+        t1_0.fecha_vencimiento,
+        t1_0.orden_manual,
+        t1_0.paciente_id,
+        t1_0.prioridad,
+        t1_0.titulo,
+        t1_0.updated_at 
+    from
+        tareas t1_0 
+    left join
+        usuarios p1_0 
+            on p1_0.id=t1_0.paciente_id 
+    where
+        p1_0.id=? 
+    order by
+        t1_0.orden_manual
+2025-11-18 13:17:45.409 [http-nio-8082-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.id=?
+2025-11-18 13:27:36.610 [http-nio-8082-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:27:36.799 [http-nio-8082-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        p1_0.id,
+        p1_0.alergias,
+        p1_0.altura,
+        p1_0.condiciones_medicas,
+        p1_0.created_at,
+        p1_0.notas_importantes,
+        p1_0.numero_afiliado,
+        p1_0.obra_social,
+        p1_0.peso,
+        p1_0.tipo_sanguineo,
+        p1_0.updated_at,
+        p1_0.usuario_id 
+    from
+        pacientes p1_0
+2025-11-18 13:27:36.812 [http-nio-8082-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.id=?
+2025-11-18 13:27:36.965 [http-nio-8082-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:27:36.990 [http-nio-8082-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        p1_0.id,
+        p1_0.alergias,
+        p1_0.altura,
+        p1_0.condiciones_medicas,
+        p1_0.created_at,
+        p1_0.notas_importantes,
+        p1_0.numero_afiliado,
+        p1_0.obra_social,
+        p1_0.peso,
+        p1_0.tipo_sanguineo,
+        p1_0.updated_at,
+        p1_0.usuario_id,
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        pacientes p1_0 
+    join
+        usuarios u1_0 
+            on u1_0.id=p1_0.usuario_id 
+    where
+        p1_0.id=?
+2025-11-18 13:27:54.997 [SpringApplicationShutdownHook] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-11-18 13:27:55.105 [tomcat-shutdown] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-11-18 13:27:55.310 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-11-18 13:27:55.461 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-11-18 13:27:55.692 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-11-18 13:28:01.995 [main] INFO  com.cuido.cuido.CuidoApplication - Starting CuidoApplication using Java 23.0.1 with PID 19788 (C:\Users\ramik\OneDrive\Desktop\cuido\backend\target\classes started by ramik in C:\Users\ramik\OneDrive\Desktop\cuido\backend)
+2025-11-18 13:28:01.998 [main] INFO  com.cuido.cuido.CuidoApplication - No active profile set, falling back to 1 default profile: "default"
+2025-11-18 13:28:04.517 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-11-18 13:28:04.673 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 136 ms. Found 12 JPA repository interfaces.
+2025-11-18 13:28:06.007 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8082 (http)
+2025-11-18 13:28:06.034 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8082"]
+2025-11-18 13:28:06.038 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-11-18 13:28:06.038 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.48]
+2025-11-18 13:28:06.177 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-11-18 13:28:06.178 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 4045 ms
+2025-11-18 13:28:07.241 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-11-18 13:28:07.292 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-11-18 13:28:07.570 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@28cf179c
+2025-11-18 13:28:07.573 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-11-18 13:28:07.668 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-11-18 13:28:07.669 [main] WARN  org.hibernate.orm.deprecation - HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+2025-11-18 13:28:09.768 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-11-18 13:28:10.562 [main] INFO  o.s.s.c.a.a.c.InitializeAuthenticationProviderBeanManagerConfigurer$InitializeAuthenticationProviderManagerConfigurer - Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2025-11-18 13:28:10.566 [main] WARN  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2025-11-18 13:28:11.222 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-11-18 13:28:14.518 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-11-18 13:28:15.142 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 1 endpoint beneath base path '/actuator'
+2025-11-18 13:28:16.131 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8082"]
+2025-11-18 13:28:16.167 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8082 (http) with context path '/'
+2025-11-18 13:28:16.196 [main] INFO  com.cuido.cuido.CuidoApplication - Started CuidoApplication in 15.149 seconds (process running for 16.144)
+2025-11-18 13:31:43.165 [http-nio-8082-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-11-18 13:31:43.180 [http-nio-8082-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-11-18 13:31:43.422 [http-nio-8082-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 240 ms
+2025-11-18 13:31:44.598 [http-nio-8082-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:31:45.362 [http-nio-8082-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:31:45.413 [http-nio-8082-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:31:45.513 [http-nio-8082-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:31:45.534 [http-nio-8082-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:31:45.540 [http-nio-8082-exec-8] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:31:45.544 [http-nio-8082-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:31:45.541 [http-nio-8082-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:31:45.563 [http-nio-8082-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        cp1_0.id,
+        cp1_0.created_at,
+        cp1_0.cuidador_id,
+        cp1_0.es_principal,
+        cp1_0.estado,
+        cp1_0.fecha_aceptacion,
+        cp1_0.fecha_invitacion,
+        cp1_0.paciente_id,
+        cp1_0.updated_at 
+    from
+        cuidadores_pacientes cp1_0 
+    left join
+        usuarios c1_0 
+            on c1_0.id=cp1_0.cuidador_id 
+    left join
+        usuarios p1_0 
+            on p1_0.id=cp1_0.paciente_id 
+    where
+        c1_0.id=? 
+        and p1_0.id=?
+2025-11-18 13:31:45.564 [http-nio-8082-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:31:45.577 [http-nio-8082-exec-8] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:31:45.577 [http-nio-8082-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:31:45.582 [http-nio-8082-exec-8] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:31:45.583 [http-nio-8082-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:31:45.589 [http-nio-8082-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:31:45.590 [http-nio-8082-exec-8] DEBUG org.hibernate.SQL - 
+    select
+        cp1_0.id,
+        cp1_0.created_at,
+        cp1_0.cuidador_id,
+        cp1_0.es_principal,
+        cp1_0.estado,
+        cp1_0.fecha_aceptacion,
+        cp1_0.fecha_invitacion,
+        cp1_0.paciente_id,
+        cp1_0.updated_at 
+    from
+        cuidadores_pacientes cp1_0 
+    left join
+        usuarios c1_0 
+            on c1_0.id=cp1_0.cuidador_id 
+    left join
+        usuarios p1_0 
+            on p1_0.id=cp1_0.paciente_id 
+    where
+        c1_0.id=? 
+        and p1_0.id=?
+2025-11-18 13:31:45.595 [http-nio-8082-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        cp1_0.id,
+        cp1_0.created_at,
+        cp1_0.cuidador_id,
+        cp1_0.es_principal,
+        cp1_0.estado,
+        cp1_0.fecha_aceptacion,
+        cp1_0.fecha_invitacion,
+        cp1_0.paciente_id,
+        cp1_0.updated_at 
+    from
+        cuidadores_pacientes cp1_0 
+    left join
+        usuarios c1_0 
+            on c1_0.id=cp1_0.cuidador_id 
+    left join
+        usuarios p1_0 
+            on p1_0.id=cp1_0.paciente_id 
+    where
+        c1_0.id=? 
+        and p1_0.id=?
+2025-11-18 13:31:45.611 [http-nio-8082-exec-8] DEBUG org.hibernate.SQL - 
+    select
+        b1_0.id,
+        b1_0.created_at,
+        b1_0.cuidador_id,
+        b1_0.descripcion,
+        b1_0.fecha,
+        b1_0.observaciones,
+        b1_0.paciente_id,
+        b1_0.sintomas,
+        b1_0.titulo,
+        b1_0.updated_at 
+    from
+        bitacoras b1_0 
+    left join
+        usuarios p1_0 
+            on p1_0.id=b1_0.paciente_id 
+    where
+        p1_0.id=? 
+    order by
+        b1_0.fecha desc,
+        b1_0.created_at desc
+2025-11-18 13:31:45.612 [http-nio-8082-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        m1_0.id,
+        m1_0.activo,
+        m1_0.created_at,
+        m1_0.cuidador_id,
+        m1_0.dosis,
+        m1_0.fecha_fin,
+        m1_0.fecha_inicio,
+        m1_0.frecuencia,
+        m1_0.nombre,
+        m1_0.observaciones,
+        m1_0.paciente_id,
+        m1_0.updated_at,
+        m1_0.via_administracion 
+    from
+        medicamentos m1_0 
+    left join
+        usuarios p1_0 
+            on p1_0.id=m1_0.paciente_id 
+    where
+        p1_0.id=? 
+        and m1_0.activo 
+    order by
+        m1_0.nombre
+2025-11-18 13:31:45.613 [http-nio-8082-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:31:45.620 [http-nio-8082-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        cp1_0.id,
+        cp1_0.created_at,
+        cp1_0.cuidador_id,
+        cp1_0.es_principal,
+        cp1_0.estado,
+        cp1_0.fecha_aceptacion,
+        cp1_0.fecha_invitacion,
+        cp1_0.paciente_id,
+        cp1_0.updated_at 
+    from
+        cuidadores_pacientes cp1_0 
+    left join
+        usuarios c1_0 
+            on c1_0.id=cp1_0.cuidador_id 
+    left join
+        usuarios p1_0 
+            on p1_0.id=cp1_0.paciente_id 
+    where
+        c1_0.id=? 
+        and p1_0.id=?
+2025-11-18 13:31:45.634 [http-nio-8082-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        cm1_0.id,
+        cm1_0.completada,
+        cm1_0.created_at,
+        cm1_0.cuidador_id,
+        cm1_0.especialidad,
+        cm1_0.fecha_hora,
+        cm1_0.motivo,
+        cm1_0.nombre_doctor,
+        cm1_0.observaciones,
+        cm1_0.paciente_id,
+        cm1_0.recordatorio_enviado,
+        cm1_0.ubicacion,
+        cm1_0.updated_at 
+    from
+        citas_medicas cm1_0 
+    left join
+        usuarios p1_0 
+            on p1_0.id=cm1_0.paciente_id 
+    where
+        p1_0.id=? 
+    order by
+        cm1_0.fecha_hora
+2025-11-18 13:31:45.665 [http-nio-8082-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.id=?
+2025-11-18 13:31:45.665 [http-nio-8082-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        h1_0.medicamento_id,
+        h1_0.id,
+        h1_0.created_at,
+        h1_0.dias_semana,
+        h1_0.hora 
+    from
+        horarios_medicamento h1_0 
+    where
+        h1_0.medicamento_id=?
+2025-11-18 13:31:45.688 [http-nio-8082-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        t1_0.id,
+        t1_0.completada,
+        t1_0.created_at,
+        t1_0.cuidador_id,
+        t1_0.descripcion,
+        t1_0.fecha_completada,
+        t1_0.fecha_vencimiento,
+        t1_0.orden_manual,
+        t1_0.paciente_id,
+        t1_0.prioridad,
+        t1_0.titulo,
+        t1_0.updated_at 
+    from
+        tareas t1_0 
+    left join
+        usuarios p1_0 
+            on p1_0.id=t1_0.paciente_id 
+    where
+        p1_0.id=? 
+    order by
+        t1_0.orden_manual
+2025-11-18 13:31:45.707 [http-nio-8082-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.id=?
+2025-11-18 13:31:45.756 [http-nio-8082-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.id=?
+2025-11-18 13:31:45.762 [http-nio-8082-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        h1_0.medicamento_id,
+        h1_0.id,
+        h1_0.created_at,
+        h1_0.dias_semana,
+        h1_0.hora 
+    from
+        horarios_medicamento h1_0 
+    where
+        h1_0.medicamento_id=?
+2025-11-18 13:31:45.804 [http-nio-8082-exec-8] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.id=?
+2025-11-18 13:33:03.120 [http-nio-8082-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:33:03.289 [http-nio-8082-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:33:03.382 [http-nio-8082-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:33:03.391 [http-nio-8082-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:33:03.403 [http-nio-8082-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:33:03.408 [http-nio-8082-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:33:03.414 [http-nio-8082-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:33:03.416 [http-nio-8082-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:33:03.420 [http-nio-8082-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:33:03.424 [http-nio-8082-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:33:03.428 [http-nio-8082-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        cp1_0.id,
+        cp1_0.created_at,
+        cp1_0.cuidador_id,
+        cp1_0.es_principal,
+        cp1_0.estado,
+        cp1_0.fecha_aceptacion,
+        cp1_0.fecha_invitacion,
+        cp1_0.paciente_id,
+        cp1_0.updated_at 
+    from
+        cuidadores_pacientes cp1_0 
+    left join
+        usuarios c1_0 
+            on c1_0.id=cp1_0.cuidador_id 
+    left join
+        usuarios p1_0 
+            on p1_0.id=cp1_0.paciente_id 
+    where
+        c1_0.id=? 
+        and p1_0.id=?
+2025-11-18 13:33:03.429 [http-nio-8082-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:33:03.429 [http-nio-8082-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:33:03.432 [http-nio-8082-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        cp1_0.id,
+        cp1_0.created_at,
+        cp1_0.cuidador_id,
+        cp1_0.es_principal,
+        cp1_0.estado,
+        cp1_0.fecha_aceptacion,
+        cp1_0.fecha_invitacion,
+        cp1_0.paciente_id,
+        cp1_0.updated_at 
+    from
+        cuidadores_pacientes cp1_0 
+    left join
+        usuarios c1_0 
+            on c1_0.id=cp1_0.cuidador_id 
+    left join
+        usuarios p1_0 
+            on p1_0.id=cp1_0.paciente_id 
+    where
+        c1_0.id=? 
+        and p1_0.id=?
+2025-11-18 13:33:03.440 [http-nio-8082-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:33:03.445 [http-nio-8082-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:33:03.446 [http-nio-8082-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        t1_0.id,
+        t1_0.completada,
+        t1_0.created_at,
+        t1_0.cuidador_id,
+        t1_0.descripcion,
+        t1_0.fecha_completada,
+        t1_0.fecha_vencimiento,
+        t1_0.orden_manual,
+        t1_0.paciente_id,
+        t1_0.prioridad,
+        t1_0.titulo,
+        t1_0.updated_at 
+    from
+        tareas t1_0 
+    left join
+        usuarios p1_0 
+            on p1_0.id=t1_0.paciente_id 
+    where
+        p1_0.id=? 
+    order by
+        t1_0.orden_manual
+2025-11-18 13:33:03.452 [http-nio-8082-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        cp1_0.id,
+        cp1_0.created_at,
+        cp1_0.cuidador_id,
+        cp1_0.es_principal,
+        cp1_0.estado,
+        cp1_0.fecha_aceptacion,
+        cp1_0.fecha_invitacion,
+        cp1_0.paciente_id,
+        cp1_0.updated_at 
+    from
+        cuidadores_pacientes cp1_0 
+    left join
+        usuarios c1_0 
+            on c1_0.id=cp1_0.cuidador_id 
+    left join
+        usuarios p1_0 
+            on p1_0.id=cp1_0.paciente_id 
+    where
+        c1_0.id=? 
+        and p1_0.id=?
+2025-11-18 13:33:03.458 [http-nio-8082-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.id=?
+2025-11-18 13:33:03.460 [http-nio-8082-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        cm1_0.id,
+        cm1_0.completada,
+        cm1_0.created_at,
+        cm1_0.cuidador_id,
+        cm1_0.especialidad,
+        cm1_0.fecha_hora,
+        cm1_0.motivo,
+        cm1_0.nombre_doctor,
+        cm1_0.observaciones,
+        cm1_0.paciente_id,
+        cm1_0.recordatorio_enviado,
+        cm1_0.ubicacion,
+        cm1_0.updated_at 
+    from
+        citas_medicas cm1_0 
+    left join
+        usuarios p1_0 
+            on p1_0.id=cm1_0.paciente_id 
+    where
+        p1_0.id=? 
+    order by
+        cm1_0.fecha_hora
+2025-11-18 13:33:03.467 [http-nio-8082-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        m1_0.id,
+        m1_0.activo,
+        m1_0.created_at,
+        m1_0.cuidador_id,
+        m1_0.dosis,
+        m1_0.fecha_fin,
+        m1_0.fecha_inicio,
+        m1_0.frecuencia,
+        m1_0.nombre,
+        m1_0.observaciones,
+        m1_0.paciente_id,
+        m1_0.updated_at,
+        m1_0.via_administracion 
+    from
+        medicamentos m1_0 
+    left join
+        usuarios p1_0 
+            on p1_0.id=m1_0.paciente_id 
+    where
+        p1_0.id=? 
+        and m1_0.activo 
+    order by
+        m1_0.nombre
+2025-11-18 13:33:03.474 [http-nio-8082-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.id=?
+2025-11-18 13:33:03.487 [http-nio-8082-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        h1_0.medicamento_id,
+        h1_0.id,
+        h1_0.created_at,
+        h1_0.dias_semana,
+        h1_0.hora 
+    from
+        horarios_medicamento h1_0 
+    where
+        h1_0.medicamento_id=?
+2025-11-18 13:33:03.496 [http-nio-8082-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.id=?
+2025-11-18 13:33:03.499 [http-nio-8082-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        h1_0.medicamento_id,
+        h1_0.id,
+        h1_0.created_at,
+        h1_0.dias_semana,
+        h1_0.hora 
+    from
+        horarios_medicamento h1_0 
+    where
+        h1_0.medicamento_id=?
+2025-11-18 13:33:03.501 [http-nio-8082-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        cp1_0.id,
+        cp1_0.created_at,
+        cp1_0.cuidador_id,
+        cp1_0.es_principal,
+        cp1_0.estado,
+        cp1_0.fecha_aceptacion,
+        cp1_0.fecha_invitacion,
+        cp1_0.paciente_id,
+        cp1_0.updated_at 
+    from
+        cuidadores_pacientes cp1_0 
+    left join
+        usuarios c1_0 
+            on c1_0.id=cp1_0.cuidador_id 
+    left join
+        usuarios p1_0 
+            on p1_0.id=cp1_0.paciente_id 
+    where
+        c1_0.id=? 
+        and p1_0.id=?
+2025-11-18 13:33:03.520 [http-nio-8082-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        b1_0.id,
+        b1_0.created_at,
+        b1_0.cuidador_id,
+        b1_0.descripcion,
+        b1_0.fecha,
+        b1_0.observaciones,
+        b1_0.paciente_id,
+        b1_0.sintomas,
+        b1_0.titulo,
+        b1_0.updated_at 
+    from
+        bitacoras b1_0 
+    left join
+        usuarios p1_0 
+            on p1_0.id=b1_0.paciente_id 
+    where
+        p1_0.id=? 
+    order by
+        b1_0.fecha desc,
+        b1_0.created_at desc
+2025-11-18 13:33:03.528 [http-nio-8082-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.id=?
+2025-11-18 13:42:00.693 [http-nio-8082-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:42:13.267 [http-nio-8082-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:42:13.309 [http-nio-8082-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:42:22.221 [http-nio-8082-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:42:22.691 [http-nio-8082-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.id=?
+2025-11-18 13:42:22.734 [http-nio-8082-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        p1_0.id,
+        p1_0.alergias,
+        p1_0.altura,
+        p1_0.condiciones_medicas,
+        p1_0.created_at,
+        p1_0.notas_importantes,
+        p1_0.numero_afiliado,
+        p1_0.obra_social,
+        p1_0.peso,
+        p1_0.tipo_sanguineo,
+        p1_0.updated_at,
+        p1_0.usuario_id 
+    from
+        pacientes p1_0 
+    left join
+        usuarios u1_0 
+            on u1_0.id=p1_0.usuario_id 
+    where
+        u1_0.id=?
+2025-11-18 13:42:23.081 [http-nio-8082-exec-6] DEBUG org.hibernate.SQL - 
+    update
+        pacientes 
+    set
+        alergias=?,
+        altura=?,
+        condiciones_medicas=?,
+        notas_importantes=?,
+        numero_afiliado=?,
+        obra_social=?,
+        peso=?,
+        tipo_sanguineo=?,
+        updated_at=?,
+        usuario_id=? 
+    where
+        id=?
+2025-11-18 13:45:22.988 [http-nio-8082-exec-8] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:45:23.352 [http-nio-8082-exec-8] DEBUG org.hibernate.SQL - 
+    select
+        p1_0.id,
+        p1_0.alergias,
+        p1_0.altura,
+        p1_0.condiciones_medicas,
+        p1_0.created_at,
+        p1_0.notas_importantes,
+        p1_0.numero_afiliado,
+        p1_0.obra_social,
+        p1_0.peso,
+        p1_0.tipo_sanguineo,
+        p1_0.updated_at,
+        p1_0.usuario_id 
+    from
+        pacientes p1_0
+2025-11-18 13:45:23.369 [http-nio-8082-exec-8] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.id=?
+2025-11-18 13:45:23.678 [http-nio-8082-exec-10] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:45:23.712 [http-nio-8082-exec-10] DEBUG org.hibernate.SQL - 
+    select
+        p1_0.id,
+        p1_0.alergias,
+        p1_0.altura,
+        p1_0.condiciones_medicas,
+        p1_0.created_at,
+        p1_0.notas_importantes,
+        p1_0.numero_afiliado,
+        p1_0.obra_social,
+        p1_0.peso,
+        p1_0.tipo_sanguineo,
+        p1_0.updated_at,
+        p1_0.usuario_id,
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        pacientes p1_0 
+    join
+        usuarios u1_0 
+            on u1_0.id=p1_0.usuario_id 
+    where
+        p1_0.id=?
+2025-11-18 13:45:32.988 [http-nio-8082-exec-9] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:45:33.155 [http-nio-8082-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:45:33.177 [http-nio-8082-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:45:33.233 [http-nio-8082-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:45:33.254 [http-nio-8082-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:45:33.277 [http-nio-8082-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:45:33.278 [http-nio-8082-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:45:33.286 [http-nio-8082-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:45:33.284 [http-nio-8082-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:45:33.305 [http-nio-8082-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        cp1_0.id,
+        cp1_0.created_at,
+        cp1_0.cuidador_id,
+        cp1_0.es_principal,
+        cp1_0.estado,
+        cp1_0.fecha_aceptacion,
+        cp1_0.fecha_invitacion,
+        cp1_0.paciente_id,
+        cp1_0.updated_at 
+    from
+        cuidadores_pacientes cp1_0 
+    left join
+        usuarios c1_0 
+            on c1_0.id=cp1_0.cuidador_id 
+    left join
+        usuarios p1_0 
+            on p1_0.id=cp1_0.paciente_id 
+    where
+        c1_0.id=? 
+        and p1_0.id=?
+2025-11-18 13:45:33.306 [http-nio-8082-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:45:33.325 [http-nio-8082-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:45:33.327 [http-nio-8082-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        b1_0.id,
+        b1_0.created_at,
+        b1_0.cuidador_id,
+        b1_0.descripcion,
+        b1_0.fecha,
+        b1_0.observaciones,
+        b1_0.paciente_id,
+        b1_0.sintomas,
+        b1_0.titulo,
+        b1_0.updated_at 
+    from
+        bitacoras b1_0 
+    left join
+        usuarios p1_0 
+            on p1_0.id=b1_0.paciente_id 
+    where
+        p1_0.id=? 
+    order by
+        b1_0.fecha desc,
+        b1_0.created_at desc
+2025-11-18 13:45:33.327 [http-nio-8082-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:45:33.337 [http-nio-8082-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        cp1_0.id,
+        cp1_0.created_at,
+        cp1_0.cuidador_id,
+        cp1_0.es_principal,
+        cp1_0.estado,
+        cp1_0.fecha_aceptacion,
+        cp1_0.fecha_invitacion,
+        cp1_0.paciente_id,
+        cp1_0.updated_at 
+    from
+        cuidadores_pacientes cp1_0 
+    left join
+        usuarios c1_0 
+            on c1_0.id=cp1_0.cuidador_id 
+    left join
+        usuarios p1_0 
+            on p1_0.id=cp1_0.paciente_id 
+    where
+        c1_0.id=? 
+        and p1_0.id=?
+2025-11-18 13:45:33.337 [http-nio-8082-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:45:33.340 [http-nio-8082-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.id=?
+2025-11-18 13:45:33.345 [http-nio-8082-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        cp1_0.id,
+        cp1_0.created_at,
+        cp1_0.cuidador_id,
+        cp1_0.es_principal,
+        cp1_0.estado,
+        cp1_0.fecha_aceptacion,
+        cp1_0.fecha_invitacion,
+        cp1_0.paciente_id,
+        cp1_0.updated_at 
+    from
+        cuidadores_pacientes cp1_0 
+    left join
+        usuarios c1_0 
+            on c1_0.id=cp1_0.cuidador_id 
+    left join
+        usuarios p1_0 
+            on p1_0.id=cp1_0.paciente_id 
+    where
+        c1_0.id=? 
+        and p1_0.id=?
+2025-11-18 13:45:33.348 [http-nio-8082-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        m1_0.id,
+        m1_0.activo,
+        m1_0.created_at,
+        m1_0.cuidador_id,
+        m1_0.dosis,
+        m1_0.fecha_fin,
+        m1_0.fecha_inicio,
+        m1_0.frecuencia,
+        m1_0.nombre,
+        m1_0.observaciones,
+        m1_0.paciente_id,
+        m1_0.updated_at,
+        m1_0.via_administracion 
+    from
+        medicamentos m1_0 
+    left join
+        usuarios p1_0 
+            on p1_0.id=m1_0.paciente_id 
+    where
+        p1_0.id=? 
+        and m1_0.activo 
+    order by
+        m1_0.nombre
+2025-11-18 13:45:33.349 [http-nio-8082-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:45:33.355 [http-nio-8082-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:45:33.355 [http-nio-8082-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        cm1_0.id,
+        cm1_0.completada,
+        cm1_0.created_at,
+        cm1_0.cuidador_id,
+        cm1_0.especialidad,
+        cm1_0.fecha_hora,
+        cm1_0.motivo,
+        cm1_0.nombre_doctor,
+        cm1_0.observaciones,
+        cm1_0.paciente_id,
+        cm1_0.recordatorio_enviado,
+        cm1_0.ubicacion,
+        cm1_0.updated_at 
+    from
+        citas_medicas cm1_0 
+    left join
+        usuarios p1_0 
+            on p1_0.id=cm1_0.paciente_id 
+    where
+        p1_0.id=? 
+    order by
+        cm1_0.fecha_hora
+2025-11-18 13:45:33.360 [http-nio-8082-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        cp1_0.id,
+        cp1_0.created_at,
+        cp1_0.cuidador_id,
+        cp1_0.es_principal,
+        cp1_0.estado,
+        cp1_0.fecha_aceptacion,
+        cp1_0.fecha_invitacion,
+        cp1_0.paciente_id,
+        cp1_0.updated_at 
+    from
+        cuidadores_pacientes cp1_0 
+    left join
+        usuarios c1_0 
+            on c1_0.id=cp1_0.cuidador_id 
+    left join
+        usuarios p1_0 
+            on p1_0.id=cp1_0.paciente_id 
+    where
+        c1_0.id=? 
+        and p1_0.id=?
+2025-11-18 13:45:33.366 [http-nio-8082-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        h1_0.medicamento_id,
+        h1_0.id,
+        h1_0.created_at,
+        h1_0.dias_semana,
+        h1_0.hora 
+    from
+        horarios_medicamento h1_0 
+    where
+        h1_0.medicamento_id=?
+2025-11-18 13:45:33.367 [http-nio-8082-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.id=?
+2025-11-18 13:45:33.370 [http-nio-8082-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        t1_0.id,
+        t1_0.completada,
+        t1_0.created_at,
+        t1_0.cuidador_id,
+        t1_0.descripcion,
+        t1_0.fecha_completada,
+        t1_0.fecha_vencimiento,
+        t1_0.orden_manual,
+        t1_0.paciente_id,
+        t1_0.prioridad,
+        t1_0.titulo,
+        t1_0.updated_at 
+    from
+        tareas t1_0 
+    left join
+        usuarios p1_0 
+            on p1_0.id=t1_0.paciente_id 
+    where
+        p1_0.id=? 
+    order by
+        t1_0.orden_manual
+2025-11-18 13:45:33.373 [http-nio-8082-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.id=?
+2025-11-18 13:45:33.376 [http-nio-8082-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        h1_0.medicamento_id,
+        h1_0.id,
+        h1_0.created_at,
+        h1_0.dias_semana,
+        h1_0.hora 
+    from
+        horarios_medicamento h1_0 
+    where
+        h1_0.medicamento_id=?
+2025-11-18 13:45:33.381 [http-nio-8082-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.id=?
+2025-11-18 13:46:44.357 [http-nio-8082-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:46:44.465 [http-nio-8082-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:46:44.473 [http-nio-8082-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:46:44.484 [http-nio-8082-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        cp1_0.id,
+        cp1_0.created_at,
+        cp1_0.cuidador_id,
+        cp1_0.es_principal,
+        cp1_0.estado,
+        cp1_0.fecha_aceptacion,
+        cp1_0.fecha_invitacion,
+        cp1_0.paciente_id,
+        cp1_0.updated_at 
+    from
+        cuidadores_pacientes cp1_0 
+    left join
+        usuarios c1_0 
+            on c1_0.id=cp1_0.cuidador_id 
+    left join
+        usuarios p1_0 
+            on p1_0.id=cp1_0.paciente_id 
+    where
+        c1_0.id=? 
+        and p1_0.id=?
+2025-11-18 13:46:44.497 [http-nio-8082-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        b1_0.id,
+        b1_0.created_at,
+        b1_0.cuidador_id,
+        b1_0.descripcion,
+        b1_0.fecha,
+        b1_0.observaciones,
+        b1_0.paciente_id,
+        b1_0.sintomas,
+        b1_0.titulo,
+        b1_0.updated_at 
+    from
+        bitacoras b1_0 
+    left join
+        usuarios p1_0 
+            on p1_0.id=b1_0.paciente_id 
+    where
+        p1_0.id=? 
+    order by
+        b1_0.fecha desc,
+        b1_0.created_at desc
+2025-11-18 13:46:44.505 [http-nio-8082-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.id=?
+2025-11-18 13:47:00.118 [http-nio-8082-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:47:01.782 [http-nio-8082-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:47:01.793 [http-nio-8082-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:47:01.798 [http-nio-8082-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        cp1_0.id,
+        cp1_0.created_at,
+        cp1_0.cuidador_id,
+        cp1_0.es_principal,
+        cp1_0.estado,
+        cp1_0.fecha_aceptacion,
+        cp1_0.fecha_invitacion,
+        cp1_0.paciente_id,
+        cp1_0.updated_at 
+    from
+        cuidadores_pacientes cp1_0 
+    left join
+        usuarios c1_0 
+            on c1_0.id=cp1_0.cuidador_id 
+    left join
+        usuarios p1_0 
+            on p1_0.id=cp1_0.paciente_id 
+    where
+        c1_0.id=? 
+        and p1_0.id=?
+2025-11-18 13:47:01.815 [http-nio-8082-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.id=?
+2025-11-18 13:47:02.104 [http-nio-8082-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        count(b1_0.id) 
+    from
+        bitacoras b1_0 
+    left join
+        usuarios p1_0 
+            on p1_0.id=b1_0.paciente_id 
+    where
+        p1_0.id=? 
+        and b1_0.fecha=?
+2025-11-18 13:47:02.261 [http-nio-8082-exec-2] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        bitacoras
+        (created_at, cuidador_id, descripcion, fecha, observaciones, paciente_id, sintomas, titulo, updated_at) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-11-18 13:47:02.525 [http-nio-8082-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:47:02.533 [http-nio-8082-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:47:02.537 [http-nio-8082-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:47:02.541 [http-nio-8082-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        cp1_0.id,
+        cp1_0.created_at,
+        cp1_0.cuidador_id,
+        cp1_0.es_principal,
+        cp1_0.estado,
+        cp1_0.fecha_aceptacion,
+        cp1_0.fecha_invitacion,
+        cp1_0.paciente_id,
+        cp1_0.updated_at 
+    from
+        cuidadores_pacientes cp1_0 
+    left join
+        usuarios c1_0 
+            on c1_0.id=cp1_0.cuidador_id 
+    left join
+        usuarios p1_0 
+            on p1_0.id=cp1_0.paciente_id 
+    where
+        c1_0.id=? 
+        and p1_0.id=?
+2025-11-18 13:47:02.546 [http-nio-8082-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        b1_0.id,
+        b1_0.created_at,
+        b1_0.cuidador_id,
+        b1_0.descripcion,
+        b1_0.fecha,
+        b1_0.observaciones,
+        b1_0.paciente_id,
+        b1_0.sintomas,
+        b1_0.titulo,
+        b1_0.updated_at 
+    from
+        bitacoras b1_0 
+    left join
+        usuarios p1_0 
+            on p1_0.id=b1_0.paciente_id 
+    where
+        p1_0.id=? 
+    order by
+        b1_0.fecha desc,
+        b1_0.created_at desc
+2025-11-18 13:47:02.551 [http-nio-8082-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.id=?
+2025-11-18 13:47:19.100 [http-nio-8082-exec-9] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:47:19.116 [http-nio-8082-exec-9] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:47:19.123 [http-nio-8082-exec-9] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:47:19.134 [http-nio-8082-exec-9] DEBUG org.hibernate.SQL - 
+    select
+        cp1_0.id,
+        cp1_0.created_at,
+        cp1_0.cuidador_id,
+        cp1_0.es_principal,
+        cp1_0.estado,
+        cp1_0.fecha_aceptacion,
+        cp1_0.fecha_invitacion,
+        cp1_0.paciente_id,
+        cp1_0.updated_at 
+    from
+        cuidadores_pacientes cp1_0 
+    left join
+        usuarios c1_0 
+            on c1_0.id=cp1_0.cuidador_id 
+    left join
+        usuarios p1_0 
+            on p1_0.id=cp1_0.paciente_id 
+    where
+        c1_0.id=? 
+        and p1_0.id=?
+2025-11-18 13:47:19.150 [http-nio-8082-exec-9] DEBUG org.hibernate.SQL - 
+    select
+        ri1_0.id,
+        ri1_0.created_at,
+        ri1_0.descripcion,
+        ri1_0.estado,
+        ri1_0.fecha_hora,
+        ri1_0.observaciones,
+        ri1_0.paciente_id,
+        ri1_0.referencia_id,
+        ri1_0.tipo,
+        ri1_0.updated_at 
+    from
+        recordatorios_instancia ri1_0 
+    left join
+        usuarios p1_0 
+            on p1_0.id=ri1_0.paciente_id 
+    where
+        p1_0.id=? 
+    order by
+        ri1_0.fecha_hora
+2025-11-18 13:47:19.186 [http-nio-8082-exec-9] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.id=?
+2025-11-18 13:47:19.200 [http-nio-8082-exec-9] DEBUG org.hibernate.SQL - 
+    select
+        m1_0.id,
+        m1_0.activo,
+        m1_0.created_at,
+        m1_0.cuidador_id,
+        m1_0.dosis,
+        m1_0.fecha_fin,
+        m1_0.fecha_inicio,
+        m1_0.frecuencia,
+        m1_0.nombre,
+        m1_0.observaciones,
+        m1_0.paciente_id,
+        m1_0.updated_at,
+        m1_0.via_administracion 
+    from
+        medicamentos m1_0 
+    where
+        m1_0.id=?
+2025-11-18 13:47:19.228 [http-nio-8082-exec-9] DEBUG org.hibernate.SQL - 
+    select
+        cm1_0.id,
+        cm1_0.completada,
+        cm1_0.created_at,
+        cm1_0.cuidador_id,
+        cm1_0.especialidad,
+        cm1_0.fecha_hora,
+        cm1_0.motivo,
+        cm1_0.nombre_doctor,
+        cm1_0.observaciones,
+        cm1_0.paciente_id,
+        cm1_0.recordatorio_enviado,
+        cm1_0.ubicacion,
+        cm1_0.updated_at 
+    from
+        citas_medicas cm1_0 
+    where
+        cm1_0.id=?
+2025-11-18 13:47:19.245 [http-nio-8082-exec-9] DEBUG org.hibernate.SQL - 
+    select
+        m1_0.id,
+        m1_0.activo,
+        m1_0.created_at,
+        m1_0.cuidador_id,
+        m1_0.dosis,
+        m1_0.fecha_fin,
+        m1_0.fecha_inicio,
+        m1_0.frecuencia,
+        m1_0.nombre,
+        m1_0.observaciones,
+        m1_0.paciente_id,
+        m1_0.updated_at,
+        m1_0.via_administracion 
+    from
+        medicamentos m1_0 
+    where
+        m1_0.id=?
+2025-11-18 13:47:19.263 [http-nio-8082-exec-9] DEBUG org.hibernate.SQL - 
+    select
+        cm1_0.id,
+        cm1_0.completada,
+        cm1_0.created_at,
+        cm1_0.cuidador_id,
+        cm1_0.especialidad,
+        cm1_0.fecha_hora,
+        cm1_0.motivo,
+        cm1_0.nombre_doctor,
+        cm1_0.observaciones,
+        cm1_0.paciente_id,
+        cm1_0.recordatorio_enviado,
+        cm1_0.ubicacion,
+        cm1_0.updated_at 
+    from
+        citas_medicas cm1_0 
+    where
+        cm1_0.id=?
+2025-11-18 13:47:32.067 [http-nio-8082-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:47:32.074 [http-nio-8082-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:47:32.079 [http-nio-8082-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:47:32.082 [http-nio-8082-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        cp1_0.id,
+        cp1_0.created_at,
+        cp1_0.cuidador_id,
+        cp1_0.es_principal,
+        cp1_0.estado,
+        cp1_0.fecha_aceptacion,
+        cp1_0.fecha_invitacion,
+        cp1_0.paciente_id,
+        cp1_0.updated_at 
+    from
+        cuidadores_pacientes cp1_0 
+    left join
+        usuarios c1_0 
+            on c1_0.id=cp1_0.cuidador_id 
+    left join
+        usuarios p1_0 
+            on p1_0.id=cp1_0.paciente_id 
+    where
+        c1_0.id=? 
+        and p1_0.id=?
+2025-11-18 13:47:32.093 [http-nio-8082-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        b1_0.id,
+        b1_0.created_at,
+        b1_0.cuidador_id,
+        b1_0.descripcion,
+        b1_0.fecha,
+        b1_0.observaciones,
+        b1_0.paciente_id,
+        b1_0.sintomas,
+        b1_0.titulo,
+        b1_0.updated_at 
+    from
+        bitacoras b1_0 
+    left join
+        usuarios p1_0 
+            on p1_0.id=b1_0.paciente_id 
+    where
+        p1_0.id=? 
+    order by
+        b1_0.fecha desc,
+        b1_0.created_at desc
+2025-11-18 13:47:32.102 [http-nio-8082-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.id=?
+2025-11-18 13:51:14.615 [http-nio-8082-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:51:14.747 [http-nio-8082-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:51:14.757 [http-nio-8082-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:51:14.773 [http-nio-8082-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        cp1_0.id,
+        cp1_0.created_at,
+        cp1_0.cuidador_id,
+        cp1_0.es_principal,
+        cp1_0.estado,
+        cp1_0.fecha_aceptacion,
+        cp1_0.fecha_invitacion,
+        cp1_0.paciente_id,
+        cp1_0.updated_at 
+    from
+        cuidadores_pacientes cp1_0 
+    left join
+        usuarios c1_0 
+            on c1_0.id=cp1_0.cuidador_id 
+    left join
+        usuarios p1_0 
+            on p1_0.id=cp1_0.paciente_id 
+    where
+        c1_0.id=? 
+        and p1_0.id=?
+2025-11-18 13:51:14.793 [http-nio-8082-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        b1_0.id,
+        b1_0.created_at,
+        b1_0.cuidador_id,
+        b1_0.descripcion,
+        b1_0.fecha,
+        b1_0.observaciones,
+        b1_0.paciente_id,
+        b1_0.sintomas,
+        b1_0.titulo,
+        b1_0.updated_at 
+    from
+        bitacoras b1_0 
+    left join
+        usuarios p1_0 
+            on p1_0.id=b1_0.paciente_id 
+    where
+        p1_0.id=? 
+    order by
+        b1_0.fecha desc,
+        b1_0.created_at desc
+2025-11-18 13:51:14.809 [http-nio-8082-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.id=?
+2025-11-18 13:57:41.851 [http-nio-8082-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:57:42.263 [http-nio-8082-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        p1_0.id,
+        p1_0.alergias,
+        p1_0.altura,
+        p1_0.condiciones_medicas,
+        p1_0.created_at,
+        p1_0.notas_importantes,
+        p1_0.numero_afiliado,
+        p1_0.obra_social,
+        p1_0.peso,
+        p1_0.tipo_sanguineo,
+        p1_0.updated_at,
+        p1_0.usuario_id 
+    from
+        pacientes p1_0
+2025-11-18 13:57:42.347 [http-nio-8082-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.id=?
+2025-11-18 13:57:42.690 [http-nio-8082-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:57:42.760 [http-nio-8082-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        p1_0.id,
+        p1_0.alergias,
+        p1_0.altura,
+        p1_0.condiciones_medicas,
+        p1_0.created_at,
+        p1_0.notas_importantes,
+        p1_0.numero_afiliado,
+        p1_0.obra_social,
+        p1_0.peso,
+        p1_0.tipo_sanguineo,
+        p1_0.updated_at,
+        p1_0.usuario_id,
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        pacientes p1_0 
+    join
+        usuarios u1_0 
+            on u1_0.id=p1_0.usuario_id 
+    where
+        p1_0.id=?
+2025-11-18 13:58:01.177 [http-nio-8082-exec-9] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:58:01.363 [http-nio-8082-exec-10] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:58:01.377 [http-nio-8082-exec-10] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:58:01.442 [http-nio-8082-exec-8] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:58:01.449 [http-nio-8082-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:58:01.455 [http-nio-8082-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:58:01.457 [http-nio-8082-exec-8] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:58:01.464 [http-nio-8082-exec-8] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:58:01.477 [http-nio-8082-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:58:01.484 [http-nio-8082-exec-8] DEBUG org.hibernate.SQL - 
+    select
+        cp1_0.id,
+        cp1_0.created_at,
+        cp1_0.cuidador_id,
+        cp1_0.es_principal,
+        cp1_0.estado,
+        cp1_0.fecha_aceptacion,
+        cp1_0.fecha_invitacion,
+        cp1_0.paciente_id,
+        cp1_0.updated_at 
+    from
+        cuidadores_pacientes cp1_0 
+    left join
+        usuarios c1_0 
+            on c1_0.id=cp1_0.cuidador_id 
+    left join
+        usuarios p1_0 
+            on p1_0.id=cp1_0.paciente_id 
+    where
+        c1_0.id=? 
+        and p1_0.id=?
+2025-11-18 13:58:01.493 [http-nio-8082-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:58:01.490 [http-nio-8082-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:58:01.767 [http-nio-8082-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:58:01.775 [http-nio-8082-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:58:01.785 [http-nio-8082-exec-8] DEBUG org.hibernate.SQL - 
+    select
+        t1_0.id,
+        t1_0.completada,
+        t1_0.created_at,
+        t1_0.cuidador_id,
+        t1_0.descripcion,
+        t1_0.fecha_completada,
+        t1_0.fecha_vencimiento,
+        t1_0.orden_manual,
+        t1_0.paciente_id,
+        t1_0.prioridad,
+        t1_0.titulo,
+        t1_0.updated_at 
+    from
+        tareas t1_0 
+    left join
+        usuarios p1_0 
+            on p1_0.id=t1_0.paciente_id 
+    where
+        p1_0.id=? 
+    order by
+        t1_0.orden_manual
+2025-11-18 13:58:01.771 [http-nio-8082-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        cp1_0.id,
+        cp1_0.created_at,
+        cp1_0.cuidador_id,
+        cp1_0.es_principal,
+        cp1_0.estado,
+        cp1_0.fecha_aceptacion,
+        cp1_0.fecha_invitacion,
+        cp1_0.paciente_id,
+        cp1_0.updated_at 
+    from
+        cuidadores_pacientes cp1_0 
+    left join
+        usuarios c1_0 
+            on c1_0.id=cp1_0.cuidador_id 
+    left join
+        usuarios p1_0 
+            on p1_0.id=cp1_0.paciente_id 
+    where
+        c1_0.id=? 
+        and p1_0.id=?
+2025-11-18 13:58:01.787 [http-nio-8082-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:58:01.796 [http-nio-8082-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-18 13:58:01.804 [http-nio-8082-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        cp1_0.id,
+        cp1_0.created_at,
+        cp1_0.cuidador_id,
+        cp1_0.es_principal,
+        cp1_0.estado,
+        cp1_0.fecha_aceptacion,
+        cp1_0.fecha_invitacion,
+        cp1_0.paciente_id,
+        cp1_0.updated_at 
+    from
+        cuidadores_pacientes cp1_0 
+    left join
+        usuarios c1_0 
+            on c1_0.id=cp1_0.cuidador_id 
+    left join
+        usuarios p1_0 
+            on p1_0.id=cp1_0.paciente_id 
+    where
+        c1_0.id=? 
+        and p1_0.id=?
+2025-11-18 13:58:01.807 [http-nio-8082-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        cp1_0.id,
+        cp1_0.created_at,
+        cp1_0.cuidador_id,
+        cp1_0.es_principal,
+        cp1_0.estado,
+        cp1_0.fecha_aceptacion,
+        cp1_0.fecha_invitacion,
+        cp1_0.paciente_id,
+        cp1_0.updated_at 
+    from
+        cuidadores_pacientes cp1_0 
+    left join
+        usuarios c1_0 
+            on c1_0.id=cp1_0.cuidador_id 
+    left join
+        usuarios p1_0 
+            on p1_0.id=cp1_0.paciente_id 
+    where
+        c1_0.id=? 
+        and p1_0.id=?
+2025-11-18 13:58:01.811 [http-nio-8082-exec-8] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.id=?
+2025-11-18 13:58:01.816 [http-nio-8082-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        m1_0.id,
+        m1_0.activo,
+        m1_0.created_at,
+        m1_0.cuidador_id,
+        m1_0.dosis,
+        m1_0.fecha_fin,
+        m1_0.fecha_inicio,
+        m1_0.frecuencia,
+        m1_0.nombre,
+        m1_0.observaciones,
+        m1_0.paciente_id,
+        m1_0.updated_at,
+        m1_0.via_administracion 
+    from
+        medicamentos m1_0 
+    left join
+        usuarios p1_0 
+            on p1_0.id=m1_0.paciente_id 
+    where
+        p1_0.id=? 
+        and m1_0.activo 
+    order by
+        m1_0.nombre
+2025-11-18 13:58:01.817 [http-nio-8082-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        b1_0.id,
+        b1_0.created_at,
+        b1_0.cuidador_id,
+        b1_0.descripcion,
+        b1_0.fecha,
+        b1_0.observaciones,
+        b1_0.paciente_id,
+        b1_0.sintomas,
+        b1_0.titulo,
+        b1_0.updated_at 
+    from
+        bitacoras b1_0 
+    left join
+        usuarios p1_0 
+            on p1_0.id=b1_0.paciente_id 
+    where
+        p1_0.id=? 
+    order by
+        b1_0.fecha desc,
+        b1_0.created_at desc
+2025-11-18 13:58:01.819 [http-nio-8082-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        cm1_0.id,
+        cm1_0.completada,
+        cm1_0.created_at,
+        cm1_0.cuidador_id,
+        cm1_0.especialidad,
+        cm1_0.fecha_hora,
+        cm1_0.motivo,
+        cm1_0.nombre_doctor,
+        cm1_0.observaciones,
+        cm1_0.paciente_id,
+        cm1_0.recordatorio_enviado,
+        cm1_0.ubicacion,
+        cm1_0.updated_at 
+    from
+        citas_medicas cm1_0 
+    left join
+        usuarios p1_0 
+            on p1_0.id=cm1_0.paciente_id 
+    where
+        p1_0.id=? 
+    order by
+        cm1_0.fecha_hora
+2025-11-18 13:58:01.832 [http-nio-8082-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.id=?
+2025-11-18 13:58:01.834 [http-nio-8082-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        h1_0.medicamento_id,
+        h1_0.id,
+        h1_0.created_at,
+        h1_0.dias_semana,
+        h1_0.hora 
+    from
+        horarios_medicamento h1_0 
+    where
+        h1_0.medicamento_id=?
+2025-11-18 13:58:01.835 [http-nio-8082-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.id=?
+2025-11-18 13:58:01.843 [http-nio-8082-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.activo,
+        u1_0.avatar,
+        u1_0.created_at,
+        u1_0.direccion,
+        u1_0.email,
+        u1_0.fecha_nacimiento,
+        u1_0.nombre_completo,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono,
+        u1_0.updated_at 
+    from
+        usuarios u1_0 
+    where
+        u1_0.id=?
+2025-11-18 13:58:01.845 [http-nio-8082-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        h1_0.medicamento_id,
+        h1_0.id,
+        h1_0.created_at,
+        h1_0.dias_semana,
+        h1_0.hora 
+    from
+        horarios_medicamento h1_0 
+    where
+        h1_0.medicamento_id=?
+2025-11-18 14:00:00.644 [scheduling-1] DEBUG org.hibernate.SQL - 
+    select
+        prt1_0.id,
+        prt1_0.codigo_otp,
+        prt1_0.created_at,
+        prt1_0.fecha_expiracion,
+        prt1_0.usado,
+        prt1_0.usuario_id 
+    from
+        password_reset_tokens prt1_0 
+    where
+        prt1_0.fecha_expiracion<?

@@ -24,6 +24,13 @@ class TipoDocumentoEnum(str, enum.Enum):
     OTRO = "OTRO"
 
 
+class CategoriaArchivoEnum(str, enum.Enum):
+    """Enum para categoría de archivo"""
+    DOCUMENTO = "DOCUMENTO"
+    IMAGEN = "IMAGEN"
+    VIDEO = "VIDEO"
+
+
 class EstadoVinculacionEnum(str, enum.Enum):
     """Enum para estado de vinculación cuidador-paciente"""
     PENDIENTE = "PENDIENTE"
@@ -66,8 +73,8 @@ class Paciente(Base):
     peso = Column(DECIMAL(5, 2))
     altura = Column(DECIMAL(5, 2))
     alergias = Column(Text)
-    condiciones_medicas = Column(Text)
-    observaciones = Column(Text)
+    condiciones_medicas = Column(Text)  # JSON array
+    notas_importantes = Column(Text)    # JSON array
     obra_social = Column(String(255))
     numero_afiliado = Column(String(100))
     created_at = Column(DateTime, default=datetime.utcnow)
@@ -76,7 +83,7 @@ class Paciente(Base):
 
 class CuidadorPaciente(Base):
     """Modelo de vinculación Cuidador-Paciente"""
-    __tablename__ = "cuidador_paciente"
+    __tablename__ = "cuidadores_pacientes"
 
     id = Column(BigInteger, primary_key=True, autoincrement=True)
     cuidador_id = Column(BigInteger, ForeignKey("usuarios.id"), nullable=False)
@@ -85,6 +92,8 @@ class CuidadorPaciente(Base):
     estado = Column(Enum(EstadoVinculacionEnum), default=EstadoVinculacionEnum.PENDIENTE)
     fecha_invitacion = Column(DateTime, default=datetime.utcnow)
     fecha_aceptacion = Column(DateTime)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
 
 class ContactoEmergencia(Base):
@@ -110,8 +119,9 @@ class Bitacora(Base):
     paciente_id = Column(BigInteger, ForeignKey("usuarios.id"), nullable=False)
     cuidador_id = Column(BigInteger, ForeignKey("usuarios.id"), nullable=False)
     fecha = Column(Date, nullable=False)
-    titulo = Column(String(255))
+    titulo = Column(String(255), nullable=False)
     descripcion = Column(Text, nullable=False)
+    sintomas = Column(String(500))  # Opcional
     observaciones = Column(Text)
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
@@ -179,6 +189,7 @@ class Tarea(Base):
     prioridad = Column(Enum(PrioridadEnum), default=PrioridadEnum.MEDIA)
     completada = Column(Boolean, default=False)
     fecha_completada = Column(DateTime)
+    orden_manual = Column(BigInteger, nullable=False, default=0)
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
@@ -192,9 +203,10 @@ class Documento(Base):
     cuidador_id = Column(BigInteger, ForeignKey("usuarios.id"), nullable=False)
     nombre = Column(String(255), nullable=False)
     tipo = Column(Enum(TipoDocumentoEnum), nullable=False)
-    url = Column(String(500), nullable=False)
-    size_bytes = Column(BigInteger)
-    mime_type = Column(String(100))
+    ruta_archivo = Column(String(500), nullable=False)  # Antes era "url"
+    categoria_archivo = Column(Enum(CategoriaArchivoEnum))
+    size_bytes = Column(BigInteger, nullable=False)
+    mime_type = Column(String(100), nullable=False)
     descripcion = Column(Text)
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
