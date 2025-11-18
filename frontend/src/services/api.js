@@ -160,6 +160,13 @@ export const usuariosAPI = {
 		});
 	},
 
+	changePassword: async (currentPassword, newPassword) => {
+		return apiRequest('/usuarios/change-password', {
+			method: 'PUT',
+			body: JSON.stringify({ currentPassword, newPassword }),
+		});
+	},
+
 	delete: async (id) => {
 		return apiRequest(`/usuarios/${id}`, {
 			method: 'DELETE',
@@ -576,6 +583,12 @@ export const cuidadoresPacientesAPI = {
 
 	aceptarInvitacion: async (relacionId) => {
 		return apiRequest(`/cuidadores-pacientes/${relacionId}/aceptar`, {
+			method: 'POST',
+		});
+	},
+
+	rechazarInvitacion: async (relacionId) => {
+		return apiRequest(`/cuidadores-pacientes/${relacionId}/rechazar`, {
 			method: 'POST',
 		});
 	},

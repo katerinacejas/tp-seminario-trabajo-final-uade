@@ -1,10 +1,14 @@
 package com.cuido.cuido.service;
 
 import com.cuido.cuido.dto.response.CuidadorResponseDTO;
+import com.cuido.cuido.dto.response.InvitacionPendienteDTO;
+import com.cuido.cuido.dto.response.PacienteResponseDTO;
 import com.cuido.cuido.model.CuidadorPaciente;
 import com.cuido.cuido.model.CuidadorPaciente.EstadoRelacion;
+import com.cuido.cuido.model.Paciente;
 import com.cuido.cuido.model.Usuario;
 import com.cuido.cuido.repository.CuidadorPacienteRepository;
+import com.cuido.cuido.repository.PacienteRepository;
 import com.cuido.cuido.repository.UsuarioRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,16 +23,19 @@ public class CuidadorPacienteService {
 
     private final CuidadorPacienteRepository cuidadorPacienteRepository;
     private final UsuarioRepository usuarioRepository;
+    private final PacienteRepository pacienteRepository;
     private final EmailService emailService;
 
     @Autowired
     public CuidadorPacienteService(
             CuidadorPacienteRepository cuidadorPacienteRepository,
             UsuarioRepository usuarioRepository,
+            PacienteRepository pacienteRepository,
             EmailService emailService
     ) {
         this.cuidadorPacienteRepository = cuidadorPacienteRepository;
         this.usuarioRepository = usuarioRepository;
+        this.pacienteRepository = pacienteRepository;
         this.emailService = emailService;
     }
 
@@ -77,6 +84,14 @@ public class CuidadorPacienteService {
         cuidadorPacienteRepository.save(relacion);
     }
 
+    public void rechazarInvitacion(Long relacionId) {
+        CuidadorPaciente relacion = cuidadorPacienteRepository.findById(relacionId)
+                .orElseThrow(() -> new RuntimeException("Invitación no encontrada"));
+
+        relacion.setEstado(EstadoRelacion.RECHAZADO);
+        cuidadorPacienteRepository.save(relacion);
+    }
+
     public void desvincularCuidador(Long pacienteId, Long cuidadorId) {
         CuidadorPaciente relacion = cuidadorPacienteRepository
                 .findByCuidadorIdAndPacienteId(cuidadorId, pacienteId)
@@ -107,5 +122,57 @@ public class CuidadorPacienteService {
         dto.setFechaInvitacion(relacion.getFechaInvitacion());
         dto.setFechaAceptacion(relacion.getFechaAceptacion());
         return dto;
+    }
+
+    public List<InvitacionPendienteDTO> getInvitacionesPendientes(Long cuidadorId) {
+        List<CuidadorPaciente> invitaciones = cuidadorPacienteRepository
+                .findByCuidadorIdAndEstado(cuidadorId, EstadoRelacion.PENDIENTE);
+
+        return invitaciones.stream()
+                .map(this::mapToInvitacionDTO)
+                .toList();
+    }
+
+    private InvitacionPendienteDTO mapToInvitacionDTO(CuidadorPaciente relacion) {
+        Usuario paciente = relacion.getPaciente();
+        InvitacionPendienteDTO dto = new InvitacionPendienteDTO();
+        dto.setId(relacion.getId());
+        dto.setPacienteId(paciente.getId());
+        dto.setNombreCompletoPaciente(paciente.getNombreCompleto());
+        dto.setEmailPaciente(paciente.getEmail());
+        dto.setFechaInvitacion(relacion.getFechaInvitacion());
+        return dto;
+    }
+
+    public List<PacienteResponseDTO> getPacientesVinculados(Long cuidadorId) {
+        List<CuidadorPaciente> relaciones = cuidadorPacienteRepository
+                .findByCuidadorIdAndEstado(cuidadorId, EstadoRelacion.ACEPTADO);
+
+        return relaciones.stream()
+                .map(relacion -> {
+                    Usuario usuarioPaciente = relacion.getPaciente();
+                    Paciente paciente = pacienteRepository.findByUsuarioId(usuarioPaciente.getId())
+                            .orElse(null);
+
+                    PacienteResponseDTO dto = new PacienteResponseDTO();
+                    dto.setId(paciente != null ? paciente.getId() : null);
+                    dto.setUsuarioId(usuarioPaciente.getId());
+                    dto.setNombreCompleto(usuarioPaciente.getNombreCompleto());
+                    dto.setEmail(usuarioPaciente.getEmail());
+
+                    if (paciente != null) {
+                        dto.setTipoSanguineo(paciente.getTipoSanguineo());
+                        dto.setPeso(paciente.getPeso());
+                        dto.setAltura(paciente.getAltura());
+                        dto.setAlergias(paciente.getAlergias());
+                        dto.setCondicionesMedicas(paciente.getCondicionesMedicas());
+                        dto.setNotasImportantes(paciente.getNotasImportantes());
+                        dto.setObraSocial(paciente.getObraSocial());
+                        dto.setNumeroAfiliado(paciente.getNumeroAfiliado());
+                    }
+
+                    return dto;
+                })
+                .toList();
     }
 }

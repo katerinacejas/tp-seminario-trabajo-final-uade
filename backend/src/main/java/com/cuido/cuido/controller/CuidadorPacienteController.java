@@ -2,6 +2,8 @@ package com.cuido.cuido.controller;
 
 import com.cuido.cuido.dto.request.InvitarCuidadorRequest;
 import com.cuido.cuido.dto.response.CuidadorResponseDTO;
+import com.cuido.cuido.dto.response.InvitacionPendienteDTO;
+import com.cuido.cuido.dto.response.PacienteResponseDTO;
 import com.cuido.cuido.service.CuidadorPacienteService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +49,17 @@ public class CuidadorPacienteController {
         }
     }
 
+    @PostMapping("/{relacionId}/rechazar")
+    @PreAuthorize("hasAnyRole('CUIDADOR', 'PACIENTE')")
+    public ResponseEntity<String> rechazarInvitacion(@PathVariable Long relacionId) {
+        try {
+            cuidadorPacienteService.rechazarInvitacion(relacionId);
+            return ResponseEntity.ok("Invitación rechazada");
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
     @DeleteMapping("/desvincular")
     @PreAuthorize("hasRole('PACIENTE')")
     public ResponseEntity<String> desvincularCuidador(
@@ -66,5 +79,19 @@ public class CuidadorPacienteController {
     public ResponseEntity<List<CuidadorResponseDTO>> getCuidadoresPorPaciente(@PathVariable Long pacienteId) {
         List<CuidadorResponseDTO> cuidadores = cuidadorPacienteService.getCuidadoresPorPaciente(pacienteId);
         return ResponseEntity.ok(cuidadores);
+    }
+
+    @GetMapping("/cuidador/{cuidadorId}/pendientes")
+    @PreAuthorize("hasRole('CUIDADOR')")
+    public ResponseEntity<List<InvitacionPendienteDTO>> getInvitacionesPendientes(@PathVariable Long cuidadorId) {
+        List<InvitacionPendienteDTO> invitaciones = cuidadorPacienteService.getInvitacionesPendientes(cuidadorId);
+        return ResponseEntity.ok(invitaciones);
+    }
+
+    @GetMapping("/cuidador/{cuidadorId}/pacientes")
+    @PreAuthorize("hasRole('CUIDADOR')")
+    public ResponseEntity<List<PacienteResponseDTO>> getPacientesVinculados(@PathVariable Long cuidadorId) {
+        List<PacienteResponseDTO> pacientes = cuidadorPacienteService.getPacientesVinculados(cuidadorId);
+        return ResponseEntity.ok(pacientes);
     }
 }

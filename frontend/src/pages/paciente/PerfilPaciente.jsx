@@ -556,8 +556,10 @@ export default function PerfilPaciente() {
 			setError(null);
 			setSuccess(null);
 
-			// TODO: Implementar endpoint de cambio de contraseña en el backend
-			console.warn('Endpoint de cambio de contraseña no implementado en el backend');
+			await usuariosAPI.changePassword(
+				passwordData.currentPassword,
+				passwordData.newPassword
+			);
 
 			handleCloseModalPassword();
 			setSuccess('Contraseña actualizada correctamente');
