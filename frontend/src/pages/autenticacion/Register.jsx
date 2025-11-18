@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../auth";
 import { authAPI } from "../../services/api";
 import { IoMailOutline, IoLockClosedOutline, IoPersonOutline, IoCallOutline, IoCalendarOutline, IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
 
 export default function Register() {
 	const nav = useNavigate();
+	const { login } = useAuth();
 	const [form, setForm] = useState({
 		nombreCompleto: "",
 		email: "",
@@ -76,11 +78,13 @@ export default function Register() {
 			// Llamar al backend
 			const response = await authAPI.register(registroData);
 
-			// Guardar token y rol
+			// Guardar token
 			localStorage.setItem("cuido.token", response.token);
-			localStorage.setItem("cuido.role", response.rol);
 
-			// Redirigir según rol
+			// Actualizar contexto de auth (esto normaliza y guarda el rol)
+			login(response.rol);
+
+			// Redirigir según rol (comparar con mayúsculas como viene del backend)
 			if (response.rol === "CUIDADOR") {
 				nav("/", { replace: true });
 			} else if (response.rol === "PACIENTE") {

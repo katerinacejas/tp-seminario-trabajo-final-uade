@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../auth";
 import {
@@ -20,12 +20,34 @@ export default function FooterNav() {
   const [open, setOpen] = useState(false);
   const { role, isCaregiver, isPatient, logout } = useAuth();
   const nav = useNavigate();
+  const menuRef = useRef(null);
+  const buttonRef = useRef(null);
 
   const handleLogout = () => {
     logout();
     setOpen(false);
     nav("/login", { replace: true });
   };
+
+  // Cerrar menú al hacer click fuera
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        open &&
+        menuRef.current &&
+        buttonRef.current &&
+        !menuRef.current.contains(event.target) &&
+        !buttonRef.current.contains(event.target)
+      ) {
+        setOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [open]);
 
   // Items del menú "Más" según rol
   const caregiverMore = [
@@ -61,7 +83,7 @@ export default function FooterNav() {
               <IoClipboardOutline size={24} />
               <span>Bitácoras</span>
             </NavLink>
-            <button className="nav-btn" onClick={() => setOpen(v => !v)}>
+            <button ref={buttonRef} className="nav-btn" onClick={() => setOpen(v => !v)}>
               <IoMenuOutline size={24} />
               <span>Más</span>
             </button>
@@ -83,7 +105,7 @@ export default function FooterNav() {
               <IoChatbubbleEllipsesOutline size={24} />
               <span>Chatbot</span>
             </NavLink>
-            <button className="nav-btn" onClick={() => setOpen(v => !v)}>
+            <button ref={buttonRef} className="nav-btn" onClick={() => setOpen(v => !v)}>
               <IoMenuOutline size={24} />
               <span>Más</span>
             </button>
@@ -93,7 +115,7 @@ export default function FooterNav() {
 
       {/* Menú hamburguesa desplegable */}
       {open && (
-        <div className="more-menu" onMouseLeave={() => setOpen(false)}>
+        <div ref={menuRef} className="more-menu">
           {isCaregiver && caregiverMore.map(({ path, label, icon }) => (
             <NavLink
               key={path}
