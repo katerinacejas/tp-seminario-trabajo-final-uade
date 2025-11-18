@@ -8,8 +8,8 @@ Microservicio de chatbot con IA local para la aplicación Cuido. Utiliza Gemma-2
 - LM Studio 0.3.31 con modelo `google-gemma-2-2b-it@q4_k_m`
 - Tesseract OCR v5.5.0 con idioma español
 - Poppler (para conversión de PDF a imágenes)
-- MySQL en ejecución con la base de datos `ritmofit`
-- Backend de Spring Boot ejecutándose en puerto 8080
+- MySQL en ejecución con la base de datos `cuido_database`
+- Backend de Spring Boot ejecutándose en puerto 8082
 
 ## 🚀 Instalación
 
@@ -31,7 +31,7 @@ JWT_SECRET=tu_clave_secreta_del_backend
 # Si tu BD usa otras credenciales, cámbialas aquí:
 DB_USER=root
 DB_PASSWORD=root
-DB_NAME=ritmofit
+DB_NAME=cuido_database
 ```
 
 **⚠️ CRÍTICO**: El `JWT_SECRET` debe ser EXACTAMENTE el mismo que el backend de Spring Boot usa, de lo contrario la autenticación fallará.
@@ -119,7 +119,7 @@ MAX_CONVERSATION_HISTORY=10
 ### Error: "No se puede conectar a MySQL"
 - Verifica que MySQL esté ejecutándose
 - Comprueba las credenciales en el `.env`
-- Asegúrate de que la base de datos `ritmofit` exista
+- Asegúrate de que la base de datos `cuido_database` exista
 
 ### Error: "Token inválido"
 - Verifica que el `JWT_SECRET` en `.env` sea idéntico al del backend

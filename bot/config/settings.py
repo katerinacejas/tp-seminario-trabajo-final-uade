@@ -21,7 +21,7 @@ class Settings(BaseSettings):
     db_port: int = 3306
     db_user: str = "root"
     db_password: str = "root"
-    db_name: str = "ritmofit"
+    db_name: str = "cuido_database"
 
     # Microservicio
     api_port: int = 5000
