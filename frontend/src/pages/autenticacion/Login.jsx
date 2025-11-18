@@ -22,14 +22,13 @@ export default function Login() {
 			// Llamar al backend
 			const response = await authAPI.login(email, password);
 
-			// Guardar token y rol
+			// Guardar token
 			localStorage.setItem("cuido.token", response.token);
-			localStorage.setItem("cuido.role", response.rol);
 
-			// Actualizar contexto de auth
+			// Actualizar contexto de auth (esto normaliza y guarda el rol)
 			login(response.rol);
 
-			// Redirigir según rol
+			// Redirigir según rol (comparar con mayúsculas como viene del backend)
 			if (response.rol === "CUIDADOR") {
 				nav("/", { replace: true });
 			} else if (response.rol === "PACIENTE") {
