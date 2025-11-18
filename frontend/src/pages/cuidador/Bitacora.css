@@ -141,6 +141,29 @@
 	font-size: 13px;
 }
 
+.campo-obligatorio {
+	color: #dc2626;
+	font-weight: 700;
+	margin-left: 2px;
+}
+
+.label-con-tooltip {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+}
+
+.tooltip-icon {
+	cursor: help;
+	font-size: 16px;
+	opacity: 0.7;
+	transition: opacity 0.2s;
+}
+
+.tooltip-icon:hover {
+	opacity: 1;
+}
+
 .input {
 	width: 100%;
 	padding: 10px 12px;
@@ -270,16 +293,18 @@
 }
 
 .bitacora-item {
-	background: #f9fafb;
+	background: linear-gradient(135deg, #f9fafb 0%, #ffffff 100%);
 	border-radius: 12px;
 	border: 2px solid #e5e7eb;
 	padding: 20px;
 	transition: all 0.2s;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 .bitacora-item:hover {
 	border-color: #d1d5db;
-	background: #f3f4f6;
+	background: linear-gradient(135deg, #f3f4f6 0%, #f9fafb 100%);
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
 }
 
 .bitacora-item-header {
@@ -352,7 +377,11 @@
 }
 
 .contenido-section {
-	margin-bottom: 12px;
+	margin-bottom: 14px;
+	padding: 12px;
+	background: rgba(255, 255, 255, 0.6);
+	border-radius: 8px;
+	border-left: 3px solid #e5e7eb;
 }
 
 .contenido-section:last-child {
@@ -365,13 +394,13 @@
 	color: #6b7280;
 	text-transform: uppercase;
 	letter-spacing: 0.5px;
-	margin-bottom: 4px;
+	margin-bottom: 6px;
 }
 
 .contenido-texto {
 	font-size: 14px;
 	color: #374151;
-	line-height: 1.5;
+	line-height: 1.6;
 	white-space: pre-wrap;
 }
 

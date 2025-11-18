@@ -4,51 +4,30 @@ const AuthCtx = createContext(null);
 
 export function AuthProvider({ children }) {
   const [role, setRole] = useState(null); // "cuidador" | "paciente" | null
-  const [token, setToken] = useState(null);
-  const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const savedRole = localStorage.getItem("cuido.role");
-    const savedToken = localStorage.getItem("cuido.token");
-    const savedUser = localStorage.getItem("cuido.user");
-
-    if (savedRole) setRole(savedRole);
-    if (savedToken) setToken(savedToken);
-    if (savedUser) {
-      try {
-        setUser(JSON.parse(savedUser));
-      } catch (e) {
-        console.error("Error parsing user data:", e);
-      }
-    }
+    const saved = localStorage.getItem("cuido.role");
+    if (saved) setRole(saved.toLowerCase());
   }, []);
 
-  const login = (r, jwtToken, userData) => {
-    setRole(r);
-    setToken(jwtToken);
-    setUser(userData);
-
-    localStorage.setItem("cuido.role", r);
-    localStorage.setItem("cuido.token", jwtToken);
-    if (userData) {
-      localStorage.setItem("cuido.user", JSON.stringify(userData));
-    }
+  const login = (r) => {
+    // Normalize role to lowercase for consistent checks
+    const normalizedRole = r?.toLowerCase();
+    setRole(normalizedRole);
+    localStorage.setItem("cuido.role", normalizedRole);
   };
 
   const logout = () => {
     setRole(null);
-    setToken(null);
-    setUser(null);
-
     localStorage.removeItem("cuido.role");
     localStorage.removeItem("cuido.token");
-    localStorage.removeItem("cuido.user");
+    localStorage.removeItem("cuido.pacienteId");
+    // Redirect to login page
+    window.location.href = "/login";
   };
 
   const value = {
     role,
-    token,
-    user,
     isCaregiver: role === "cuidador",
     isPatient: role === "paciente",
     login,

@@ -30,9 +30,13 @@ public class MedicamentoService {
     private final HorarioMedicamentoRepository horarioMedicamentoRepository;
     private final RecordatorioInstanciaRepository recordatorioInstanciaRepository;
     private final UsuarioRepository usuarioRepository;
+    private final AuthorizationService authorizationService;
 
     @Transactional
     public MedicamentoResponseDTO crearMedicamento(MedicamentoRequestDTO request, Long cuidadorId) {
+        // VALIDAR ACCESO: Solo cuidadores autorizados pueden crear medicamentos
+        authorizationService.validarAccesoAPaciente(request.getPacienteId());
+
         Usuario paciente = usuarioRepository.findById(request.getPacienteId())
             .orElseThrow(() -> new ResourceNotFoundException("Paciente no encontrado"));
 
@@ -128,6 +132,9 @@ public class MedicamentoService {
     }
 
     public List<MedicamentoResponseDTO> obtenerMedicamentosPorPaciente(Long pacienteId, Boolean soloActivos) {
+        // VALIDAR ACCESO: Solo el paciente o sus cuidadores autorizados
+        authorizationService.validarAccesoAPaciente(pacienteId);
+
         List<Medicamento> medicamentos;
         if (soloActivos != null && soloActivos) {
             medicamentos = medicamentoRepository.findByPacienteIdAndActivoTrueOrderByNombreAsc(pacienteId);
@@ -143,6 +150,10 @@ public class MedicamentoService {
     public MedicamentoResponseDTO obtenerMedicamentoPorId(Long id) {
         Medicamento medicamento = medicamentoRepository.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException("Medicamento no encontrado"));
+
+        // VALIDAR ACCESO: Solo el paciente o sus cuidadores autorizados
+        authorizationService.validarAccesoAPaciente(medicamento.getPaciente().getId());
+
         return mapToResponseDTO(medicamento);
     }
 
@@ -150,6 +161,9 @@ public class MedicamentoService {
     public void eliminarMedicamento(Long id) {
         Medicamento medicamento = medicamentoRepository.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException("Medicamento no encontrado"));
+
+        // VALIDAR ACCESO: Solo cuidadores autorizados pueden eliminar medicamentos
+        authorizationService.validarAccesoAPaciente(medicamento.getPaciente().getId());
 
         // Eliminar recordatorios asociados
         recordatorioInstanciaRepository.deleteByTipoAndReferenciaId(
@@ -167,6 +181,9 @@ public class MedicamentoService {
     public MedicamentoResponseDTO desactivarMedicamento(Long id) {
         Medicamento medicamento = medicamentoRepository.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException("Medicamento no encontrado"));
+
+        // VALIDAR ACCESO: Solo cuidadores autorizados pueden desactivar medicamentos
+        authorizationService.validarAccesoAPaciente(medicamento.getPaciente().getId());
 
         medicamento.setActivo(false);
         Medicamento medicamentoActualizado = medicamentoRepository.save(medicamento);

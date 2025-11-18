@@ -8,7 +8,11 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "contactos_emergencia")
+@Table(name = "contactos_emergencia",
+    indexes = {
+        @Index(name = "idx_paciente_contacto", columnList = "paciente_id")
+    }
+)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,24 +22,26 @@ public class ContactoEmergencia {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "paciente_id", nullable = false)
-    private Long pacienteId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "paciente_id", nullable = false)
+    private Usuario paciente;
 
-    @Column(nullable = false)
+    @Column(name = "nombre", nullable = false, length = 200)
     private String nombre;
 
-    @Column(length = 100)
-    private String relacion;
-
-    @Column(nullable = false, length = 20)
+    @Column(name = "telefono", nullable = false, length = 20)
     private String telefono;
 
+    @Column(name = "relacion", length = 100)
+    private String relacion;
+
+    @Column(name = "email", length = 255)
     private String email;
 
     @Column(name = "es_contacto_principal")
     private Boolean esContactoPrincipal = false;
 
-    @Column(name = "created_at", updatable = false)
+    @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
     @Column(name = "updated_at")

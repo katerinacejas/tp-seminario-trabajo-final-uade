@@ -32,7 +32,7 @@ public class Bitacora {
     @Column(name = "fecha", nullable = false)
     private LocalDate fecha;
 
-    @Column(name = "titulo", nullable = false)
+    @Column(name = "titulo", nullable = false, length = 255)
     private String titulo;  // Auto: "Bitácora del DD/MM/YYYY" o manual
 
     @Column(name = "descripcion", nullable = false, columnDefinition = "TEXT")

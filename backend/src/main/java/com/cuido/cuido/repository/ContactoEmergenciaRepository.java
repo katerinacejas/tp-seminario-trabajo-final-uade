@@ -9,7 +9,6 @@ import java.util.List;
 @Repository
 public interface ContactoEmergenciaRepository extends JpaRepository<ContactoEmergencia, Long> {
 
+    // Encuentra todos los contactos de emergencia de un paciente
     List<ContactoEmergencia> findByPacienteId(Long pacienteId);
-
-    List<ContactoEmergencia> findByPacienteIdOrderByEsContactoPrincipalDescNombreAsc(Long pacienteId);
 }

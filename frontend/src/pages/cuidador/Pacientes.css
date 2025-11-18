@@ -1,0 +1,484 @@
+/* ===========================
+   PACIENTES CUIDADOR - ESTILOS
+   Mobile-First Design
+   =========================== */
+
+.pacientes-page {
+	padding: 20px;
+	max-width: 1200px;
+	margin: 0 auto;
+}
+
+/* ===== HEADER ===== */
+.page-header {
+	margin-bottom: 24px;
+}
+
+.page-header h1 {
+	font-size: 24px;
+	font-weight: 700;
+	margin: 0;
+	color: #1f2937;
+}
+
+/* ===== INVITACIONES PENDIENTES ===== */
+.invitaciones-loading {
+	background: white;
+	border-radius: 12px;
+	padding: 20px;
+	margin-bottom: 24px;
+	text-align: center;
+	color: #6b7280;
+	font-size: 14px;
+}
+
+.invitaciones-seccion {
+	background: #fff9e6;
+	border: 2px solid #fbbf24;
+	border-radius: 12px;
+	padding: 20px;
+	margin-bottom: 24px;
+}
+
+.invitaciones-seccion .seccion-titulo {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	font-size: 18px;
+	font-weight: 700;
+	color: #92400e;
+	margin: 0 0 16px 0;
+}
+
+.invitaciones-seccion .seccion-titulo svg {
+	font-size: 22px;
+}
+
+.invitaciones-lista {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+
+.invitacion-card {
+	background: white;
+	border-radius: 12px;
+	padding: 16px;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.invitacion-header {
+	display: flex;
+	gap: 12px;
+	margin-bottom: 16px;
+}
+
+.invitacion-icon {
+	width: 48px;
+	height: 48px;
+	background: linear-gradient(135deg, #96BFDB 0%, #6BB5E6 100%);
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 24px;
+	color: white;
+	flex-shrink: 0;
+}
+
+.invitacion-info {
+	flex: 1;
+}
+
+.invitacion-info h3 {
+	font-size: 16px;
+	font-weight: 600;
+	color: #1f2937;
+	margin: 0 0 4px 0;
+}
+
+.invitacion-email {
+	font-size: 14px;
+	color: #6b7280;
+	margin: 0 0 4px 0;
+}
+
+.invitacion-fecha {
+	font-size: 13px;
+	color: #9ca3af;
+	margin: 0;
+}
+
+.invitacion-actions {
+	display: flex;
+	gap: 8px;
+}
+
+.btn-aceptar {
+	flex: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 6px;
+	padding: 12px 16px;
+	background: #10b981;
+	color: white;
+	border: none;
+	border-radius: 8px;
+	font-size: 15px;
+	font-weight: 600;
+	cursor: pointer;
+	transition: all 0.2s;
+}
+
+.btn-aceptar:hover {
+	background: #059669;
+	transform: translateY(-1px);
+	box-shadow: 0 4px 8px rgba(16, 185, 129, 0.3);
+}
+
+.btn-aceptar svg {
+	font-size: 20px;
+}
+
+/* ===== SELECTOR DE PACIENTES ===== */
+.pacientes-selector {
+	margin-bottom: 24px;
+}
+
+.pacientes-tabs {
+	display: flex;
+	gap: 8px;
+	overflow-x: auto;
+	padding-bottom: 8px;
+}
+
+.paciente-tab {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 12px 20px;
+	background: white;
+	border: 2px solid #e5e7eb;
+	border-radius: 12px;
+	font-size: 15px;
+	font-weight: 500;
+	color: #6b7280;
+	cursor: pointer;
+	transition: all 0.2s;
+	white-space: nowrap;
+	flex-shrink: 0;
+}
+
+.paciente-tab svg {
+	font-size: 18px;
+}
+
+.paciente-tab:hover {
+	border-color: #96BFDB;
+	background: #f9fafb;
+}
+
+.paciente-tab.active {
+	background: linear-gradient(135deg, #96BFDB 0%, #6BB5E6 100%);
+	border-color: #6BB5E6;
+	color: white;
+	font-weight: 600;
+}
+
+/* ===== INFORMACIÓN DEL PACIENTE ===== */
+.paciente-detalle {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+}
+
+.info-seccion {
+	background: white;
+	border-left: 4px solid transparent;
+	border-image: var(--gradient-primary) 1;
+	border-radius: 12px;
+	padding: 24px;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.seccion-titulo {
+	font-size: 18px;
+	font-weight: 700;
+	color: #1f2937;
+	margin: 0 0 20px 0;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.seccion-titulo svg {
+	font-size: 22px;
+	color: #6BB5E6;
+}
+
+.info-grid {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 16px;
+}
+
+.info-item {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+}
+
+.info-item.full-width {
+	grid-column: 1 / -1;
+}
+
+.info-label {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	font-size: 13px;
+	font-weight: 600;
+	color: #6b7280;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+}
+
+.info-label svg {
+	font-size: 16px;
+	color: #96BFDB;
+}
+
+.info-valor {
+	font-size: 15px;
+	font-weight: 500;
+	color: #1f2937;
+	line-height: 1.5;
+}
+
+/* Subsecciones (Condiciones, Notas) */
+.info-subseccion {
+	margin-top: 20px;
+	padding-top: 20px;
+	border-top: 1px solid #e5e7eb;
+}
+
+.subseccion-titulo {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	font-size: 16px;
+	font-weight: 600;
+	color: #374151;
+	margin: 0 0 12px 0;
+}
+
+.subseccion-titulo svg {
+	font-size: 18px;
+	color: #6BB5E6;
+}
+
+.lista-items {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.lista-items li {
+	padding: 10px 12px;
+	background: #f9fafb;
+	border-radius: 8px;
+	font-size: 14px;
+	color: #1f2937;
+	border-left: 3px solid #96BFDB;
+}
+
+/* ===== CONTACTOS DE EMERGENCIA ===== */
+.contactos-lista {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+
+.contacto-card {
+	background: #f9fafb;
+	border-radius: 12px;
+	padding: 16px;
+	border: 2px solid #e5e7eb;
+	position: relative;
+	transition: all 0.2s;
+}
+
+.contacto-card:hover {
+	border-color: #96BFDB;
+	background: white;
+}
+
+.contacto-card.principal {
+	background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+	border-color: #6BB5E6;
+}
+
+.contacto-badge {
+	position: absolute;
+	top: 12px;
+	right: 12px;
+	background: #6BB5E6;
+	color: white;
+	padding: 4px 10px;
+	border-radius: 12px;
+	font-size: 11px;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+}
+
+.contacto-info h3 {
+	font-size: 16px;
+	font-weight: 600;
+	color: #1f2937;
+	margin: 0 0 4px 0;
+}
+
+.contacto-relacion {
+	font-size: 13px;
+	color: #6b7280;
+	margin: 0 0 12px 0;
+	font-weight: 500;
+}
+
+.contacto-detalles {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+}
+
+.contacto-detalle {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	font-size: 14px;
+	color: #374151;
+}
+
+.contacto-detalle svg {
+	font-size: 16px;
+	color: #96BFDB;
+}
+
+/* ===== ESTADOS VACÍOS ===== */
+.empty-state {
+	text-align: center;
+	padding: 60px 20px;
+	background: white;
+	border-radius: 12px;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.empty-icon {
+	font-size: 64px;
+	color: #cbd5e1;
+	margin-bottom: 16px;
+}
+
+.empty-state h3 {
+	font-size: 18px;
+	font-weight: 600;
+	color: #1f2937;
+	margin: 0 0 8px 0;
+}
+
+.empty-state p {
+	font-size: 14px;
+	color: #6b7280;
+	margin: 0;
+}
+
+.mensaje-vacio {
+	text-align: center;
+	padding: 30px 20px;
+	color: #9ca3af;
+	font-size: 14px;
+}
+
+.mensaje-vacio p {
+	margin: 0;
+	font-weight: 500;
+}
+
+/* ===== LOADING & ERROR ===== */
+.loading-message {
+	text-align: center;
+	padding: 60px 20px;
+	background: white;
+	border-radius: 12px;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+	color: #6b7280;
+	font-size: 15px;
+}
+
+.loading-message p {
+	margin: 0;
+}
+
+.error-message {
+	background: #fef2f2;
+	border: 2px solid #fecaca;
+	border-radius: 12px;
+	padding: 16px;
+	color: #dc2626;
+	font-size: 14px;
+	text-align: center;
+}
+
+.error-message p {
+	margin: 0;
+	font-weight: 500;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (min-width: 640px) {
+	.info-grid {
+		grid-template-columns: repeat(2, 1fr);
+	}
+
+	.invitacion-actions {
+		justify-content: flex-end;
+	}
+
+	.btn-aceptar {
+		flex: 0 0 auto;
+		min-width: 140px;
+	}
+}
+
+@media (min-width: 768px) {
+	.pacientes-page {
+		padding: 24px;
+	}
+
+	.page-header h1 {
+		font-size: 28px;
+	}
+
+	.invitaciones-seccion {
+		padding: 24px;
+	}
+
+	.info-seccion {
+		padding: 28px;
+	}
+
+	.contactos-lista {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+
+@media (min-width: 1024px) {
+	.info-grid {
+		grid-template-columns: repeat(3, 1fr);
+	}
+}

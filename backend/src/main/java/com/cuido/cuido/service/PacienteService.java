@@ -1,115 +1,130 @@
 package com.cuido.cuido.service;
 
-import com.cuido.cuido.dto.response.UsuarioResponseDTO;
-import com.cuido.cuido.model.Rol;
+import com.cuido.cuido.dto.request.ActualizarPerfilPacienteRequest;
+import com.cuido.cuido.dto.response.PacienteResponseDTO;
+import com.cuido.cuido.model.Paciente;
 import com.cuido.cuido.model.Usuario;
+import com.cuido.cuido.repository.PacienteRepository;
 import com.cuido.cuido.repository.UsuarioRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
-/**
- * Servicio para operaciones relacionadas con pacientes.
- */
 @Service
+@Transactional
 public class PacienteService {
 
+    private final PacienteRepository pacienteRepository;
+    private final UsuarioRepository usuarioRepository;
+    private final PasswordEncoder passwordEncoder;
+
     @Autowired
-    private UsuarioRepository usuarioRepository;
-
-    /**
-     * Busca pacientes por nombre (parcial o completo).
-     *
-     * @param nombre Nombre a buscar
-     * @return Lista de pacientes que coinciden
-     */
-    public List<UsuarioResponseDTO> buscarPacientesPorNombre(String nombre) {
-        List<Usuario> pacientes = usuarioRepository.findAll().stream()
-                .filter(u -> u.getRol() == Rol.PACIENTE)
-                .filter(u -> u.getNombreCompleto().toLowerCase().contains(nombre.toLowerCase()))
-                .collect(Collectors.toList());
-
-        return pacientes.stream()
-                .map(this::convertirADTO)
-                .collect(Collectors.toList());
+    public PacienteService(PacienteRepository pacienteRepository, UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder) {
+        this.pacienteRepository = pacienteRepository;
+        this.usuarioRepository = usuarioRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
-    /**
-     * Obtiene un paciente por su ID.
-     *
-     * @param id ID del paciente
-     * @return Optional con el paciente si existe
-     */
-    public Optional<UsuarioResponseDTO> obtenerPacientePorId(Long id) {
-        return usuarioRepository.findById(id)
-                .filter(u -> u.getRol() == Rol.PACIENTE)
-                .map(this::convertirADTO);
+    public Optional<PacienteResponseDTO> getPacientePorId(Long id) {
+        return pacienteRepository.findById(id)
+                .map(this::mapToResponseDTO);
     }
 
-    /**
-     * Verifica si un cuidador tiene acceso a un paciente.
-     * Por ahora, asumimos que todos los cuidadores tienen acceso a todos los pacientes.
-     * En el futuro, esto debe verificar la tabla cuidador_paciente.
-     *
-     * @param emailCuidador Email del cuidador
-     * @param pacienteId ID del paciente
-     * @return true si tiene acceso, false en caso contrario
-     */
-    public boolean verificarAccesoCuidador(String emailCuidador, Long pacienteId) {
-        // Verificar que el cuidador exista
-        Optional<Usuario> cuidador = usuarioRepository.findByEmail(emailCuidador);
-        if (cuidador.isEmpty() || cuidador.get().getRol() != Rol.CUIDADOR) {
-            return false;
+    public Optional<PacienteResponseDTO> getPacientePorUsuarioId(Long usuarioId) {
+        return pacienteRepository.findByUsuarioId(usuarioId)
+                .map(this::mapToResponseDTO);
+    }
+
+    public List<PacienteResponseDTO> getTodosLosPacientes() {
+        return pacienteRepository.findAll()
+                .stream()
+                .map(this::mapToResponseDTO)
+                .toList();
+    }
+
+    public PacienteResponseDTO actualizarPerfil(Long usuarioId, ActualizarPerfilPacienteRequest request) {
+        Usuario usuario = usuarioRepository.findById(usuarioId)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        Paciente paciente = pacienteRepository.findByUsuarioId(usuarioId)
+                .orElseThrow(() -> new RuntimeException("Perfil de paciente no encontrado"));
+
+        // Actualizar datos del usuario
+        if (request.getNombreCompleto() != null) {
+            usuario.setNombreCompleto(request.getNombreCompleto());
         }
 
-        // Verificar que el paciente exista
-        Optional<Usuario> paciente = usuarioRepository.findById(pacienteId);
-        if (paciente.isEmpty() || paciente.get().getRol() != Rol.PACIENTE) {
-            return false;
+        // IMPORTANTE: No permitir cambio de email aquí porque invalida el JWT token
+        // El email solo puede cambiarse desde un endpoint dedicado que maneje la renovación del token
+        if (request.getEmail() != null && !request.getEmail().equals(usuario.getEmail())) {
+            throw new IllegalArgumentException("No se puede cambiar el email desde este endpoint. El email es la identidad del usuario y cambiarla requiere un proceso especial.");
         }
 
-        // TODO: Verificar en la tabla cuidador_paciente cuando esté implementada
-        // Por ahora, retornamos true (todos los cuidadores tienen acceso a todos los pacientes)
-        return true;
+        if (request.getPassword() != null && !request.getPassword().isEmpty()) {
+            usuario.setPassword(passwordEncoder.encode(request.getPassword()));
+        }
+        usuarioRepository.save(usuario);
+
+        // Actualizar datos del paciente
+        if (request.getTipoSanguineo() != null) {
+            paciente.setTipoSanguineo(request.getTipoSanguineo());
+        }
+        if (request.getPeso() != null) {
+            paciente.setPeso(request.getPeso());
+        }
+        if (request.getAltura() != null) {
+            paciente.setAltura(request.getAltura());
+        }
+        if (request.getAlergias() != null) {
+            paciente.setAlergias(request.getAlergias());
+        }
+        if (request.getCondicionesMedicas() != null) {
+            paciente.setCondicionesMedicas(request.getCondicionesMedicas());
+        }
+        if (request.getNotasImportantes() != null) {
+            paciente.setNotasImportantes(request.getNotasImportantes());
+        }
+        if (request.getObraSocial() != null) {
+            paciente.setObraSocial(request.getObraSocial());
+        }
+        if (request.getNumeroAfiliado() != null) {
+            paciente.setNumeroAfiliado(request.getNumeroAfiliado());
+        }
+
+        pacienteRepository.save(paciente);
+        return mapToResponseDTO(paciente);
     }
 
-    /**
-     * Obtiene todos los pacientes vinculados a un cuidador.
-     *
-     * @param emailCuidador Email del cuidador
-     * @return Lista de pacientes
-     */
-    public List<UsuarioResponseDTO> obtenerPacientesDelCuidador(String emailCuidador) {
-        // TODO: Implementar cuando exista la tabla cuidador_paciente
-        // Por ahora, retornamos todos los pacientes
-        List<Usuario> pacientes = usuarioRepository.findAll().stream()
-                .filter(u -> u.getRol() == Rol.PACIENTE)
-                .collect(Collectors.toList());
+    private PacienteResponseDTO mapToResponseDTO(Paciente paciente) {
+        PacienteResponseDTO dto = new PacienteResponseDTO();
+        dto.setId(paciente.getId());
+        dto.setUsuarioId(paciente.getUsuario().getId());
+        dto.setNombreCompleto(paciente.getUsuario().getNombreCompleto());
+        dto.setEmail(paciente.getUsuario().getEmail());
 
-        return pacientes.stream()
-                .map(this::convertirADTO)
-                .collect(Collectors.toList());
-    }
+        // Calcular edad desde fechaNacimiento
+        Usuario usuario = paciente.getUsuario();
+        if (usuario.getFechaNacimiento() != null) {
+            LocalDate fechaNac = usuario.getFechaNacimiento().toLocalDate();
+            LocalDate ahora = LocalDate.now();
+            dto.setEdad(Period.between(fechaNac, ahora).getYears());
+        }
 
-    /**
-     * Convierte un Usuario a UsuarioResponseDTO.
-     *
-     * @param usuario Usuario a convertir
-     * @return DTO con los datos del usuario
-     */
-    private UsuarioResponseDTO convertirADTO(Usuario usuario) {
-        UsuarioResponseDTO dto = new UsuarioResponseDTO();
-        dto.setId(usuario.getId());
-        dto.setNombreCompleto(usuario.getNombreCompleto());
-        dto.setEmail(usuario.getEmail());
-        dto.setDireccion(usuario.getDireccion());
-        dto.setTelefono(usuario.getTelefono());
-        dto.setFechaNacimiento(usuario.getFechaNacimiento());
-        dto.setAvatar(usuario.getAvatar());
-        dto.setRol(usuario.getRol());
+        dto.setTipoSanguineo(paciente.getTipoSanguineo());
+        dto.setPeso(paciente.getPeso());
+        dto.setAltura(paciente.getAltura());
+        dto.setAlergias(paciente.getAlergias());
+        dto.setCondicionesMedicas(paciente.getCondicionesMedicas());
+        dto.setNotasImportantes(paciente.getNotasImportantes());
+        dto.setObraSocial(paciente.getObraSocial());
+        dto.setNumeroAfiliado(paciente.getNumeroAfiliado());
+
         return dto;
     }
 }

@@ -1,5 +1,9 @@
 package com.cuido.cuido.service;
 
+import com.cuido.cuido.exception.EmailYaRegistradoException;
+import com.cuido.cuido.exception.InvalidCredentialsException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -12,12 +16,16 @@ import com.cuido.cuido.dto.request.LoginRequestDTO;
 import com.cuido.cuido.dto.request.RegistroRequestDTO;
 import com.cuido.cuido.dto.response.JwtResponseDTO;
 import com.cuido.cuido.model.Usuario;
+import com.cuido.cuido.model.Paciente;
 import com.cuido.cuido.model.Rol;
 import com.cuido.cuido.repository.UsuarioRepository;
+import com.cuido.cuido.repository.PacienteRepository;
 import com.cuido.cuido.security.JwtUtil;
 
 @Service
 public class AuthenticationService {
+
+    private static final Logger logger = LoggerFactory.getLogger(AuthenticationService.class);
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -31,7 +39,15 @@ public class AuthenticationService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private EmailService emailService;
+
+    @Autowired
+    private PacienteRepository pacienteRepository;
+
     public JwtResponseDTO authenticate(LoginRequestDTO request) {
+        logger.info("Intento de autenticación para email: {}", request.getEmail());
+
         try {
             Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -41,22 +57,27 @@ public class AuthenticationService {
             );
 
             Usuario usuario = (Usuario) authentication.getPrincipal();
-			
-			String rolString = usuario.getRol().name();
-            String jwt = jwtUtil.generateToken(usuario.getEmail(), rolString);
-			Rol rol = usuario.getRol();
 
+            String rolString = usuario.getRol().name();
+            String jwt = jwtUtil.generateToken(usuario.getEmail(), rolString);
+            Rol rol = usuario.getRol();
+
+            logger.info("Autenticación exitosa para usuario ID: {}, Rol: {}", usuario.getId(), rol);
             return new JwtResponseDTO(jwt, rol);
 
         } catch (AuthenticationException ex) {
-            throw new RuntimeException("Credenciales inválidas");
+            logger.warn("Fallo de autenticación para email: {}", request.getEmail());
+            throw new InvalidCredentialsException("Credenciales inválidas");
         }
     }
 
     public JwtResponseDTO register(RegistroRequestDTO request) {
+        logger.info("Intento de registro para email: {}, Rol: {}", request.getEmail(), request.getRol());
+
         try {
             if (usuarioRepository.existsByEmail(request.getEmail())) {
-                throw new RuntimeException("Ya existe un usuario con ese email");
+                logger.warn("Intento de registro con email ya existente: {}", request.getEmail());
+                throw new EmailYaRegistradoException("Ya existe un usuario con ese email");
             }
 
             Usuario nuevoUsuario = new Usuario();
@@ -66,23 +87,83 @@ public class AuthenticationService {
             nuevoUsuario.setFechaNacimiento(request.getFechaNacimiento());
             nuevoUsuario.setAvatar(request.getAvatar());
             nuevoUsuario.setEmail(request.getEmail());
-			if (request.getRol() == "CUIDADOR") {
-				nuevoUsuario.setRol(Rol.CUIDADOR);
-			} else {
-				nuevoUsuario.setRol(Rol.PACIENTE);
-			}
+
+            // Validar que solo se permita CUIDADOR o PACIENTE (no ADMIN)
+            if ("CUIDADOR".equals(request.getRol())) {
+                nuevoUsuario.setRol(Rol.CUIDADOR);
+            } else if ("PACIENTE".equals(request.getRol())) {
+                nuevoUsuario.setRol(Rol.PACIENTE);
+            } else {
+                logger.warn("SECURITY: Intento de registro con rol no permitido: {}", request.getRol());
+                throw new IllegalArgumentException("Rol no válido. Debe ser CUIDADOR o PACIENTE.");
+            }
+
+            // Validar complejidad de la contraseña
+            validarComplejidadPassword(request.getPassword());
 
             String encryptedPassword = passwordEncoder.encode(request.getPassword());
             nuevoUsuario.setPassword(encryptedPassword);
 
             usuarioRepository.save(nuevoUsuario);
-			System.out.println("guarde un usuario");
+            logger.info("Usuario registrado exitosamente - ID: {}, Email: {}, Rol: {}",
+                       nuevoUsuario.getId(), nuevoUsuario.getEmail(), nuevoUsuario.getRol());
+
+            // Si es un paciente, crear también su registro en la tabla pacientes
+            if (nuevoUsuario.getRol() == Rol.PACIENTE) {
+                Paciente nuevoPaciente = new Paciente();
+                nuevoPaciente.setUsuario(nuevoUsuario);
+                pacienteRepository.save(nuevoPaciente);
+                logger.info("Registro de paciente creado exitosamente para usuario ID: {}", nuevoUsuario.getId());
+            }
+
+            // Enviar email de bienvenida
+            try {
+                emailService.enviarEmailBienvenida(
+                    nuevoUsuario.getEmail(),
+                    nuevoUsuario.getNombreCompleto(),
+                    nuevoUsuario.getRol().name().toLowerCase()
+                );
+                logger.info("Email de bienvenida enviado a: {}", nuevoUsuario.getEmail());
+            } catch (Exception e) {
+                logger.error("Error al enviar email de bienvenida a {}: {}", nuevoUsuario.getEmail(), e.getMessage());
+                // No interrumpimos el registro si falla el email
+            }
 
             String token = jwtUtil.generateToken(nuevoUsuario.getEmail(), nuevoUsuario.getRol().name());
             return new JwtResponseDTO(token, nuevoUsuario.getRol());
 
+        } catch (EmailYaRegistradoException | IllegalArgumentException e) {
+            throw e;
         } catch (Exception e) {
+            logger.error("Error inesperado al registrar usuario: {}", e.getMessage(), e);
             throw new RuntimeException("Error al registrar usuario: " + e.getMessage());
         }
     }
-} 
+
+    /**
+     * Valida que la contraseña cumpla con los requisitos mínimos de seguridad
+     */
+    private void validarComplejidadPassword(String password) {
+        if (password == null || password.length() < 8) {
+            throw new IllegalArgumentException("La contraseña debe tener al menos 8 caracteres");
+        }
+
+        boolean tieneMinuscula = password.chars().anyMatch(Character::isLowerCase);
+        boolean tieneMayuscula = password.chars().anyMatch(Character::isUpperCase);
+        boolean tieneNumero = password.chars().anyMatch(Character::isDigit);
+
+        if (!tieneMinuscula) {
+            throw new IllegalArgumentException("La contraseña debe contener al menos una letra minúscula");
+        }
+
+        if (!tieneMayuscula) {
+            throw new IllegalArgumentException("La contraseña debe contener al menos una letra mayúscula");
+        }
+
+        if (!tieneNumero) {
+            throw new IllegalArgumentException("La contraseña debe contener al menos un número");
+        }
+
+        logger.debug("Contraseña válida según requisitos de complejidad");
+    }
+}

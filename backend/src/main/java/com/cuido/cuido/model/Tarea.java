@@ -5,11 +5,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "tareas")
+@Table(name = "tareas", indexes = {
+    @Index(name = "idx_paciente_orden", columnList = "paciente_id, orden_manual")
+})
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,30 +20,37 @@ public class Tarea {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "paciente_id", nullable = false)
-    private Long pacienteId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "paciente_id", nullable = false)
+    private Usuario paciente;
 
-    @Column(name = "cuidador_id", nullable = false)
-    private Long cuidadorId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cuidador_id", nullable = false)
+    private Usuario cuidador;
 
-    @Column(nullable = false)
+    @Column(name = "titulo", nullable = false)
     private String titulo;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(name = "descripcion", columnDefinition = "TEXT")
     private String descripcion;
 
     @Column(name = "fecha_vencimiento")
-    private LocalDate fechaVencimiento;
+    private LocalDateTime fechaVencimiento;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "prioridad", nullable = false)
     private Prioridad prioridad = Prioridad.MEDIA;
 
+    @Column(name = "completada", nullable = false)
     private Boolean completada = false;
 
-    @Column(name = "orden_manual")
-    private Integer ordenManual;
+    @Column(name = "fecha_completada")
+    private LocalDateTime fechaCompletada;
 
-    @Column(name = "created_at", updatable = false)
+    @Column(name = "orden_manual", nullable = false)
+    private Integer ordenManual = 0;
+
+    @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
     @Column(name = "updated_at")
@@ -57,8 +65,18 @@ public class Tarea {
     @PreUpdate
     protected void onUpdate() {
         updatedAt = LocalDateTime.now();
+
+        // Si se marca como completada, guardar fecha de completado
+        if (completada && fechaCompletada == null) {
+            fechaCompletada = LocalDateTime.now();
+        }
+        // Si se desmarca, limpiar fecha de completado
+        if (!completada && fechaCompletada != null) {
+            fechaCompletada = null;
+        }
     }
 
+    // Enum de Prioridad
     public enum Prioridad {
         BAJA,
         MEDIA,

@@ -6,17 +6,12 @@
       "Bash(dir /s /b *.java)",
       "Bash(findstr:*)",
       "Bash(npm install:*)",
-      "Bash(git checkout:*)",
-      "Bash(dir /s /b *.txt)",
+      "Bash(dir /s /b c:UsersramikOneDriveDesktopcuidobackenduploads)",
       "Bash(dir:*)",
-      "Bash(__init__.py)",
-      "Bash(config__init__.py)",
-      "Bash(models__init__.py)",
-      "Bash(services__init__.py)",
-      "Bash(utils__init__.py)",
-      "Bash(routers__init__.py)",
-      "Bash(bot/__init__.py)",
-      "Bash(mysql:*)"
+      "Bash(find:*)",
+      "Bash(git checkout:*)",
+      "Bash(notificationService.js)",
+      "Bash(cat:*)"
     ],
     "deny": [],
     "ask": []

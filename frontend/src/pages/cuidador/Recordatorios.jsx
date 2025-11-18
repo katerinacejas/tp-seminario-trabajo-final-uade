@@ -1,31 +1,44 @@
 import React, { useState, useEffect } from "react";
 import { recordatoriosAPI, medicamentosAPI, citasAPI } from "../../services/api";
+import { usePaciente } from "../../context/PacienteContext";
+import * as NotificationService from "../../services/notificationService";
 import "./Recordatorios.css";
 
-export default function Recordatorios({ pacienteId }) {
+export default function Recordatorios() {
+	// Obtener paciente seleccionado del contexto
+	const { pacienteSeleccionado } = usePaciente();
+	const pacienteId = pacienteSeleccionado?.id;
 	const [mostrarFormulario, setMostrarFormulario] = useState(false);
 	const [tipoRecordatorio, setTipoRecordatorio] = useState("MEDICAMENTO"); // MEDICAMENTO o CITA_MEDICA
-	const [formData, setFormData] = useState({
-		descripcion: "",
-		fecha: "",
-		hora: "",
-		repetirCada: "nunca", // nunca, diario, 7dias, 15dias, 1mes
-		repetirHasta: "indefinido", // indefinido o fecha específica
-		fechaFin: "",
-		// Campos específicos de medicamento
-		nombreMedicamento: "",
+
+	// Estado del formulario de MEDICAMENTO
+	const [formMedicamento, setFormMedicamento] = useState({
+		nombre: "",
 		dosis: "",
-		// Campos específicos de cita médica
+		frecuencia: "",
+		viaAdministracion: "",
+		fechaInicio: "",
+		fechaFin: "",
+		observaciones: "",
+		horarios: [{ hora: "", diasSemana: null }] // Array de horarios
+	});
+
+	// Estado del formulario de CITA MÉDICA
+	const [formCita, setFormCita] = useState({
+		fechaHora: "",
 		ubicacion: "",
 		nombreDoctor: "",
 		especialidad: "",
-		motivo: ""
+		motivo: "",
+		observaciones: ""
 	});
 
 	const [recordatorios, setRecordatorios] = useState([]);
 	const [recordatorioAEliminar, setRecordatorioAEliminar] = useState(null);
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState(null);
+	const [ordenAscendente, setOrdenAscendente] = useState(true); // true = más próximos primero
+	const [erroresValidacion, setErroresValidacion] = useState({});
 
 	// Cargar recordatorios al montar el componente
 	useEffect(() => {
@@ -39,60 +52,171 @@ export default function Recordatorios({ pacienteId }) {
 		setError(null);
 		try {
 			const data = await recordatoriosAPI.getByPaciente(pacienteId);
-			setRecordatorios(data);
+			setRecordatorios(ordenarRecordatorios(data, true));
 		} catch (err) {
 			console.error('Error al cargar recordatorios:', err);
 			setError('No se pudieron cargar los recordatorios');
-			// Mantener mock data si falla la carga
-			setRecordatorios([
-				{
-					id: 1,
-					tipo: "CITA_MEDICA",
-					descripcion: "Cita con el cardiólogo",
-					fechaHora: "2025-11-10T11:30:00",
-					estado: "COMPLETADO",
-					nombreDoctor: "Dr. García",
-					ubicacion: "Hospital Alemán"
-				},
-				{
-					id: 2,
-					tipo: "MEDICAMENTO",
-					descripcion: "Pastilla para la presión",
-					fechaHora: "2025-11-10T08:00:00",
-					estado: "CANCELADO",
-					nombreMedicamento: "Losartán",
-					dosis: "50mg"
-				}
-			]);
+			setRecordatorios([]);
 		} finally {
 			setLoading(false);
 		}
 	};
 
-	const handleInputChange = (e) => {
+	// Ordenar recordatorios por fecha
+	const ordenarRecordatorios = (lista, ascendente) => {
+		return [...lista].sort((a, b) => {
+			const fechaA = new Date(a.fechaHora);
+			const fechaB = new Date(b.fechaHora);
+			return ascendente ? fechaA - fechaB : fechaB - fechaA;
+		});
+	};
+
+	const toggleOrdenamiento = () => {
+		setOrdenAscendente(!ordenAscendente);
+		setRecordatorios(ordenarRecordatorios(recordatorios, !ordenAscendente));
+	};
+
+	// Validar formulario de medicamento
+	const validarMedicamento = () => {
+		const errores = {};
+
+		if (!formMedicamento.nombre.trim()) {
+			errores.nombre = "El nombre es obligatorio";
+		}
+
+		if (!formMedicamento.fechaInicio) {
+			errores.fechaInicio = "La fecha de inicio es obligatoria";
+		}
+
+		if (!formMedicamento.fechaFin) {
+			errores.fechaFin = "La fecha de fin es obligatoria";
+		}
+
+		// Validar que fecha fin sea posterior a fecha inicio
+		if (formMedicamento.fechaInicio && formMedicamento.fechaFin) {
+			if (new Date(formMedicamento.fechaFin) <= new Date(formMedicamento.fechaInicio)) {
+				errores.fechaFin = "La fecha de fin debe ser posterior a la de inicio";
+			}
+		}
+
+		// Validar horarios
+		if (formMedicamento.horarios.length === 0 || !formMedicamento.horarios[0].hora) {
+			errores.horarios = "Debe agregar al menos un horario";
+		}
+
+		setErroresValidacion(errores);
+		return Object.keys(errores).length === 0;
+	};
+
+	// Validar formulario de cita médica
+	const validarCita = () => {
+		const errores = {};
+
+		if (!formCita.fechaHora) {
+			errores.fechaHora = "La fecha y hora son obligatorias";
+		}
+
+		// Validar que la fecha sea futura
+		if (formCita.fechaHora) {
+			const fechaCita = new Date(formCita.fechaHora);
+			const ahora = new Date();
+			if (fechaCita <= ahora) {
+				errores.fechaHora = "La fecha debe ser futura";
+			}
+		}
+
+		setErroresValidacion(errores);
+		return Object.keys(errores).length === 0;
+	};
+
+	const handleInputChangeMedicamento = (e) => {
 		const { name, value } = e.target;
-		setFormData(prev => ({ ...prev, [name]: value }));
+		setFormMedicamento(prev => ({ ...prev, [name]: value }));
+		// Limpiar error del campo
+		if (erroresValidacion[name]) {
+			setErroresValidacion(prev => {
+				const nuevos = { ...prev };
+				delete nuevos[name];
+				return nuevos;
+			});
+		}
+	};
+
+	const handleInputChangeCita = (e) => {
+		const { name, value } = e.target;
+		setFormCita(prev => ({ ...prev, [name]: value }));
+		// Limpiar error del campo
+		if (erroresValidacion[name]) {
+			setErroresValidacion(prev => {
+				const nuevos = { ...prev };
+				delete nuevos[name];
+				return nuevos;
+			});
+		}
+	};
+
+	// Manejar horarios (agregar/eliminar/editar)
+	const agregarHorario = () => {
+		setFormMedicamento(prev => ({
+			...prev,
+			horarios: [...prev.horarios, { hora: "", diasSemana: null }]
+		}));
+	};
+
+	const eliminarHorario = (index) => {
+		setFormMedicamento(prev => ({
+			...prev,
+			horarios: prev.horarios.filter((_, i) => i !== index)
+		}));
+	};
+
+	const handleHorarioChange = (index, field, value) => {
+		setFormMedicamento(prev => ({
+			...prev,
+			horarios: prev.horarios.map((h, i) =>
+				i === index ? { ...h, [field]: value } : h
+			)
+		}));
+		// Limpiar error de horarios
+		if (erroresValidacion.horarios) {
+			setErroresValidacion(prev => {
+				const nuevos = { ...prev };
+				delete nuevos.horarios;
+				return nuevos;
+			});
+		}
+	};
+
+	const handleDiasSemanaChange = (index, dia) => {
+		setFormMedicamento(prev => {
+			const nuevoHorario = { ...prev.horarios[index] };
+
+			// Si diasSemana es null, inicializar con el día seleccionado
+			if (nuevoHorario.diasSemana === null) {
+				nuevoHorario.diasSemana = [dia];
+			} else {
+				// Toggle del día
+				if (nuevoHorario.diasSemana.includes(dia)) {
+					nuevoHorario.diasSemana = nuevoHorario.diasSemana.filter(d => d !== dia);
+					// Si queda vacío, volver a null (todos los días)
+					if (nuevoHorario.diasSemana.length === 0) {
+						nuevoHorario.diasSemana = null;
+					}
+				} else {
+					nuevoHorario.diasSemana = [...nuevoHorario.diasSemana, dia];
+				}
+			}
+
+			return {
+				...prev,
+				horarios: prev.horarios.map((h, i) => i === index ? nuevoHorario : h)
+			};
+		});
 	};
 
 	const handleTipoChange = (nuevoTipo) => {
 		setTipoRecordatorio(nuevoTipo);
-		// Limpiar campos específicos del otro tipo
-		if (nuevoTipo === "MEDICAMENTO") {
-			setFormData(prev => ({
-				...prev,
-				ubicacion: "",
-				nombreDoctor: "",
-				especialidad: "",
-				motivo: ""
-			}));
-		} else {
-			setFormData(prev => ({
-				...prev,
-				nombreMedicamento: "",
-				dosis: "",
-				repetirCada: "nunca", // Las citas no se repiten
-			}));
-		}
+		setErroresValidacion({});
 	};
 
 	const handleSubmit = async (e) => {
@@ -101,45 +225,79 @@ export default function Recordatorios({ pacienteId }) {
 		setError(null);
 
 		try {
-			// Calcular fechaFin si es "indefinido"
-			let fechaFinCalculada = formData.fechaFin;
-			if (formData.repetirHasta === "indefinido" && formData.repetirCada !== "nunca") {
-				const fechaInicio = new Date(formData.fecha);
-				fechaInicio.setMonth(fechaInicio.getMonth() + 6);
-				fechaFinCalculada = fechaInicio.toISOString().split('T')[0];
-			}
-
 			if (tipoRecordatorio === "MEDICAMENTO") {
-				// Crear medicamento con horarios
+				// Validar
+				if (!validarMedicamento()) {
+					setLoading(false);
+					return;
+				}
+
+				// Crear medicamento
 				const medicamentoData = {
 					pacienteId: parseInt(pacienteId),
-					nombre: formData.nombreMedicamento,
-					dosis: formData.dosis || null,
-					frecuencia: formData.repetirCada,
-					viaAdministracion: null,
-					fechaInicio: formData.fecha,
-					fechaFin: fechaFinCalculada,
-					observaciones: formData.descripcion,
-					horarios: [{
-						hora: formData.hora,
-						diasSemana: formData.repetirCada === "diario" ? null : getDiasSemana(formData.repetirCada)
-					}]
+					nombre: formMedicamento.nombre.trim(),
+					dosis: formMedicamento.dosis.trim() || null,
+					frecuencia: formMedicamento.frecuencia.trim() || null,
+					viaAdministracion: formMedicamento.viaAdministracion.trim() || null,
+					fechaInicio: formMedicamento.fechaInicio,
+					fechaFin: formMedicamento.fechaFin,
+					observaciones: formMedicamento.observaciones.trim() || null,
+					horarios: formMedicamento.horarios.map(h => ({
+						hora: h.hora,
+						// Convertir array a string JSON, o null si es null/vacío
+						diasSemana: h.diasSemana && h.diasSemana.length > 0
+							? JSON.stringify(h.diasSemana)
+							: null
+					}))
 				};
 
-				await medicamentosAPI.crear(medicamentoData);
+				const medicamentoCreado = await medicamentosAPI.crear(medicamentoData);
+
+				// Programar notificaciones para cada horario
+				try {
+					for (const horario of formMedicamento.horarios) {
+						await NotificationService.programarNotificacionMedicamento({
+							id: medicamentoCreado.id,
+							nombre: formMedicamento.nombre,
+							horaProgramada: horario.hora
+						});
+					}
+					console.log('Notificaciones programadas para medicamento');
+				} catch (notifError) {
+					console.warn('No se pudieron programar las notificaciones:', notifError);
+				}
 			} else {
+				// Validar cita
+				if (!validarCita()) {
+					setLoading(false);
+					return;
+				}
+
 				// Crear cita médica
 				const citaData = {
 					pacienteId: parseInt(pacienteId),
-					fechaHora: `${formData.fecha}T${formData.hora}:00`,
-					ubicacion: formData.ubicacion || null,
-					nombreDoctor: formData.nombreDoctor || null,
-					especialidad: formData.especialidad || null,
-					motivo: formData.motivo || formData.descripcion,
-					observaciones: null
+					fechaHora: formCita.fechaHora,
+					ubicacion: formCita.ubicacion.trim() || null,
+					nombreDoctor: formCita.nombreDoctor.trim() || null,
+					especialidad: formCita.especialidad.trim() || null,
+					motivo: formCita.motivo.trim() || null,
+					observaciones: formCita.observaciones.trim() || null
 				};
 
-				await citasAPI.crear(citaData);
+				const citaCreada = await citasAPI.crear(citaData);
+
+				// Programar notificación 1 hora antes
+				try {
+					await NotificationService.programarNotificacionCita({
+						id: citaCreada.id,
+						titulo: formCita.motivo || 'Cita médica',
+						fechaHora: citaCreada.fechaHora,
+						lugar: formCita.ubicacion
+					});
+					console.log('Notificación programada para cita médica');
+				} catch (notifError) {
+					console.warn('No se pudo programar la notificación de la cita:', notifError);
+				}
 			}
 
 			// Recargar recordatorios
@@ -150,35 +308,33 @@ export default function Recordatorios({ pacienteId }) {
 			resetFormulario();
 		} catch (err) {
 			console.error('Error al crear recordatorio:', err);
-			setError('No se pudo crear el recordatorio: ' + err.message);
+			setError('No se pudo crear el recordatorio: ' + (err.response?.data?.message || err.message));
 		} finally {
 			setLoading(false);
 		}
 	};
 
-	// Convertir repetirCada a días de la semana (si aplica)
-	const getDiasSemana = (repetirCada) => {
-		// Para simplificar, retornamos null (diario)
-		// Esto se puede expandir para manejar días específicos
-		return null;
-	};
-
 	const resetFormulario = () => {
-		setFormData({
-			descripcion: "",
-			fecha: "",
-			hora: "",
-			repetirCada: "nunca",
-			repetirHasta: "indefinido",
-			fechaFin: "",
-			nombreMedicamento: "",
+		setFormMedicamento({
+			nombre: "",
 			dosis: "",
+			frecuencia: "",
+			viaAdministracion: "",
+			fechaInicio: "",
+			fechaFin: "",
+			observaciones: "",
+			horarios: [{ hora: "", diasSemana: null }]
+		});
+		setFormCita({
+			fechaHora: "",
 			ubicacion: "",
 			nombreDoctor: "",
 			especialidad: "",
-			motivo: ""
+			motivo: "",
+			observaciones: ""
 		});
 		setTipoRecordatorio("MEDICAMENTO");
+		setErroresValidacion({});
 	};
 
 	const ciclarEstado = async (id) => {
@@ -233,7 +389,7 @@ export default function Recordatorios({ pacienteId }) {
 			case "COMPLETADO": return "estado-completado";
 			case "CANCELADO": return "estado-cancelado";
 			case "PENDIENTE": return "estado-pendiente";
-			default: return "";
+			default: return "estado-pendiente";
 		}
 	};
 
@@ -241,12 +397,23 @@ export default function Recordatorios({ pacienteId }) {
 		return tipo === "MEDICAMENTO" ? "💊" : "📅";
 	};
 
+	// Días de la semana para el selector
+	const diasSemana = [
+		{ valor: "LUNES", label: "L" },
+		{ valor: "MARTES", label: "M" },
+		{ valor: "MIERCOLES", label: "X" },
+		{ valor: "JUEVES", label: "J" },
+		{ valor: "VIERNES", label: "V" },
+		{ valor: "SABADO", label: "S" },
+		{ valor: "DOMINGO", label: "D" }
+	];
+
 	return (
 		<div className="recordatorios-container">
 			{/* Mensaje de error */}
 			{error && (
 				<div className="alert alert-error">
-					⚠️ {error}
+					{error}
 					<button onClick={() => setError(null)} className="alert-close">✕</button>
 				</div>
 			)}
@@ -259,13 +426,14 @@ export default function Recordatorios({ pacienteId }) {
 						className="btn-info-icon"
 						title="Información sobre recordatorios"
 					>
-						ⓘ
+						ℹ️
 					</button>
 				</div>
 
 				<button
 					className="btn-añadir-recordatorio"
 					onClick={() => setMostrarFormulario(!mostrarFormulario)}
+					disabled={loading}
 				>
 					<span className="icon-plus">{mostrarFormulario ? "✕" : "+"}</span>
 					<span>Añadir recordatorio</span>
@@ -287,7 +455,7 @@ export default function Recordatorios({ pacienteId }) {
 							✕
 						</button>
 					</h3>
-					<p className="formulario-subtitulo">Para Carlos Regidor</p>
+					<p className="formulario-subtitulo">Para {pacienteSeleccionado?.nombre || "el paciente"}</p>
 
 					<form onSubmit={handleSubmit}>
 						{/* Selector de tipo */}
@@ -311,187 +479,301 @@ export default function Recordatorios({ pacienteId }) {
 							</div>
 						</div>
 
-						{/* Campos comunes */}
-						<div className="form-group">
-							<label>Descripción</label>
-							<input
-								type="text"
-								name="descripcion"
-								className="input"
-								value={formData.descripcion}
-								onChange={handleInputChange}
-								placeholder="Descripción breve..."
-								required
-							/>
-						</div>
-
-						<div className="form-row">
-							<div className="form-group">
-								<label>Fecha</label>
-								<input
-									type="date"
-									name="fecha"
-									className="input"
-									value={formData.fecha}
-									onChange={handleInputChange}
-									required
-								/>
-							</div>
-
-							<div className="form-group">
-								<label>Hora</label>
-								<input
-									type="time"
-									name="hora"
-									className="input"
-									value={formData.hora}
-									onChange={handleInputChange}
-									required
-								/>
-							</div>
-						</div>
-
-						{/* Campos específicos de MEDICAMENTO */}
+						{/* FORMULARIO DE MEDICAMENTO */}
 						{tipoRecordatorio === "MEDICAMENTO" && (
 							<>
+								{/* Nombre del medicamento */}
+								<div className="form-group">
+									<label>
+										Nombre del medicamento <span className="campo-obligatorio">*</span>
+									</label>
+									<input
+										type="text"
+										name="nombre"
+										className={`input ${erroresValidacion.nombre ? 'input-error' : ''}`}
+										value={formMedicamento.nombre}
+										onChange={handleInputChangeMedicamento}
+										placeholder="Ej: Losartán"
+									/>
+									{erroresValidacion.nombre && (
+										<span className="mensaje-error">{erroresValidacion.nombre}</span>
+									)}
+								</div>
+
+								{/* Dosis */}
+								<div className="form-group">
+									<label>
+										Dosis <span className="campo-opcional">(opcional)</span>
+									</label>
+									<input
+										type="text"
+										name="dosis"
+										className="input"
+										value={formMedicamento.dosis}
+										onChange={handleInputChangeMedicamento}
+										placeholder="Ej: 50mg, 1 comprimido"
+									/>
+								</div>
+
+								{/* Frecuencia */}
+								<div className="form-group">
+									<label>
+										Frecuencia <span className="campo-opcional">(opcional)</span>
+									</label>
+									<input
+										type="text"
+										name="frecuencia"
+										className="input"
+										value={formMedicamento.frecuencia}
+										onChange={handleInputChangeMedicamento}
+										placeholder="Ej: Cada 8 horas, 2 veces al día"
+									/>
+								</div>
+
+								{/* Vía de administración */}
+								<div className="form-group">
+									<label>
+										Vía de administración <span className="campo-opcional">(opcional)</span>
+									</label>
+									<select
+										name="viaAdministracion"
+										className="input"
+										value={formMedicamento.viaAdministracion}
+										onChange={handleInputChangeMedicamento}
+									>
+										<option value="">Seleccionar...</option>
+										<option value="Oral">Oral</option>
+										<option value="Sublingual">Sublingual</option>
+										<option value="Tópica">Tópica</option>
+										<option value="Intravenosa">Intravenosa</option>
+										<option value="Intramuscular">Intramuscular</option>
+										<option value="Subcutánea">Subcutánea</option>
+										<option value="Inhalatoria">Inhalatoria</option>
+										<option value="Rectal">Rectal</option>
+										<option value="Oftálmica">Oftálmica</option>
+										<option value="Ótica">Ótica</option>
+										<option value="Nasal">Nasal</option>
+										<option value="Transdérmica">Transdérmica</option>
+									</select>
+								</div>
+
+								{/* Fechas inicio y fin */}
 								<div className="form-row">
 									<div className="form-group">
-										<label>Nombre del medicamento</label>
+										<label>
+											Fecha inicio <span className="campo-obligatorio">*</span>
+										</label>
 										<input
-											type="text"
-											name="nombreMedicamento"
-											className="input"
-											value={formData.nombreMedicamento}
-											onChange={handleInputChange}
-											placeholder="Ej: Losartán"
-											required
+											type="date"
+											name="fechaInicio"
+											className={`input ${erroresValidacion.fechaInicio ? 'input-error' : ''}`}
+											value={formMedicamento.fechaInicio}
+											onChange={handleInputChangeMedicamento}
 										/>
+										{erroresValidacion.fechaInicio && (
+											<span className="mensaje-error">{erroresValidacion.fechaInicio}</span>
+										)}
 									</div>
 
 									<div className="form-group">
-										<label>Dosis</label>
+										<label>
+											Fecha fin <span className="campo-obligatorio">*</span>
+										</label>
 										<input
-											type="text"
-											name="dosis"
-											className="input"
-											value={formData.dosis}
-											onChange={handleInputChange}
-											placeholder="Ej: 50mg"
+											type="date"
+											name="fechaFin"
+											className={`input ${erroresValidacion.fechaFin ? 'input-error' : ''}`}
+											value={formMedicamento.fechaFin}
+											onChange={handleInputChangeMedicamento}
 										/>
+										{erroresValidacion.fechaFin && (
+											<span className="mensaje-error">{erroresValidacion.fechaFin}</span>
+										)}
 									</div>
 								</div>
 
-								{/* Repetición (solo para medicamentos) */}
+								{/* Observaciones */}
 								<div className="form-group">
-									<label>Repetir cada:</label>
-									<div className="repetir-buttons">
-										{["nunca", "diario", "7dias", "15dias", "1mes"].map(opcion => (
-											<button
-												key={opcion}
-												type="button"
-												className={`btn-repetir ${formData.repetirCada === opcion ? "active" : ""}`}
-												onClick={() => setFormData(prev => ({ ...prev, repetirCada: opcion }))}
-											>
-												{opcion === "nunca" ? "Nunca" :
-												 opcion === "diario" ? "Diariamente" :
-												 opcion === "7dias" ? "7 días" :
-												 opcion === "15dias" ? "15 días" :
-												 "1 mes"}
-											</button>
-										))}
-									</div>
+									<label>
+										Observaciones <span className="campo-opcional">(opcional)</span>
+									</label>
+									<textarea
+										name="observaciones"
+										className="input textarea"
+										value={formMedicamento.observaciones}
+										onChange={handleInputChangeMedicamento}
+										placeholder="Notas adicionales sobre el medicamento..."
+										rows="3"
+									/>
 								</div>
 
-								{formData.repetirCada !== "nunca" && (
-									<div className="form-group">
-										<label>Repetir hasta:</label>
-										<div className="repetir-hasta-container">
-											<div className="repetir-buttons">
-												<button
-													type="button"
-													className={`btn-repetir ${formData.repetirHasta === "indefinido" ? "active" : ""}`}
-													onClick={() => setFormData(prev => ({ ...prev, repetirHasta: "indefinido" }))}
-												>
-													Indefinido
-												</button>
-												<button
-													type="button"
-													className={`btn-repetir ${formData.repetirHasta === "fecha" ? "active" : ""}`}
-													onClick={() => setFormData(prev => ({ ...prev, repetirHasta: "fecha" }))}
-												>
-													Seleccionar...
-												</button>
+								{/* Horarios */}
+								<div className="form-group">
+									<label>
+										Horarios <span className="campo-obligatorio">*</span>
+									</label>
+									{erroresValidacion.horarios && (
+										<span className="mensaje-error">{erroresValidacion.horarios}</span>
+									)}
+
+									{formMedicamento.horarios.map((horario, index) => (
+										<div key={index} className="horario-item">
+											<div className="horario-header">
+												<span className="horario-numero">Horario {index + 1}</span>
+												{formMedicamento.horarios.length > 1 && (
+													<button
+														type="button"
+														className="btn-eliminar-horario"
+														onClick={() => eliminarHorario(index)}
+													>
+														✕
+													</button>
+												)}
 											</div>
-											{formData.repetirHasta === "fecha" && (
+
+											<div className="form-group">
+												<label>Hora</label>
 												<input
-													type="date"
-													name="fechaFin"
+													type="time"
 													className="input"
-													value={formData.fechaFin}
-													onChange={handleInputChange}
-													required
+													value={horario.hora}
+													onChange={(e) => handleHorarioChange(index, 'hora', e.target.value)}
 												/>
-											)}
-											{formData.repetirHasta === "indefinido" && (
-												<p className="aviso-indefinido">
-													ℹ️ Los recordatorios se crearán por los próximos 6 meses
+											</div>
+
+											<div className="form-group">
+												<label>
+													Días de la semana <span className="campo-opcional">(opcional - si vacío: todos los días)</span>
+												</label>
+												<div className="dias-semana-selector">
+													{diasSemana.map(dia => (
+														<button
+															key={dia.valor}
+															type="button"
+															className={`btn-dia ${
+																horario.diasSemana === null || horario.diasSemana?.includes(dia.valor) ? 'active' : ''
+															}`}
+															onClick={() => handleDiasSemanaChange(index, dia.valor)}
+															title={dia.valor}
+														>
+															{dia.label}
+														</button>
+													))}
+												</div>
+												<p className="ayuda-texto">
+													{horario.diasSemana === null
+														? "Todos los días"
+														: horario.diasSemana.length === 0
+															? "Todos los días"
+															: `${horario.diasSemana.length} día${horario.diasSemana.length > 1 ? 's' : ''} seleccionado${horario.diasSemana.length > 1 ? 's' : ''}`
+													}
 												</p>
-											)}
+											</div>
 										</div>
-									</div>
-								)}
+									))}
+
+									<button
+										type="button"
+										className="btn-agregar-horario"
+										onClick={agregarHorario}
+									>
+										+ Agregar otro horario
+									</button>
+								</div>
 							</>
 						)}
 
-						{/* Campos específicos de CITA_MEDICA */}
+						{/* FORMULARIO DE CITA MÉDICA */}
 						{tipoRecordatorio === "CITA_MEDICA" && (
 							<>
+								{/* Fecha y hora */}
 								<div className="form-group">
-									<label>Ubicación</label>
+									<label>
+										Fecha y hora <span className="campo-obligatorio">*</span>
+									</label>
+									<input
+										type="datetime-local"
+										name="fechaHora"
+										className={`input ${erroresValidacion.fechaHora ? 'input-error' : ''}`}
+										value={formCita.fechaHora}
+										onChange={handleInputChangeCita}
+									/>
+									{erroresValidacion.fechaHora && (
+										<span className="mensaje-error">{erroresValidacion.fechaHora}</span>
+									)}
+								</div>
+
+								{/* Ubicación */}
+								<div className="form-group">
+									<label>
+										Ubicación <span className="campo-opcional">(opcional)</span>
+									</label>
 									<input
 										type="text"
 										name="ubicacion"
 										className="input"
-										value={formData.ubicacion}
-										onChange={handleInputChange}
-										placeholder="Ej: Hospital Alemán"
+										value={formCita.ubicacion}
+										onChange={handleInputChangeCita}
+										placeholder="Ej: Hospital Alemán, Sala 3"
 									/>
 								</div>
 
-								<div className="form-row">
-									<div className="form-group">
-										<label>Nombre del doctor</label>
-										<input
-											type="text"
-											name="nombreDoctor"
-											className="input"
-											value={formData.nombreDoctor}
-											onChange={handleInputChange}
-											placeholder="Ej: Dr. García"
-										/>
-									</div>
-
-									<div className="form-group">
-										<label>Especialidad</label>
-										<input
-											type="text"
-											name="especialidad"
-											className="input"
-											value={formData.especialidad}
-											onChange={handleInputChange}
-											placeholder="Ej: Cardiología"
-										/>
-									</div>
+								{/* Nombre del doctor */}
+								<div className="form-group">
+									<label>
+										Nombre del doctor <span className="campo-opcional">(opcional)</span>
+									</label>
+									<input
+										type="text"
+										name="nombreDoctor"
+										className="input"
+										value={formCita.nombreDoctor}
+										onChange={handleInputChangeCita}
+										placeholder="Ej: Dr. García"
+									/>
 								</div>
 
+								{/* Especialidad */}
 								<div className="form-group">
-									<label>Motivo</label>
+									<label>
+										Especialidad <span className="campo-opcional">(opcional)</span>
+									</label>
+									<input
+										type="text"
+										name="especialidad"
+										className="input"
+										value={formCita.especialidad}
+										onChange={handleInputChangeCita}
+										placeholder="Ej: Cardiología, Traumatología"
+									/>
+								</div>
+
+								{/* Motivo */}
+								<div className="form-group">
+									<label>
+										Motivo <span className="campo-opcional">(opcional)</span>
+									</label>
 									<textarea
 										name="motivo"
 										className="input textarea"
-										value={formData.motivo}
-										onChange={handleInputChange}
+										value={formCita.motivo}
+										onChange={handleInputChangeCita}
 										placeholder="Motivo de la consulta..."
+										rows="3"
+									/>
+								</div>
+
+								{/* Observaciones */}
+								<div className="form-group">
+									<label>
+										Observaciones <span className="campo-opcional">(opcional)</span>
+									</label>
+									<textarea
+										name="observaciones"
+										className="input textarea"
+										value={formCita.observaciones}
+										onChange={handleInputChangeCita}
+										placeholder="Notas adicionales sobre la cita..."
 										rows="3"
 									/>
 								</div>
@@ -503,8 +785,9 @@ export default function Recordatorios({ pacienteId }) {
 							<button
 								type="submit"
 								className="btn btn-primary btn-submit"
+								disabled={loading}
 							>
-								Añadir recordatorio
+								{loading ? "Guardando..." : "Añadir recordatorio"}
 							</button>
 							<button
 								type="button"
@@ -513,6 +796,7 @@ export default function Recordatorios({ pacienteId }) {
 									setMostrarFormulario(false);
 									resetFormulario();
 								}}
+								disabled={loading}
 							>
 								Cancelar
 							</button>
@@ -523,12 +807,26 @@ export default function Recordatorios({ pacienteId }) {
 
 			{/* Lista de recordatorios */}
 			<div className="card lista-recordatorios-card">
-				<h2 className="lista-titulo">Lista de recordatorios</h2>
-				<p className="lista-subtitulo">De Carlos Regidor</p>
+				<div className="lista-header">
+					<div>
+						<h2 className="lista-titulo">Lista de recordatorios</h2>
+						<p className="lista-subtitulo">De {pacienteSeleccionado?.nombre || "el paciente"}</p>
+					</div>
+					<button
+						className="btn-ordenar"
+						onClick={toggleOrdenamiento}
+						title={ordenAscendente ? "Mostrando: más próximos primero" : "Mostrando: más lejanos primero"}
+					>
+						{ordenAscendente ? "📅 ↑" : "📅 ↓"}
+					</button>
+				</div>
 
 				<div className="recordatorios-lista">
 					{loading && recordatorios.length === 0 ? (
-						<p className="mensaje-loading">⏳ Cargando recordatorios...</p>
+						<div className="mensaje-loading">
+							<div className="spinner"></div>
+							<p>Cargando recordatorios...</p>
+						</div>
 					) : recordatorios.length === 0 ? (
 						<p className="mensaje-vacio">No hay recordatorios creados</p>
 					) : (
@@ -541,7 +839,7 @@ export default function Recordatorios({ pacienteId }) {
 									</div>
 									<div className="recordatorio-info">
 										<div className="recordatorio-descripcion">
-											{recordatorio.descripcion}
+											{recordatorio.descripcion || recordatorio.nombre || "Sin descripción"}
 										</div>
 										<div className="recordatorio-detalles">
 											{hora} - {fecha}
@@ -570,19 +868,13 @@ export default function Recordatorios({ pacienteId }) {
 						})
 					)}
 				</div>
-
-				{recordatorios.length > 3 && (
-					<button className="btn-cargar-mas">
-						Cargar más...
-					</button>
-				)}
 			</div>
 
 			{/* Modal de confirmación de eliminación */}
 			{recordatorioAEliminar && (
 				<div className="modal-overlay" onClick={() => setRecordatorioAEliminar(null)}>
 					<div className="modal-confirmar" onClick={(e) => e.stopPropagation()}>
-						<h3>⚠️ Confirmar eliminación</h3>
+						<h3>Confirmar eliminación</h3>
 						<p>¿Estás seguro de que deseas eliminar este recordatorio?</p>
 						<p className="modal-advertencia">Esta acción no se puede deshacer.</p>
 						<div className="modal-buttons">

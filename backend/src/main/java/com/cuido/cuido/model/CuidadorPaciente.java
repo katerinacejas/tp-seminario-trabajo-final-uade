@@ -8,8 +8,14 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "cuidador_paciente",
-       uniqueConstraints = @UniqueConstraint(columnNames = {"cuidador_id", "paciente_id"}))
+@Table(name = "cuidadores_pacientes",
+    uniqueConstraints = @UniqueConstraint(columnNames = {"cuidador_id", "paciente_id"}),
+    indexes = {
+        @Index(name = "idx_cuidador", columnList = "cuidador_id"),
+        @Index(name = "idx_paciente", columnList = "paciente_id"),
+        @Index(name = "idx_estado", columnList = "estado")
+    }
+)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,35 +25,55 @@ public class CuidadorPaciente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "cuidador_id", nullable = false)
-    private Long cuidadorId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cuidador_id", nullable = false)
+    private Usuario cuidador;
 
-    @Column(name = "paciente_id", nullable = false)
-    private Long pacienteId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "paciente_id", nullable = false)
+    private Usuario paciente;
 
     @Column(name = "es_principal")
     private Boolean esPrincipal = false;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private EstadoVinculacion estado = EstadoVinculacion.PENDIENTE;
+    @Column(name = "estado", nullable = false)
+    private EstadoRelacion estado = EstadoRelacion.PENDIENTE;
 
-    @Column(name = "fecha_invitacion")
+    @Column(name = "fecha_invitacion", nullable = false, updatable = false)
     private LocalDateTime fechaInvitacion;
 
     @Column(name = "fecha_aceptacion")
     private LocalDateTime fechaAceptacion;
 
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
+
     @PrePersist
     protected void onCreate() {
+        LocalDateTime now = LocalDateTime.now();
+        createdAt = now;
+        updatedAt = now;
         if (fechaInvitacion == null) {
-            fechaInvitacion = LocalDateTime.now();
+            fechaInvitacion = now;
         }
     }
 
-    public enum EstadoVinculacion {
-        PENDIENTE,
-        ACEPTADO,
-        RECHAZADO
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDateTime.now();
+        // Si el estado cambia a ACEPTADO y no tiene fecha de aceptación, setearla
+        if (estado == EstadoRelacion.ACEPTADO && fechaAceptacion == null) {
+            fechaAceptacion = LocalDateTime.now();
+        }
+    }
+
+    public enum EstadoRelacion {
+        PENDIENTE,  // Invitación enviada, esperando aceptación
+        ACEPTADO,   // Cuidador aceptó y está activo
+        RECHAZADO   // Cuidador rechazó la invitación
     }
 }

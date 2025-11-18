@@ -23,9 +23,13 @@ public class CitaMedicaService {
     private final CitaMedicaRepository citaMedicaRepository;
     private final RecordatorioInstanciaRepository recordatorioInstanciaRepository;
     private final UsuarioRepository usuarioRepository;
+    private final AuthorizationService authorizationService;
 
     @Transactional
     public CitaMedicaResponseDTO crearCitaMedica(CitaMedicaRequestDTO request, Long cuidadorId) {
+        // VALIDAR ACCESO: Solo cuidadores autorizados pueden crear citas médicas
+        authorizationService.validarAccesoAPaciente(request.getPacienteId());
+
         Usuario paciente = usuarioRepository.findById(request.getPacienteId())
             .orElseThrow(() -> new ResourceNotFoundException("Paciente no encontrado"));
 
@@ -74,6 +78,9 @@ public class CitaMedicaService {
     }
 
     public List<CitaMedicaResponseDTO> obtenerCitasPorPaciente(Long pacienteId) {
+        // VALIDAR ACCESO: Solo el paciente o sus cuidadores autorizados
+        authorizationService.validarAccesoAPaciente(pacienteId);
+
         List<CitaMedica> citas = citaMedicaRepository.findByPacienteIdOrderByFechaHoraAsc(pacienteId);
         return citas.stream()
             .map(this::mapToResponseDTO)
@@ -83,6 +90,10 @@ public class CitaMedicaService {
     public CitaMedicaResponseDTO obtenerCitaPorId(Long id) {
         CitaMedica cita = citaMedicaRepository.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException("Cita médica no encontrada"));
+
+        // VALIDAR ACCESO: Solo el paciente o sus cuidadores autorizados
+        authorizationService.validarAccesoAPaciente(cita.getPaciente().getId());
+
         return mapToResponseDTO(cita);
     }
 
@@ -90,6 +101,9 @@ public class CitaMedicaService {
     public void eliminarCita(Long id) {
         CitaMedica cita = citaMedicaRepository.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException("Cita médica no encontrada"));
+
+        // VALIDAR ACCESO: Solo cuidadores autorizados pueden eliminar citas médicas
+        authorizationService.validarAccesoAPaciente(cita.getPaciente().getId());
 
         // Eliminar recordatorios asociados
         recordatorioInstanciaRepository.deleteByTipoAndReferenciaId(
