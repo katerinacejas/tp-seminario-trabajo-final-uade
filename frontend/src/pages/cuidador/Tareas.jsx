@@ -40,6 +40,7 @@ export default function Tareas() {
 
 	// Modo reordenamiento manual
 	const [modoReordenar, setModoReordenar] = useState(false);
+	const [tareaMoviendose, setTareaMoviendose] = useState(null);
 
 	// Form states para crear/editar
 	const [formData, setFormData] = useState({
@@ -241,21 +242,27 @@ export default function Tareas() {
 
 	const handleMoverArriba = async (tareaId) => {
 		try {
+			setTareaMoviendose(tareaId);
 			await tareasAPI.moverArriba(tareaId);
 			await cargarTareas();
 		} catch (err) {
 			console.error('Error al mover tarea:', err);
 			alert('Error al mover la tarea');
+		} finally {
+			setTareaMoviendose(null);
 		}
 	};
 
 	const handleMoverAbajo = async (tareaId) => {
 		try {
+			setTareaMoviendose(tareaId);
 			await tareasAPI.moverAbajo(tareaId);
 			await cargarTareas();
 		} catch (err) {
 			console.error('Error al mover tarea:', err);
 			alert('Error al mover la tarea');
+		} finally {
+			setTareaMoviendose(null);
 		}
 	};
 
@@ -545,37 +552,41 @@ export default function Tareas() {
 												<button
 													className="btn-accion btn-reordenar"
 													onClick={() => handleMoverArriba(tarea.id)}
-													disabled={index === 0}
+													disabled={index === 0 || tareaMoviendose === tarea.id}
 													title="Mover arriba"
 												>
-													<IoArrowUpCircle />
+													{tareaMoviendose === tarea.id ? '...' : <IoArrowUpCircle />}
 												</button>
 												<button
 													className="btn-accion btn-reordenar"
 													onClick={() => handleMoverAbajo(tarea.id)}
-													disabled={index === tareasFinales.length - 1}
+													disabled={index === tareasFinales.length - 1 || tareaMoviendose === tarea.id}
 													title="Mover abajo"
 												>
-													<IoArrowDownCircle />
+													{tareaMoviendose === tarea.id ? '...' : <IoArrowDownCircle />}
 												</button>
 											</>
 										)}
 
-										<button
-											className="btn-accion btn-editar"
-											onClick={() => abrirModalEditar(tarea)}
-											title="Editar tarea"
-										>
-											<IoCreateOutline />
-										</button>
+										{!modoReordenar && (
+											<>
+												<button
+													className="btn-accion btn-editar"
+													onClick={() => abrirModalEditar(tarea)}
+													title="Editar tarea"
+												>
+													<IoCreateOutline />
+												</button>
 
-										<button
-											className="btn-accion btn-eliminar"
-											onClick={() => abrirModalEliminar(tarea)}
-											title="Eliminar tarea"
-										>
-											<IoTrashOutline />
-										</button>
+												<button
+													className="btn-accion btn-eliminar"
+													onClick={() => abrirModalEliminar(tarea)}
+													title="Eliminar tarea"
+												>
+													<IoTrashOutline />
+												</button>
+											</>
+										)}
 									</div>
 								</div>
 							);
@@ -611,7 +622,9 @@ export default function Tareas() {
 							</div>
 
 							<div className="form-group">
-								<label>Descripción</label>
+								<label>
+									Descripción <span className="opcional">(opcional)</span>
+								</label>
 								<textarea
 									className="input textarea"
 									value={formData.descripcion}
@@ -622,7 +635,9 @@ export default function Tareas() {
 							</div>
 
 							<div className="form-group">
-								<label>Fecha de vencimiento</label>
+								<label>
+									Fecha de vencimiento <span className="opcional">(opcional)</span>
+								</label>
 								<input
 									type="datetime-local"
 									className="input"
@@ -634,16 +649,39 @@ export default function Tareas() {
 							</div>
 
 							<div className="form-group">
-								<label>Prioridad</label>
-								<select
-									className="input"
-									value={formData.prioridad}
-									onChange={(e) => setFormData({ ...formData, prioridad: e.target.value })}
-								>
-									<option value="BAJA">Baja</option>
-									<option value="MEDIA">Media</option>
-									<option value="ALTA">Alta</option>
-								</select>
+								<label>
+									Prioridad <span className="required">*</span>
+									<span className="tooltip-hint" title="Por defecto es MEDIA">ℹ️</span>
+								</label>
+								<div className="prioridad-selector">
+									<button
+										type="button"
+										className={`prioridad-btn prioridad-baja ${
+											formData.prioridad === 'BAJA' ? 'active' : ''
+										}`}
+										onClick={() => setFormData({ ...formData, prioridad: 'BAJA' })}
+									>
+										BAJA
+									</button>
+									<button
+										type="button"
+										className={`prioridad-btn prioridad-media ${
+											formData.prioridad === 'MEDIA' ? 'active' : ''
+										}`}
+										onClick={() => setFormData({ ...formData, prioridad: 'MEDIA' })}
+									>
+										MEDIA
+									</button>
+									<button
+										type="button"
+										className={`prioridad-btn prioridad-alta ${
+											formData.prioridad === 'ALTA' ? 'active' : ''
+										}`}
+										onClick={() => setFormData({ ...formData, prioridad: 'ALTA' })}
+									>
+										ALTA
+									</button>
+								</div>
 							</div>
 						</div>
 
@@ -686,7 +724,9 @@ export default function Tareas() {
 							</div>
 
 							<div className="form-group">
-								<label>Descripción</label>
+								<label>
+									Descripción <span className="opcional">(opcional)</span>
+								</label>
 								<textarea
 									className="input textarea"
 									value={formData.descripcion}
@@ -697,7 +737,9 @@ export default function Tareas() {
 							</div>
 
 							<div className="form-group">
-								<label>Fecha de vencimiento</label>
+								<label>
+									Fecha de vencimiento <span className="opcional">(opcional)</span>
+								</label>
 								<input
 									type="datetime-local"
 									className="input"
@@ -709,16 +751,39 @@ export default function Tareas() {
 							</div>
 
 							<div className="form-group">
-								<label>Prioridad</label>
-								<select
-									className="input"
-									value={formData.prioridad}
-									onChange={(e) => setFormData({ ...formData, prioridad: e.target.value })}
-								>
-									<option value="BAJA">Baja</option>
-									<option value="MEDIA">Media</option>
-									<option value="ALTA">Alta</option>
-								</select>
+								<label>
+									Prioridad <span className="required">*</span>
+									<span className="tooltip-hint" title="Por defecto es MEDIA">ℹ️</span>
+								</label>
+								<div className="prioridad-selector">
+									<button
+										type="button"
+										className={`prioridad-btn prioridad-baja ${
+											formData.prioridad === 'BAJA' ? 'active' : ''
+										}`}
+										onClick={() => setFormData({ ...formData, prioridad: 'BAJA' })}
+									>
+										BAJA
+									</button>
+									<button
+										type="button"
+										className={`prioridad-btn prioridad-media ${
+											formData.prioridad === 'MEDIA' ? 'active' : ''
+										}`}
+										onClick={() => setFormData({ ...formData, prioridad: 'MEDIA' })}
+									>
+										MEDIA
+									</button>
+									<button
+										type="button"
+										className={`prioridad-btn prioridad-alta ${
+											formData.prioridad === 'ALTA' ? 'active' : ''
+										}`}
+										onClick={() => setFormData({ ...formData, prioridad: 'ALTA' })}
+									>
+										ALTA
+									</button>
+								</div>
 							</div>
 						</div>
 

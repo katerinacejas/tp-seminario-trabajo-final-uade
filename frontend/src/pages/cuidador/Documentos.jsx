@@ -11,7 +11,11 @@ import {
 	IoTrashOutline,
 	IoCloseCircle,
 	IoDocumentOutline,
-	IoFolderOpenOutline
+	IoFolderOpenOutline,
+	IoFlaskOutline,
+	IoRibbonOutline,
+	IoFolderOutline,
+	IoCreateOutline
 } from 'react-icons/io5';
 import './Documentos.css';
 
@@ -20,51 +24,45 @@ export default function Documentos() {
 	const { pacienteSeleccionado } = usePaciente();
 	const pacienteId = pacienteSeleccionado?.id;
 
-	// Estado de tabs
-	const [tabActivo, setTabActivo] = useState('FICHA_MEDICA'); // 'FICHA_MEDICA' | 'OTROS'
-
 	// Estado de documentos
 	const [documentos, setDocumentos] = useState([]);
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState(null);
 
 	// Filtros y ordenamiento
-	const [categoriaFiltro, setCategoriaFiltro] = useState('TODOS'); // 'TODOS' | 'DOCUMENTO' | 'IMAGEN' | 'VIDEO'
+	const [tipoFiltro, setTipoFiltro] = useState('TODOS'); // 'TODOS' | 'FICHA_MEDICA' | 'ESTUDIO' | 'RECETA' | 'OTRO'
 	const [ordenamiento, setOrdenamiento] = useState('DESC'); // 'DESC' | 'ASC'
 
-	// Modal de upload
-	const [modalUploadAbierto, setModalUploadAbierto] = useState(false);
+	// Modal de upload/edición
+	const [modalFormAbierto, setModalFormAbierto] = useState(false);
+	const [modoEdicion, setModoEdicion] = useState(false);
+	const [documentoEditando, setDocumentoEditando] = useState(null);
 	const [archivoSeleccionado, setArchivoSeleccionado] = useState(null);
 	const [dragOver, setDragOver] = useState(false);
 
-	// Form data para upload
+	// Form data para upload/edición
 	const [formData, setFormData] = useState({
 		nombre: '',
-		tipo: 'ESTUDIO', // Para tab OTROS
+		tipo: 'ESTUDIO',
 		descripcion: '',
 	});
 
 	// Modal de confirmación eliminar
 	const [modalEliminar, setModalEliminar] = useState(null);
 
-	// Cargar documentos al montar y cuando cambia el tab
+	// Cargar documentos al montar
 	useEffect(() => {
 		if (pacienteId) {
 			cargarDocumentos();
 		}
-	}, [pacienteId, tabActivo]);
+	}, [pacienteId]);
 
-	// Cargar documentos desde el backend
+	// Cargar TODOS los documentos desde el backend
 	const cargarDocumentos = async () => {
 		setLoading(true);
 		setError(null);
 		try {
-			let data;
-			if (tabActivo === 'FICHA_MEDICA') {
-				data = await documentosAPI.getFichasMedicas(pacienteId);
-			} else {
-				data = await documentosAPI.getOtrosDocumentos(pacienteId);
-			}
+			const data = await documentosAPI.getByPaciente(pacienteId);
 			setDocumentos(data);
 		} catch (err) {
 			console.error('Error al cargar documentos:', err);
@@ -82,10 +80,11 @@ export default function Documentos() {
 					createdAt: '2025-06-05T10:30:00',
 					cuidadorNombre: 'Katerina Cejas',
 					downloadUrl: '/api/documentos/1/descargar',
+					descripcion: 'Receta para medicamento cardiovascular',
 				},
 				{
 					id: 2,
-					nombre: 'Radiografía por Dr. Roberto',
+					nombre: 'Radiografía Torax',
 					tipo: 'ESTUDIO',
 					categoriaArchivo: 'IMAGEN',
 					mimeType: 'image/png',
@@ -94,6 +93,20 @@ export default function Documentos() {
 					createdAt: '2025-03-18T14:20:00',
 					cuidadorNombre: 'Santiago López',
 					downloadUrl: '/api/documentos/2/descargar',
+					descripcion: 'Radiografía de control',
+				},
+				{
+					id: 3,
+					nombre: 'Ficha Médica Completa',
+					tipo: 'FICHA_MEDICA',
+					categoriaArchivo: 'DOCUMENTO',
+					mimeType: 'application/pdf',
+					sizeBytes: 512000,
+					extension: 'PDF',
+					createdAt: '2025-01-10T09:00:00',
+					cuidadorNombre: 'Katerina Cejas',
+					downloadUrl: '/api/documentos/3/descargar',
+					descripcion: null,
 				},
 			]);
 		} finally {
@@ -101,20 +114,37 @@ export default function Documentos() {
 		}
 	};
 
-	// Abrir modal de upload
-	const abrirModalUpload = () => {
-		setModalUploadAbierto(true);
+	// Abrir modal de creación
+	const abrirModalCreacion = () => {
+		setModalFormAbierto(true);
+		setModoEdicion(false);
+		setDocumentoEditando(null);
 		setArchivoSeleccionado(null);
 		setFormData({
 			nombre: '',
-			tipo: tabActivo === 'FICHA_MEDICA' ? 'FICHA_MEDICA' : 'ESTUDIO',
+			tipo: 'ESTUDIO',
 			descripcion: '',
 		});
 	};
 
-	// Cerrar modal de upload
-	const cerrarModalUpload = () => {
-		setModalUploadAbierto(false);
+	// Abrir modal de edición
+	const abrirModalEdicion = (documento) => {
+		setModalFormAbierto(true);
+		setModoEdicion(true);
+		setDocumentoEditando(documento);
+		setArchivoSeleccionado(null);
+		setFormData({
+			nombre: documento.nombre,
+			tipo: documento.tipo,
+			descripcion: documento.descripcion || '',
+		});
+	};
+
+	// Cerrar modal
+	const cerrarModalForm = () => {
+		setModalFormAbierto(false);
+		setModoEdicion(false);
+		setDocumentoEditando(null);
 		setArchivoSeleccionado(null);
 		setError(null);
 	};
@@ -154,17 +184,21 @@ export default function Documentos() {
 			'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
 			'image/png',
 			'image/jpeg',
+			'image/jpg',
 			'video/mp4',
 			'video/x-msvideo',
+			'audio/mpeg',
+			'audio/wav',
+			'text/plain',
 		];
 
 		if (!tiposPermitidos.includes(file.type)) {
-			setError('Tipo de archivo no soportado. Formatos permitidos: PDF, DOC, DOCX, PNG, JPG, JPEG, MP4, AVI');
+			setError('Tipo de archivo no soportado. Formatos permitidos: PDF, DOC, DOCX, PNG, JPG, JPEG, MP4, AVI, MP3, WAV, TXT');
 			return;
 		}
 
-		if (file.size > 100 * 1024 * 1024) {
-			setError('El archivo excede el tamaño máximo de 100MB');
+		if (file.size > 10 * 1024 * 1024) {
+			setError('El archivo excede el tamaño máximo de 10MB');
 			return;
 		}
 
@@ -189,10 +223,12 @@ export default function Documentos() {
 		setFormData({ ...formData, [name]: value });
 	};
 
-	// Subir documento
+	// Subir o actualizar documento
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		if (!archivoSeleccionado) {
+
+		// Validaciones
+		if (!modoEdicion && !archivoSeleccionado) {
 			setError('Debes seleccionar un archivo');
 			return;
 		}
@@ -202,27 +238,47 @@ export default function Documentos() {
 			return;
 		}
 
+		if (formData.nombre.trim().length > 100) {
+			setError('El nombre no puede exceder 100 caracteres');
+			return;
+		}
+
+		if (!formData.tipo) {
+			setError('El tipo de documento es obligatorio');
+			return;
+		}
+
 		setLoading(true);
 		setError(null);
 
 		try {
-			const formDataUpload = new FormData();
-			formDataUpload.append('archivo', archivoSeleccionado);
-			formDataUpload.append('pacienteId', pacienteId);
-			formDataUpload.append('nombre', formData.nombre.trim());
-			formDataUpload.append('tipo', formData.tipo);
-			if (formData.descripcion.trim()) {
-				formDataUpload.append('descripcion', formData.descripcion.trim());
+			if (modoEdicion) {
+				// Edición: solo actualizar metadatos (nombre, tipo, descripción)
+				// Nota: El backend actual NO soporta PUT, así que eliminamos y recreamos
+				// O podríamos solo mostrar un mensaje que no se puede editar
+				setError('La edición de documentos no está soportada actualmente. Por favor, elimina y sube nuevamente.');
+				setLoading(false);
+				return;
+			} else {
+				// Creación: subir nuevo documento
+				const formDataUpload = new FormData();
+				formDataUpload.append('archivo', archivoSeleccionado);
+				formDataUpload.append('pacienteId', pacienteId);
+				formDataUpload.append('nombre', formData.nombre.trim());
+				formDataUpload.append('tipo', formData.tipo);
+				if (formData.descripcion.trim()) {
+					formDataUpload.append('descripcion', formData.descripcion.trim());
+				}
+
+				await documentosAPI.subir(formDataUpload);
+
+				// Recargar documentos
+				await cargarDocumentos();
+				cerrarModalForm();
 			}
-
-			await documentosAPI.subir(formDataUpload);
-
-			// Recargar documentos
-			await cargarDocumentos();
-			cerrarModalUpload();
 		} catch (err) {
-			console.error('Error al subir documento:', err);
-			setError(err.message || 'Error al subir el documento. Por favor, intenta nuevamente.');
+			console.error('Error al procesar documento:', err);
+			setError(err.message || 'Error al procesar el documento. Por favor, intenta nuevamente.');
 		} finally {
 			setLoading(false);
 		}
@@ -265,27 +321,59 @@ export default function Documentos() {
 		return fecha.toLocaleDateString('es-AR', opciones);
 	};
 
-	// Obtener icono según extensión
-	const obtenerIcono = (documento) => {
-		const ext = documento.extension?.toLowerCase();
-		if (ext === 'pdf') {
-			return <IoDocumentTextOutline className="documento-icon pdf" />;
-		} else if (ext === 'doc' || ext === 'docx') {
-			return <IoDocumentOutline className="documento-icon doc" />;
-		} else if (ext === 'png' || ext === 'jpg' || ext === 'jpeg') {
-			return <IoImageOutline className="documento-icon img" />;
-		} else if (ext === 'mp4' || ext === 'avi') {
-			return <IoVideocamOutline className="documento-icon video" />;
-		} else {
-			return <IoDocumentOutline className="documento-icon pdf" />;
+	// Obtener icono según tipo de documento
+	const obtenerIconoPorTipo = (tipo) => {
+		switch (tipo) {
+			case 'RECETA':
+				return <IoDocumentTextOutline className="tipo-icon receta" />;
+			case 'ESTUDIO':
+				return <IoFlaskOutline className="tipo-icon estudio" />;
+			case 'FICHA_MEDICA':
+				return <IoDocumentOutline className="tipo-icon ficha" />;
+			case 'OTRO':
+				return <IoFolderOutline className="tipo-icon otro" />;
+			default:
+				return <IoDocumentOutline className="tipo-icon default" />;
 		}
 	};
 
-	// Filtrar documentos
+	// Obtener label del tipo de documento
+	const obtenerLabelTipo = (tipo) => {
+		switch (tipo) {
+			case 'RECETA':
+				return 'Receta';
+			case 'ESTUDIO':
+				return 'Estudio';
+			case 'FICHA_MEDICA':
+				return 'Ficha Médica';
+			case 'OTRO':
+				return 'Otro';
+			default:
+				return tipo;
+		}
+	};
+
+	// Obtener clase CSS para badge según tipo
+	const obtenerClaseBadgeTipo = (tipo) => {
+		switch (tipo) {
+			case 'RECETA':
+				return 'badge-receta';
+			case 'ESTUDIO':
+				return 'badge-estudio';
+			case 'FICHA_MEDICA':
+				return 'badge-ficha';
+			case 'OTRO':
+				return 'badge-otro';
+			default:
+				return 'badge-default';
+		}
+	};
+
+	// Filtrar y ordenar documentos
 	const documentosFiltrados = documentos
 		.filter((doc) => {
-			if (categoriaFiltro === 'TODOS') return true;
-			return doc.categoriaArchivo === categoriaFiltro;
+			if (tipoFiltro === 'TODOS') return true;
+			return doc.tipo === tipoFiltro;
 		})
 		.sort((a, b) => {
 			const dateA = new Date(a.createdAt);
@@ -300,7 +388,7 @@ export default function Documentos() {
 				<div className="header-content">
 					<div>
 						<h1>Documentos</h1>
-						<p className="header-subtitulo">De Carlos Regidor</p>
+						<p className="header-subtitulo">De {pacienteSeleccionado?.nombre || 'Paciente'}</p>
 					</div>
 					<button className="btn-info-icon" title="Información">
 						<IoInformationCircleOutline size={24} />
@@ -308,26 +396,10 @@ export default function Documentos() {
 				</div>
 			</div>
 
-			{/* Tabs y Contenido */}
-			<div className="tabs-container">
-				{/* Tabs Header */}
-				<div className="tabs-header">
-					<button
-						className={`tab-button ${tabActivo === 'FICHA_MEDICA' ? 'active' : ''}`}
-						onClick={() => setTabActivo('FICHA_MEDICA')}
-					>
-						Ficha médica
-					</button>
-					<button
-						className={`tab-button ${tabActivo === 'OTROS' ? 'active' : ''}`}
-						onClick={() => setTabActivo('OTROS')}
-					>
-						Otros
-					</button>
-				</div>
-
+			{/* Contenido Principal */}
+			<div className="documentos-contenido">
 				{/* Botón Upload */}
-				<button className="btn-upload" onClick={abrirModalUpload}>
+				<button className="btn-upload" onClick={abrirModalCreacion}>
 					<IoCloudUploadOutline />
 					<span>Cargar nuevo documento</span>
 				</button>
@@ -337,36 +409,48 @@ export default function Documentos() {
 					<div className="ordenamiento">
 						<label>Ordenar por:</label>
 						<select value={ordenamiento} onChange={(e) => setOrdenamiento(e.target.value)}>
-							<option value="DESC">Primero más nuevos</option>
-							<option value="ASC">Primero más viejos</option>
+							<option value="DESC">Más recientes primero</option>
+							<option value="ASC">Más antiguos primero</option>
 						</select>
 					</div>
 
 					<div className="filtros">
-						<label>Filtrar por:</label>
+						<label>Tipo:</label>
 						<button
-							className={`filtro-button ${categoriaFiltro === 'TODOS' ? 'active' : ''}`}
-							onClick={() => setCategoriaFiltro('TODOS')}
+							className={`filtro-button ${tipoFiltro === 'TODOS' ? 'active' : ''}`}
+							onClick={() => setTipoFiltro('TODOS')}
 						>
-							Documentos
+							Todos
 						</button>
 						<button
-							className={`filtro-button ${categoriaFiltro === 'IMAGEN' ? 'active' : ''}`}
-							onClick={() => setCategoriaFiltro('IMAGEN')}
+							className={`filtro-button ${tipoFiltro === 'FICHA_MEDICA' ? 'active' : ''}`}
+							onClick={() => setTipoFiltro('FICHA_MEDICA')}
 						>
-							Imágenes
+							Ficha Médica
 						</button>
 						<button
-							className={`filtro-button ${categoriaFiltro === 'VIDEO' ? 'active' : ''}`}
-							onClick={() => setCategoriaFiltro('VIDEO')}
+							className={`filtro-button ${tipoFiltro === 'RECETA' ? 'active' : ''}`}
+							onClick={() => setTipoFiltro('RECETA')}
 						>
-							Videos
+							Receta
+						</button>
+						<button
+							className={`filtro-button ${tipoFiltro === 'ESTUDIO' ? 'active' : ''}`}
+							onClick={() => setTipoFiltro('ESTUDIO')}
+						>
+							Estudio
+						</button>
+						<button
+							className={`filtro-button ${tipoFiltro === 'OTRO' ? 'active' : ''}`}
+							onClick={() => setTipoFiltro('OTRO')}
+						>
+							Otro
 						</button>
 					</div>
 				</div>
 
 				{/* Alerta de error */}
-				{error && !modalUploadAbierto && (
+				{error && !modalFormAbierto && (
 					<div className="alert alert-error">
 						<span>{error}</span>
 						<button className="alert-close" onClick={() => setError(null)}>
@@ -376,40 +460,70 @@ export default function Documentos() {
 				)}
 
 				{/* Loading */}
-				{loading && !modalUploadAbierto && (
+				{loading && !modalFormAbierto && (
 					<div className="mensaje-loading">Cargando documentos...</div>
 				)}
 
 				{/* Lista de Documentos */}
 				{!loading && documentosFiltrados.length === 0 && (
 					<div className="mensaje-vacio">
-						<IoFolderOpenOutline />
+						<IoFolderOpenOutline size={48} />
 						<p>No hay documentos registrados aún. Sube el primer documento para comenzar.</p>
 					</div>
 				)}
 
 				<div className="documentos-lista">
 					{documentosFiltrados.map((documento) => (
-						<div key={documento.id} className="documento-item">
-							<div className="documento-info">
-								<div>{obtenerIcono(documento)}</div>
-								<div className="documento-detalles">
-									<div className="documento-nombre">{documento.nombre}</div>
-									<div className="documento-meta">
-										<span className="documento-meta-item">
-											{documento.extension} subido el {formatearFecha(documento.createdAt)}
-										</span>
-									</div>
+						<div key={documento.id} className="documento-card">
+							<div className="card-header">
+								<div className="card-icon">
+									{obtenerIconoPorTipo(documento.tipo)}
+								</div>
+								<div className="card-info">
+									<h3 className="card-titulo">{documento.nombre}</h3>
+									<span className={`card-badge ${obtenerClaseBadgeTipo(documento.tipo)}`}>
+										{obtenerLabelTipo(documento.tipo)}
+									</span>
 								</div>
 							</div>
 
-							<div className="documento-acciones">
+							{documento.descripcion && (
+								<p className="card-descripcion">
+									{documento.descripcion.length > 120
+										? documento.descripcion.substring(0, 120) + '...'
+										: documento.descripcion}
+								</p>
+							)}
+
+							<div className="card-meta">
+								<span className="meta-item">
+									<strong>Fecha:</strong> {formatearFecha(documento.createdAt)}
+								</span>
+								{documento.extension && (
+									<span className="meta-item">
+										<strong>Formato:</strong> {documento.extension.toUpperCase()}
+									</span>
+								)}
+								{documento.sizeBytes && (
+									<span className="meta-item">
+										<strong>Tamaño:</strong> {formatearTamano(documento.sizeBytes)}
+									</span>
+								)}
+								{documento.cuidadorNombre && (
+									<span className="meta-item">
+										<strong>Subido por:</strong> {documento.cuidadorNombre}
+									</span>
+								)}
+							</div>
+
+							<div className="card-acciones">
 								<button
-									className="btn-accion btn-descargar"
+									className="btn-accion btn-ver"
 									onClick={() => window.open(documento.downloadUrl, '_blank')}
-									title="Descargar"
+									title="Ver/Descargar"
 								>
 									<IoDownloadOutline />
+									<span>Ver/Descargar</span>
 								</button>
 								<button
 									className="btn-accion btn-eliminar"
@@ -417,6 +531,7 @@ export default function Documentos() {
 									title="Eliminar"
 								>
 									<IoTrashOutline />
+									<span>Eliminar</span>
 								</button>
 							</div>
 						</div>
@@ -424,18 +539,22 @@ export default function Documentos() {
 				</div>
 			</div>
 
-			{/* Modal de Upload */}
-			{modalUploadAbierto && (
+			{/* Modal de Formulario (Crear/Editar) */}
+			{modalFormAbierto && (
 				<div className="modal-overlay">
-					<div className="modal-upload">
+					<div className="modal-form">
 						<div className="modal-header">
-							<h2 className="modal-titulo">Subir documento</h2>
-							<button className="btn-cerrar-modal" onClick={cerrarModalUpload}>
+							<h2 className="modal-titulo">
+								{modoEdicion ? 'Editar documento' : 'Subir documento'}
+							</h2>
+							<button className="btn-cerrar-modal" onClick={cerrarModalForm}>
 								<IoCloseCircle size={28} />
 							</button>
 						</div>
 						<p className="modal-subtitulo">
-							Sube documentos médicos del paciente (recetas, estudios, etc.)
+							{modoEdicion
+								? 'Actualiza la información del documento'
+								: 'Sube documentos médicos del paciente (recetas, estudios, fichas, etc.)'}
 						</p>
 
 						{error && (
@@ -448,8 +567,8 @@ export default function Documentos() {
 						)}
 
 						<form onSubmit={handleSubmit}>
-							{/* Zona de Drop */}
-							{!archivoSeleccionado && (
+							{/* Zona de Drop - Solo en creación */}
+							{!modoEdicion && !archivoSeleccionado && (
 								<div
 									className={`upload-zone ${dragOver ? 'dragover' : ''}`}
 									onDragOver={handleDragOver}
@@ -460,7 +579,7 @@ export default function Documentos() {
 									<div className="upload-icon">📁</div>
 									<p className="primary-text">Click para seleccionar o arrastra un archivo aquí</p>
 									<p className="secondary-text">
-										PDF, DOC, DOCX, PNG, JPG, JPEG, MP4, AVI (máx. 100MB)
+										PDF, DOC, DOCX, PNG, JPG, JPEG, MP4, AVI, MP3, WAV, TXT (máx. 10MB)
 									</p>
 								</div>
 							)}
@@ -469,7 +588,7 @@ export default function Documentos() {
 								id="file-input"
 								type="file"
 								style={{ display: 'none' }}
-								accept=".pdf,.doc,.docx,.png,.jpg,.jpeg,.mp4,.avi"
+								accept=".pdf,.doc,.docx,.png,.jpg,.jpeg,.mp4,.avi,.mp3,.wav,.txt"
 								onChange={handleFileChange}
 							/>
 
@@ -492,7 +611,7 @@ export default function Documentos() {
 							{/* Campos del Formulario */}
 							<div className="form-group">
 								<label>
-									Nombre del documento <span className="required">*</span>
+									Nombre <span className="required">*</span>
 								</label>
 								<input
 									type="text"
@@ -501,13 +620,15 @@ export default function Documentos() {
 									placeholder='Ej: "Receta Dra. López"'
 									value={formData.nombre}
 									onChange={handleInputChange}
+									maxLength={100}
 									required
 								/>
+								<small className="input-hint">Máximo 100 caracteres</small>
 							</div>
 
 							<div className="form-group">
 								<label>
-									Tipo <span className="required">*</span>
+									Tipo de Documento <span className="required">*</span>
 								</label>
 								<select
 									name="tipo"
@@ -516,19 +637,18 @@ export default function Documentos() {
 									onChange={handleInputChange}
 									required
 								>
-									{tabActivo === 'FICHA_MEDICA' && <option value="FICHA_MEDICA">Ficha Médica</option>}
-									{tabActivo === 'OTROS' && (
-										<>
-											<option value="ESTUDIO">Estudio</option>
-											<option value="RECETA">Receta</option>
-											<option value="OTRO">Otro</option>
-										</>
-									)}
+									<option value="">Seleccioná un tipo</option>
+									<option value="FICHA_MEDICA">📋 Ficha Médica</option>
+									<option value="RECETA">📄 Receta</option>
+									<option value="ESTUDIO">🧪 Estudio</option>
+									<option value="OTRO">📁 Otro</option>
 								</select>
 							</div>
 
 							<div className="form-group">
-								<label>Descripción (opcional)</label>
+								<label>
+									Descripción <span className="opcional">(opcional)</span>
+								</label>
 								<textarea
 									name="descripcion"
 									className="input textarea"
@@ -539,17 +659,58 @@ export default function Documentos() {
 								/>
 							</div>
 
+							{/* Campos auto-generados (solo mostrar en edición) */}
+							{modoEdicion && documentoEditando && (
+								<>
+									<div className="form-group">
+										<label className="label-con-tooltip">
+											URL{' '}
+											<span className="tooltip-icon" title="Se genera automáticamente al subir el archivo">
+												ℹ️
+											</span>
+										</label>
+										<input
+											type="text"
+											className="input"
+											value={documentoEditando.downloadUrl || ''}
+											disabled
+										/>
+									</div>
+
+									<div className="form-group">
+										<label className="label-con-tooltip">
+											Fecha de Subida{' '}
+											<span className="tooltip-icon" title="Se genera automáticamente">
+												ℹ️
+											</span>
+										</label>
+										<input
+											type="text"
+											className="input"
+											value={formatearFecha(documentoEditando.createdAt)}
+											disabled
+										/>
+									</div>
+								</>
+							)}
+
 							{/* Botones */}
 							<div className="modal-buttons">
-								<button type="button" className="btn btn-cancelar" onClick={cerrarModalUpload}>
+								<button type="button" className="btn btn-cancelar" onClick={cerrarModalForm}>
 									Cancelar
 								</button>
 								<button
 									type="submit"
 									className="btn btn-primary"
-									disabled={loading || !archivoSeleccionado}
+									disabled={loading || (!modoEdicion && !archivoSeleccionado)}
 								>
-									{loading ? 'Subiendo...' : 'Subir documento'}
+									{loading
+										? modoEdicion
+											? 'Actualizando...'
+											: 'Subiendo...'
+										: modoEdicion
+										? 'Actualizar documento'
+										: 'Subir documento'}
 								</button>
 							</div>
 						</form>

@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { pacientesAPI } from '../services/api';
+import { pacientesAPI, cuidadoresPacientesAPI, usuariosAPI } from '../services/api';
 
 const PacienteContext = createContext(null);
 
@@ -37,7 +37,22 @@ export function PacienteProvider({ children }) {
 
 	const cargarListaPacientes = async () => {
 		try {
-			const data = await pacientesAPI.getAll();
+			// Obtener rol del usuario
+			const role = localStorage.getItem('cuido.role');
+			let data = [];
+
+			if (role === 'cuidador') {
+				// Para cuidadores: obtener pacientes vinculados
+				const usuario = await usuariosAPI.getMe();
+				data = await cuidadoresPacientesAPI.getPacientesVinculados(usuario.id);
+			} else if (role === 'paciente') {
+				// Para pacientes: no cargar lista (solo tienen su propio perfil)
+				data = [];
+			} else {
+				// Para admin: obtener todos
+				data = await pacientesAPI.getAll();
+			}
+
 			setPacientes(data);
 
 			// Si no hay paciente seleccionado pero hay pacientes, seleccionar el primero

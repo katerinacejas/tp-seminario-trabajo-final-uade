@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { authAPI } from "../../services/api";
-import "./Login.css";
+import { IoMailOutline, IoArrowBackOutline } from "react-icons/io5";
 
 export default function ForgotPassword() {
 	const [email, setEmail] = useState("");
@@ -31,55 +31,111 @@ export default function ForgotPassword() {
 	};
 
 	return (
-		<div className="auth auth-center">
+		<div className="page-center">
 			<div className="auth-card">
 				<div className="auth-head">
 					<img src="/logo.png" alt="Cuido" className="auth-logo" />
-					<h1 className="auth-title">Recuperar Contraseña</h1>
-					<p className="auth-sub">Te enviaremos un código de 6 dígitos</p>
+					<h1 className="auth-title">Recuperar contraseña</h1>
+					<p className="auth-sub">Te enviaremos un código de verificación a tu email</p>
 				</div>
 
 				{success ? (
 					<div style={{
-						background: "#efe",
-						border: "1px solid #cfc",
-						color: "#363",
-						padding: "12px 14px",
-						borderRadius: "12px",
+						background: "var(--ok-100)",
+						border: "1px solid var(--ok)",
+						color: "#166534",
+						padding: "16px 18px",
+						borderRadius: "10px",
 						textAlign: "center",
-						marginBottom: "12px"
+						marginBottom: "16px"
 					}}>
-						Código enviado. Revisa tu email y serás redirigido...
+						<div style={{ fontSize: "16px", fontWeight: "600", marginBottom: "4px" }}>
+							Código enviado
+						</div>
+						<div style={{ fontSize: "14px" }}>
+							Revisa tu email y serás redirigido...
+						</div>
 					</div>
 				) : (
 					<form className="auth-form" onSubmit={submit}>
 						{error && (
-							<div className="auth-error">
+							<div style={{
+								background: "var(--danger-100)",
+								border: "1px solid var(--danger)",
+								color: "var(--danger)",
+								padding: "12px 14px",
+								borderRadius: "10px",
+								fontSize: "14px",
+								marginBottom: "16px"
+							}}>
 								{error}
 							</div>
 						)}
 
-						<div className="auth-row">
-							<label>Email</label>
-							<input
-								value={email}
-								onChange={e => setEmail(e.target.value)}
-								type="email"
-								required
-								placeholder="usuario@correo.com"
-								disabled={loading}
-							/>
+						<div className="form-row">
+							<label>
+								Email <span style={{ color: "var(--danger)" }}>*</span>
+							</label>
+							<div style={{ position: "relative" }}>
+								<IoMailOutline style={{
+									position: "absolute",
+									left: "14px",
+									top: "50%",
+									transform: "translateY(-50%)",
+									color: "var(--muted)",
+									fontSize: "18px"
+								}} />
+								<input
+									className="input"
+									value={email}
+									onChange={e => setEmail(e.target.value)}
+									type="email"
+									required
+									placeholder="tu@email.com"
+									disabled={loading}
+									style={{
+										paddingLeft: "44px",
+										fontSize: "15px",
+										borderRadius: "10px"
+									}}
+								/>
+							</div>
 						</div>
 
-						<div className="auth-actions">
-							<button
-								className="auth-btn auth-btn--primary"
-								type="submit"
-								disabled={loading}
+						<button
+							className="btn auth-primary"
+							type="submit"
+							disabled={loading}
+							style={{
+								width: "100%",
+								marginTop: "12px",
+								padding: "12px 18px",
+								fontSize: "16px",
+								fontWeight: "700"
+							}}
+						>
+							{loading ? "Enviando..." : "Enviar código"}
+						</button>
+
+						<div style={{
+							textAlign: "center",
+							marginTop: "20px"
+						}}>
+							<Link
+								to="/login"
+								style={{
+									color: "var(--muted)",
+									fontSize: "14px",
+									fontWeight: "600",
+									textDecoration: "none",
+									display: "inline-flex",
+									alignItems: "center",
+									gap: "6px"
+								}}
 							>
-								{loading ? "Enviando..." : "Enviar Código"}
-							</button>
-							<Link to="/login" className="auth-link">Volver al login</Link>
+								<IoArrowBackOutline style={{ fontSize: "16px" }} />
+								Volver al login
+							</Link>
 						</div>
 					</form>
 				)}

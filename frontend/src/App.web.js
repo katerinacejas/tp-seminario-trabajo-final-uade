@@ -13,7 +13,6 @@ import ResetPassword from "./pages/autenticacion/ResetPassword";
 import HomeCuidador from "./pages/cuidador/HomeCaregiver";
 import HomePaciente from "./pages/paciente/HomePatient";
 import Bitacora from "./pages/cuidador/Bitacora";
-import Calendario from "./pages/cuidador/Calendario";
 import Documentos from "./pages/cuidador/Documentos";
 import FichaMedica from "./pages/cuidador/FichaMedica";
 import Recordatorios from "./pages/cuidador/Recordatorios";
@@ -92,7 +91,6 @@ function AppRoutes() {
 
       {/* SOLO cuidador */}
       <Route path="/bitacora" element={<RequireRole allow={["cuidador"]}><AppShell><Bitacora/></AppShell></RequireRole>} />
-      <Route path="/calendario" element={<RequireRole allow={["cuidador"]}><AppShell><Calendario/></AppShell></RequireRole>} />
       <Route path="/docs" element={<RequireRole allow={["cuidador"]}><AppShell><Documentos/></AppShell></RequireRole>} />
       <Route path="/ficha" element={<RequireRole allow={["cuidador"]}><AppShell><FichaMedica/></AppShell></RequireRole>} />
       <Route path="/recordatorios" element={<RequireRole allow={["cuidador"]}><AppShell><Recordatorios/></AppShell></RequireRole>} />

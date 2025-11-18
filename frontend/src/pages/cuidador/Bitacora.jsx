@@ -272,7 +272,9 @@ export default function Bitacora() {
 					<form onSubmit={handleSubmit}>
 						{/* Selector de fecha */}
 						<div className="form-group">
-							<label>Fecha</label>
+							<label>
+								Fecha <span className="campo-obligatorio">*</span>
+							</label>
 							<div className="fecha-selector">
 								<button
 									type="button"
@@ -312,8 +314,11 @@ export default function Bitacora() {
 
 						{/* Título (opcional) */}
 						<div className="form-group">
-							<label>
-								Título <span className="label-optional">(opcional, se auto-genera si no se completa)</span>
+							<label className="label-con-tooltip">
+								Título (opcional)
+								<span className="tooltip-icon" title="Si dejás vacío, se genera como 'Bitácora del DD/MM/YYYY'">
+									ℹ️
+								</span>
 							</label>
 							<input
 								type="text"
@@ -328,7 +333,9 @@ export default function Bitacora() {
 
 						{/* Descripción de actividades (obligatorio) */}
 						<div className="form-group">
-							<label>Actividades realizadas *</label>
+							<label>
+								Descripción <span className="campo-obligatorio">*</span>
+							</label>
 							<textarea
 								name="descripcion"
 								className="input textarea"
@@ -340,27 +347,22 @@ export default function Bitacora() {
 							/>
 						</div>
 
-						{/* Síntomas (opcional, texto libre) */}
+						{/* Síntomas (opcional, textarea multiline) */}
 						<div className="form-group">
-							<label>
-								Síntomas <span className="label-optional">(opcional)</span>
-							</label>
-							<input
-								type="text"
+							<label>Síntomas (opcional)</label>
+							<textarea
 								name="sintomas"
-								className="input"
+								className="input textarea"
 								placeholder="Describe síntomas observados, si los hubo"
 								value={formData.sintomas}
 								onChange={handleInputChange}
-								maxLength={500}
+								rows={3}
 							/>
 						</div>
 
 						{/* Observaciones (opcional) */}
 						<div className="form-group">
-							<label>
-								Notas adicionales <span className="label-optional">(opcional)</span>
-							</label>
+							<label>Observaciones (opcional)</label>
 							<textarea
 								name="observaciones"
 								className="input textarea"
@@ -434,7 +436,7 @@ export default function Bitacora() {
 
 							<div className="bitacora-contenido">
 								<div className="contenido-section">
-									<div className="contenido-label">Actividades</div>
+									<div className="contenido-label">Descripción</div>
 									<div className="contenido-texto">{bitacora.descripcion}</div>
 								</div>
 
@@ -447,7 +449,7 @@ export default function Bitacora() {
 
 								{bitacora.observaciones && (
 									<div className="contenido-section">
-										<div className="contenido-label">Notas adicionales</div>
+										<div className="contenido-label">Observaciones</div>
 										<div className="contenido-texto">{bitacora.observaciones}</div>
 									</div>
 								)}

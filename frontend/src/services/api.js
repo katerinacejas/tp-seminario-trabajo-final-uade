@@ -574,6 +574,12 @@ export const cuidadoresPacientesAPI = {
 		});
 	},
 
+	aceptarInvitacion: async (relacionId) => {
+		return apiRequest(`/cuidadores-pacientes/${relacionId}/aceptar`, {
+			method: 'POST',
+		});
+	},
+
 	desvincular: async (pacienteId, cuidadorId) => {
 		return apiRequest(`/cuidadores-pacientes/desvincular?pacienteId=${pacienteId}&cuidadorId=${cuidadorId}`, {
 			method: 'DELETE',
@@ -582,6 +588,14 @@ export const cuidadoresPacientesAPI = {
 
 	getByPaciente: async (pacienteId) => {
 		return apiRequest(`/cuidadores-pacientes/paciente/${pacienteId}`);
+	},
+
+	getInvitacionesPendientes: async (cuidadorId) => {
+		return apiRequest(`/cuidadores-pacientes/cuidador/${cuidadorId}/pendientes`);
+	},
+
+	getPacientesVinculados: async (cuidadorId) => {
+		return apiRequest(`/cuidadores-pacientes/cuidador/${cuidadorId}/pacientes`);
 	},
 };
 

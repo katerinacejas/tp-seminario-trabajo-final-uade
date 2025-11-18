@@ -1,35 +1,51 @@
 import React, { useState } from 'react';
-import { IoChevronDown, IoInformationCircleOutline } from 'react-icons/io5';
+import { IoAddOutline, IoRemoveOutline, IoHelpCircleOutline } from 'react-icons/io5';
 import './PreguntasFrecuentes.css';
 
 export default function PreguntasFrecuentes() {
 	const [preguntaAbierta, setPreguntaAbierta] = useState(null);
 
-	// Preguntas y respuestas hardcodeadas del diseño de Figma
-	const preguntas = [
+	// Contenido exacto de preguntas frecuentes para cuidadores
+	const faqs = [
 		{
 			id: 1,
-			pregunta: '¿Cómo puedo añadir un nuevo recordatorio de medicación?',
-			respuesta:
-				'Ve a la sección de "Recordatorios", llena los detalles del medicamento y la hora en el formulario superior. Haz clic en "Añadir Recordatorio". Aparecerá en tu lista.',
+			pregunta: '¿Cómo agrego un nuevo paciente?',
+			respuesta: 'Para agregar un nuevo paciente, enviá una invitación desde la pantalla "Pacientes". El paciente recibirá un email y deberá aceptar la invitación desde su cuenta.',
 		},
 		{
 			id: 2,
-			pregunta: '¿Qué hago si presiono el botón de emergencia por accidente?',
-			respuesta:
-				'No te preocupes. El botón de emergencia solo abre una ventana con los números de contacto para que puedas llamar rápidamente. No envía ninguna notificación automática.',
+			pregunta: '¿Cómo creo recordatorios de medicamentos?',
+			respuesta: 'Ve a la sección "Recordatorios", seleccioná tu paciente y hacé click en "Nuevo recordatorio". Completá todos los campos requeridos incluyendo nombre del medicamento, dosis, horarios y fechas.',
 		},
 		{
 			id: 3,
-			pregunta: '¿Se guardan mis datos si cierro el navegador?',
-			respuesta:
-				'Actualmente, la aplicación funciona localmente en tu navegador. Los datos se reiniciarán si cierras o recargas la página. Estamos trabajando en una versión con guardado en la nube.',
+			pregunta: '¿Qué es la bitácora?',
+			respuesta: 'La bitácora es un registro diario de las actividades, observaciones y síntomas del paciente. Te permite llevar un historial completo de su cuidado.',
 		},
 		{
 			id: 4,
-			pregunta: '¿Puedo compartir el acceso con otro familiar?',
-			respuesta:
-				'En esta versión, toda la información se gestiona desde un solo dispositivo. Para compartir, necesitarías usar el mismo dispositivo o coordinar la información manualmente.',
+			pregunta: '¿Cómo funciona el botón de emergencia?',
+			respuesta: 'El botón de emergencia muestra los contactos de emergencia del paciente seleccionado. Podés llamarlos directamente desde la app con un solo click.',
+		},
+		{
+			id: 5,
+			pregunta: '¿Puedo editar la información de un paciente?',
+			respuesta: 'Podés ver toda la información médica del paciente, pero solo ellos pueden modificar sus datos desde su perfil.',
+		},
+		{
+			id: 6,
+			pregunta: '¿Cómo subo documentos médicos?',
+			respuesta: 'En la sección "Documentos", podés subir archivos como recetas, estudios o informes médicos. Seleccioná el tipo de documento y arrastrá el archivo o hacé click para seleccionarlo.',
+		},
+		{
+			id: 7,
+			pregunta: '¿Cómo organizo mis tareas?',
+			respuesta: 'En "Lista de Tareas" podés crear, editar y reorganizar tareas. Usá el modo de reordenamiento para cambiar el orden manualmente con las flechas.',
+		},
+		{
+			id: 8,
+			pregunta: '¿Puedo tener múltiples pacientes?',
+			respuesta: 'Sí, podés cuidar a múltiples pacientes. Usá el selector de paciente en la barra superior para cambiar entre ellos.',
 		},
 	];
 
@@ -39,37 +55,31 @@ export default function PreguntasFrecuentes() {
 
 	return (
 		<div className="preguntas-container">
-			{/* Header */}
-			<div className="preguntas-header">
-				<div className="preguntas-header-icon"></div>
-				<div className="preguntas-header-content">
-					<div className="preguntas-titulo">
-						<div className="preguntas-titulo-text">
-							<span>Preguntas Frecuentes</span>
-						</div>
-						<IoInformationCircleOutline className="info-icon" />
-					</div>
-					<p className="preguntas-subtitulo">
-						Encuentra respuestas a preguntas frecuentes y aprende a sacar el máximo provecho de Cuido.
-					</p>
-				</div>
+			{/* Título Principal */}
+			<div className="preguntas-titulo-principal">
+				<IoHelpCircleOutline className="titulo-icono" />
+				<h1>Preguntas Frecuentes</h1>
 			</div>
 
-			{/* Lista de Preguntas */}
+			{/* Lista de Preguntas Accordion */}
 			<div className="preguntas-lista">
-				{preguntas.map((item) => (
+				{faqs.map((item) => (
 					<div
 						key={item.id}
-						className={`pregunta-item ${preguntaAbierta === item.id ? 'abierta' : ''}`}
+						className={`accordion-item ${preguntaAbierta === item.id ? 'abierta' : ''}`}
 					>
-						<div className="pregunta-header" onClick={() => togglePregunta(item.id)}>
-							<h3 className="pregunta-texto">{item.pregunta}</h3>
-							<IoChevronDown className="pregunta-icono" />
+						<div className="accordion-header" onClick={() => togglePregunta(item.id)}>
+							<h3 className="accordion-pregunta">{item.pregunta}</h3>
+							{preguntaAbierta === item.id ? (
+								<IoRemoveOutline className="accordion-icono" />
+							) : (
+								<IoAddOutline className="accordion-icono" />
+							)}
 						</div>
 
-						<div className="respuesta-wrapper">
-							<div className="respuesta-contenido">
-								<p className="respuesta-texto">{item.respuesta}</p>
+						<div className="accordion-respuesta-wrapper">
+							<div className="accordion-respuesta-contenido">
+								<p className="accordion-respuesta-texto">{item.respuesta}</p>
 							</div>
 						</div>
 					</div>

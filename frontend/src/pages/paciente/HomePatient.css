@@ -1,245 +1,323 @@
-/* Home Paciente - Mobile First */
+/* ===========================
+   HOME PACIENTE - DISEÑO FIGMA
+   =========================== */
 
-.home-paciente {
-  padding: 16px;
-  max-width: 600px;
-  margin: 0 auto;
+.home-container {
+	padding: 16px;
+	max-width: 100%;
+	margin: 0 auto;
 }
 
-.welcome-section {
-  background: white;
-  border-radius: 12px;
-  padding: 24px;
-  margin-bottom: 16px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+/* ============ HEADER BIENVENIDA ============ */
+
+/* Header con saludo personalizado para paciente */
+.home-header-card {
+	background: var(--gradient-primary);
+	border-radius: 12px;
+	box-shadow: 0 2px 8px rgba(77, 172, 235, 0.2);
+	padding: 20px;
+	margin-bottom: 20px;
 }
 
-.welcome-section h1 {
-  font-size: 24px;
-  font-weight: 700;
-  margin: 0 0 8px 0;
-  color: #1e293b;
+.home-saludo {
+	margin: 0 0 8px 0;
+	font-size: var(--fs-xl);
+	font-weight: 700;
+	color: #ffffff;
 }
 
-.welcome-section .subtitle {
-  font-size: 14px;
-  color: #64748b;
-  margin: 0;
+.home-fecha {
+	margin: 0;
+	font-size: var(--fs-sm);
+	color: #ffffff;
+	opacity: 0.95;
+	text-transform: capitalize;
 }
 
-.section-card {
-  background: white;
-  border-radius: 12px;
-  padding: 20px;
-  margin-bottom: 16px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+/* ============ SECCIONES ============ */
+.home-seccion-card {
+	background: var(--surf-0);
+	border-radius: 12px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+	padding: 16px 20px;
+	margin-bottom: 16px;
+	border: 1px solid var(--bd);
 }
 
-.section-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 16px;
+.seccion-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	margin-bottom: 16px;
+	flex-wrap: wrap;
 }
 
-.section-header h2 {
-  font-size: 18px;
-  font-weight: 600;
-  margin: 0;
-  color: #1e293b;
+.seccion-header-left {
+	display: flex;
+	align-items: center;
+	gap: 10px;
 }
 
-.section-header .link-btn {
-  font-size: 14px;
-  color: #3b82f6;
-  background: none;
-  border: none;
-  cursor: pointer;
-  text-decoration: none;
+.seccion-icono {
+	font-size: 24px;
+	color: var(--primary);
+	flex-shrink: 0;
 }
 
-.section-header .link-btn:hover {
-  text-decoration: underline;
+.seccion-titulo {
+	margin: 0;
+	font-size: var(--fs-lg);
+	font-weight: 700;
+	color: var(--ink);
 }
 
-/* Cuidadores List */
-.cuidadores-list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+/* Botón Ver Más */
+.btn-ver-mas {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	background: none;
+	border: none;
+	color: var(--primary);
+	font-size: var(--fs-sm);
+	font-weight: 600;
+	cursor: pointer;
+	padding: 6px 10px;
+	border-radius: 8px;
+	transition: all var(--trans);
 }
 
-.cuidador-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px;
-  border-radius: 8px;
-  background: #f8fafc;
+.btn-ver-mas:hover {
+	background: var(--brand-50);
 }
 
-.cuidador-icon {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: #e0e7ff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
-  flex-shrink: 0;
+.btn-ver-mas svg {
+	font-size: 18px;
 }
 
-.cuidador-info {
-  flex: 1;
+/* ============ ESTADOS VACÍOS ============ */
+.estado-vacio {
+	text-align: center;
+	padding: 32px 20px;
+	color: var(--muted);
 }
 
-.cuidador-info .nombre {
-  font-weight: 600;
-  font-size: 15px;
-  color: #1e293b;
-  margin: 0 0 2px 0;
+.estado-vacio-icono {
+	font-size: 48px;
+	margin-bottom: 12px;
+	color: var(--gray-light);
+	opacity: 0.5;
 }
 
-.cuidador-info .email {
-  font-size: 13px;
-  color: #64748b;
-  margin: 0;
+.estado-vacio-texto {
+	margin: 0;
+	font-size: var(--fs-sm);
+	font-weight: 500;
+	color: var(--muted);
 }
 
-/* Recordatorios List */
-.recordatorios-list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+/* ============ TARJETAS ============ */
+.tarjetas-lista {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
 }
 
-.recordatorio-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  padding: 12px;
-  border-radius: 8px;
-  background: #f8fafc;
+.tarjeta-item {
+	background: linear-gradient(180deg, var(--surf-1), var(--surf-0));
+	border: 1px solid var(--bd);
+	border-radius: 12px;
+	padding: 14px 16px;
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	cursor: pointer;
+	transition: all var(--trans);
+	position: relative;
 }
 
-.recordatorio-icon {
-  width: 40px;
-  height: 40px;
-  border-radius: 8px;
-  background: #fef3c7;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
-  flex-shrink: 0;
+.tarjeta-item:hover {
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+	transform: translateY(-1px);
+	border-color: var(--primary-light);
 }
 
-.recordatorio-icon.cita {
-  background: #e0f2fe;
+.tarjeta-hora-badge {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	background: var(--brand-50);
+	color: var(--primary);
+	padding: 6px 10px;
+	border-radius: 8px;
+	font-size: var(--fs-sm);
+	font-weight: 600;
+	flex-shrink: 0;
 }
 
-.recordatorio-info {
-  flex: 1;
+.tarjeta-hora-badge svg {
+	font-size: 16px;
 }
 
-.recordatorio-info .titulo {
-  font-weight: 600;
-  font-size: 14px;
-  color: #1e293b;
-  margin: 0 0 4px 0;
+.tarjeta-contenido {
+	flex: 1;
+	min-width: 0;
 }
 
-.recordatorio-info .hora {
-  font-size: 13px;
-  color: #64748b;
-  margin: 0;
+.tarjeta-titulo {
+	margin: 0 0 4px 0;
+	font-size: var(--fs-md);
+	font-weight: 700;
+	color: var(--ink);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
-.recordatorio-info .detalles {
-  font-size: 12px;
-  color: #94a3b8;
-  margin: 4px 0 0 0;
+.tarjeta-subtitulo {
+	margin: 0 0 6px 0;
+	font-size: var(--fs-sm);
+	color: var(--muted);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
-/* Ficha Médica */
-.ficha-medica-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 16px;
-  border-radius: 8px;
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
+.tarjeta-detalle {
+	margin: 4px 0 0 0;
+	font-size: var(--fs-xs);
+	color: var(--muted);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
-.ficha-info .nombre {
-  font-weight: 600;
-  font-size: 15px;
-  color: #1e293b;
-  margin: 0 0 4px 0;
+.tarjeta-icono-nav {
+	font-size: 20px;
+	color: var(--muted);
+	flex-shrink: 0;
+	transition: color var(--trans);
 }
 
-.ficha-info .tipo {
-  font-size: 13px;
-  color: #64748b;
-  margin: 0;
+.tarjeta-item:hover .tarjeta-icono-nav {
+	color: var(--primary);
 }
 
-.ficha-actions {
-  display: flex;
-  gap: 12px;
+/* ============ MEDICAMENTOS ============ */
+.medicamento-horarios {
+	display: flex;
+	gap: 6px;
+	flex-wrap: wrap;
+	margin: 8px 0 4px 0;
 }
 
-.icon-btn {
-  width: 32px;
-  height: 32px;
-  border-radius: 6px;
-  border: none;
-  background: white;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
-  color: #64748b;
-  transition: all 0.2s;
+.horario-badge {
+	display: inline-block;
+	background: var(--brand-100);
+	color: var(--primary);
+	padding: 4px 10px;
+	border-radius: 6px;
+	font-size: var(--fs-xs);
+	font-weight: 600;
+	border: 1px solid var(--brand-300);
 }
 
-.icon-btn:hover {
-  background: #f1f5f9;
-  color: #1e293b;
+/* ============ LOADING Y ERROR ============ */
+.mensaje-loading {
+	text-align: center;
+	padding: 60px 20px;
+	color: var(--muted);
+	font-size: var(--fs-md);
 }
 
-.icon-btn.danger:hover {
-  background: #fee2e2;
-  color: #dc2626;
+.mensaje-error {
+	background: var(--danger-100);
+	color: var(--danger);
+	padding: 12px 16px;
+	border-radius: 12px;
+	margin-bottom: 16px;
+	font-size: var(--fs-sm);
+	border: 1px solid #fecaca;
+	font-weight: 500;
 }
 
-/* Empty States */
-.empty-state {
-  text-align: center;
-  padding: 32px 16px;
-  color: #94a3b8;
-  font-size: 14px;
+/* ============ RESPONSIVE ============ */
+@media (max-width: 768px) {
+	.home-container {
+		padding: 12px;
+	}
+
+	.home-header-card {
+		padding: 16px;
+	}
+
+	.home-saludo {
+		font-size: var(--fs-lg);
+	}
+
+	.home-fecha {
+		font-size: var(--fs-xs);
+	}
+
+	.home-seccion-card {
+		padding: 14px 16px;
+	}
+
+	.seccion-titulo {
+		font-size: var(--fs-md);
+	}
+
+	.seccion-icono {
+		font-size: 20px;
+	}
+
+	.tarjeta-item {
+		padding: 12px 14px;
+	}
+
+	.tarjeta-titulo {
+		font-size: var(--fs-sm);
+	}
+
+	.btn-ver-mas span {
+		display: none;
+	}
+
+	.btn-ver-mas {
+		padding: 6px;
+	}
+
+	.tarjeta-hora-badge {
+		padding: 5px 8px;
+		font-size: var(--fs-xs);
+	}
 }
 
-.empty-state-icon {
-  font-size: 48px;
-  margin-bottom: 12px;
-  opacity: 0.5;
-}
+@media (max-width: 480px) {
+	.home-container {
+		padding: 10px;
+	}
 
-@media (min-width: 768px) {
-  .home-paciente {
-    padding: 24px;
-  }
+	.home-header-card,
+	.home-seccion-card {
+		border-radius: 10px;
+	}
 
-  .welcome-section h1 {
-    font-size: 28px;
-  }
+	.seccion-header {
+		flex-wrap: nowrap;
+	}
 
-  .section-card {
-    padding: 24px;
-  }
+	.tarjeta-item {
+		padding: 10px 12px;
+	}
+
+	.medicamento-horarios {
+		gap: 4px;
+	}
+
+	.horario-badge {
+		padding: 3px 8px;
+		font-size: 10px;
+	}
 }

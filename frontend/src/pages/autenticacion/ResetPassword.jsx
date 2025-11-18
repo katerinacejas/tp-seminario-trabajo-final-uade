@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import { authAPI } from "../../services/api";
-import "./Login.css";
+import { IoLockClosedOutline, IoKeyOutline, IoEyeOutline, IoEyeOffOutline, IoArrowBackOutline } from "react-icons/io5";
 
 export default function ResetPassword() {
 	const [codigoOtp, setCodigoOtp] = useState("");
 	const [nuevaPassword, setNuevaPassword] = useState("");
 	const [confirmarPassword, setConfirmarPassword] = useState("");
+	const [showPassword, setShowPassword] = useState(false);
+	const [showPassword2, setShowPassword2] = useState(false);
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState("");
 	const [success, setSuccess] = useState(false);
@@ -52,11 +54,11 @@ export default function ResetPassword() {
 	};
 
 	return (
-		<div className="auth auth-center">
+		<div className="page-center">
 			<div className="auth-card">
 				<div className="auth-head">
 					<img src="/logo.png" alt="Cuido" className="auth-logo" />
-					<h1 className="auth-title">Cambiar Contraseña</h1>
+					<h1 className="auth-title">Nueva contraseña</h1>
 					<p className="auth-sub">
 						{emailFromState
 							? `Código enviado a ${emailFromState}`
@@ -66,75 +68,228 @@ export default function ResetPassword() {
 
 				{success ? (
 					<div style={{
-						background: "#efe",
-						border: "1px solid #cfc",
-						color: "#363",
-						padding: "12px 14px",
-						borderRadius: "12px",
+						background: "var(--ok-100)",
+						border: "1px solid var(--ok)",
+						color: "#166534",
+						padding: "16px 18px",
+						borderRadius: "10px",
 						textAlign: "center",
-						marginBottom: "12px"
+						marginBottom: "16px"
 					}}>
-						Contraseña actualizada. Redirigiendo al login...
+						<div style={{ fontSize: "16px", fontWeight: "600", marginBottom: "4px" }}>
+							Contraseña actualizada
+						</div>
+						<div style={{ fontSize: "14px" }}>
+							Redirigiendo al login...
+						</div>
 					</div>
 				) : (
 					<form className="auth-form" onSubmit={submit}>
 						{error && (
-							<div className="auth-error">
+							<div style={{
+								background: "var(--danger-100)",
+								border: "1px solid var(--danger)",
+								color: "var(--danger)",
+								padding: "12px 14px",
+								borderRadius: "10px",
+								fontSize: "14px",
+								marginBottom: "16px"
+							}}>
 								{error}
 							</div>
 						)}
 
-						<div className="auth-row">
-							<label>Código de Verificación</label>
-							<input
-								value={codigoOtp}
-								onChange={e => setCodigoOtp(e.target.value)}
-								type="text"
-								required
-								placeholder="123456"
-								disabled={loading}
-								maxLength={6}
-								pattern="[0-9]{6}"
-								title="Ingresa el código de 6 dígitos"
-							/>
+						<div className="form-row">
+							<label>
+								Código de verificación <span style={{ color: "var(--danger)" }}>*</span>
+							</label>
+							<div style={{ position: "relative" }}>
+								<IoKeyOutline style={{
+									position: "absolute",
+									left: "14px",
+									top: "50%",
+									transform: "translateY(-50%)",
+									color: "var(--muted)",
+									fontSize: "18px"
+								}} />
+								<input
+									className="input"
+									value={codigoOtp}
+									onChange={e => setCodigoOtp(e.target.value)}
+									type="text"
+									required
+									placeholder="123456"
+									disabled={loading}
+									maxLength={6}
+									pattern="[0-9]{6}"
+									title="Ingresa el código de 6 dígitos"
+									style={{
+										paddingLeft: "44px",
+										fontSize: "15px",
+										borderRadius: "10px",
+										letterSpacing: "4px",
+										fontWeight: "600"
+									}}
+								/>
+							</div>
+							<small style={{ color: "var(--muted)", fontSize: "12px", display: "block", marginTop: "4px" }}>
+								Código de 6 dígitos enviado a tu email
+							</small>
 						</div>
 
-						<div className="auth-row">
-							<label>Nueva Contraseña</label>
-							<input
-								value={nuevaPassword}
-								onChange={e => setNuevaPassword(e.target.value)}
-								type="password"
-								required
-								placeholder="••••••••"
-								disabled={loading}
-								minLength={6}
-							/>
+						<div className="form-row">
+							<label>
+								Nueva contraseña <span style={{ color: "var(--danger)" }}>*</span>
+							</label>
+							<div style={{ position: "relative" }}>
+								<IoLockClosedOutline style={{
+									position: "absolute",
+									left: "14px",
+									top: "50%",
+									transform: "translateY(-50%)",
+									color: "var(--muted)",
+									fontSize: "18px"
+								}} />
+								<input
+									className="input"
+									value={nuevaPassword}
+									onChange={e => setNuevaPassword(e.target.value)}
+									type={showPassword ? "text" : "password"}
+									required
+									placeholder="Mínimo 6 caracteres"
+									disabled={loading}
+									minLength={6}
+									style={{
+										paddingLeft: "44px",
+										paddingRight: "44px",
+										fontSize: "15px",
+										borderRadius: "10px"
+									}}
+								/>
+								<button
+									type="button"
+									onClick={() => setShowPassword(!showPassword)}
+									style={{
+										position: "absolute",
+										right: "14px",
+										top: "50%",
+										transform: "translateY(-50%)",
+										background: "transparent",
+										border: "none",
+										cursor: "pointer",
+										padding: "4px",
+										color: "var(--muted)",
+										fontSize: "18px",
+										display: "flex",
+										alignItems: "center"
+									}}
+								>
+									{showPassword ? <IoEyeOffOutline /> : <IoEyeOutline />}
+								</button>
+							</div>
 						</div>
 
-						<div className="auth-row">
-							<label>Confirmar Contraseña</label>
-							<input
-								value={confirmarPassword}
-								onChange={e => setConfirmarPassword(e.target.value)}
-								type="password"
-								required
-								placeholder="••••••••"
-								disabled={loading}
-								minLength={6}
-							/>
+						<div className="form-row">
+							<label>
+								Confirmar contraseña <span style={{ color: "var(--danger)" }}>*</span>
+							</label>
+							<div style={{ position: "relative" }}>
+								<IoLockClosedOutline style={{
+									position: "absolute",
+									left: "14px",
+									top: "50%",
+									transform: "translateY(-50%)",
+									color: "var(--muted)",
+									fontSize: "18px"
+								}} />
+								<input
+									className="input"
+									value={confirmarPassword}
+									onChange={e => setConfirmarPassword(e.target.value)}
+									type={showPassword2 ? "text" : "password"}
+									required
+									placeholder="Repite tu contraseña"
+									disabled={loading}
+									minLength={6}
+									style={{
+										paddingLeft: "44px",
+										paddingRight: "44px",
+										fontSize: "15px",
+										borderRadius: "10px"
+									}}
+								/>
+								<button
+									type="button"
+									onClick={() => setShowPassword2(!showPassword2)}
+									style={{
+										position: "absolute",
+										right: "14px",
+										top: "50%",
+										transform: "translateY(-50%)",
+										background: "transparent",
+										border: "none",
+										cursor: "pointer",
+										padding: "4px",
+										color: "var(--muted)",
+										fontSize: "18px",
+										display: "flex",
+										alignItems: "center"
+									}}
+								>
+									{showPassword2 ? <IoEyeOffOutline /> : <IoEyeOutline />}
+								</button>
+							</div>
 						</div>
 
-						<div className="auth-actions">
-							<button
-								className="auth-btn auth-btn--primary"
-								type="submit"
-								disabled={loading}
+						<button
+							className="btn auth-primary"
+							type="submit"
+							disabled={loading}
+							style={{
+								width: "100%",
+								marginTop: "12px",
+								padding: "12px 18px",
+								fontSize: "16px",
+								fontWeight: "700"
+							}}
+						>
+							{loading ? "Cambiando..." : "Cambiar contraseña"}
+						</button>
+
+						<div style={{
+							textAlign: "center",
+							marginTop: "20px",
+							display: "flex",
+							flexDirection: "column",
+							gap: "10px"
+						}}>
+							<Link
+								to="/forgot-password"
+								style={{
+									color: "var(--primary)",
+									fontSize: "14px",
+									fontWeight: "600",
+									textDecoration: "none"
+								}}
 							>
-								{loading ? "Cambiando..." : "Cambiar Contraseña"}
-							</button>
-							<Link to="/forgot-password" className="auth-link">Reenviar código</Link>
-							<Link to="/login" className="auth-link">Volver al login</Link>
+								¿No recibiste el código? Reenviar
+							</Link>
+							<Link
+								to="/login"
+								style={{
+									color: "var(--muted)",
+									fontSize: "14px",
+									fontWeight: "600",
+									textDecoration: "none",
+									display: "inline-flex",
+									alignItems: "center",
+									justifyContent: "center",
+									gap: "6px"
+								}}
+							>
+								<IoArrowBackOutline style={{ fontSize: "16px" }} />
+								Volver al login
+							</Link>
 						</div>
 					</form>
 				)}
