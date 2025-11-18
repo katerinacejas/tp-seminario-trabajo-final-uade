@@ -1,6 +1,6 @@
 // API Service para comunicación con el backend
 
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080/api';
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8082/api';
 
 /**
  * Clase de error personalizada para errores de API
@@ -37,7 +37,9 @@ function handleHTTPError(status, data) {
  * Wrapper para fetch con manejo de errores y autenticación
  */
 async function apiRequest(endpoint, options = {}) {
-	const token = localStorage.getItem('cuido.token');
+	// No enviar token en endpoints de autenticación pública
+	const isAuthEndpoint = endpoint.startsWith('/auth/');
+	const token = !isAuthEndpoint ? localStorage.getItem('cuido.token') : null;
 
 	const config = {
 		headers: {

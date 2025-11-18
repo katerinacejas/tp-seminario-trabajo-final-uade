@@ -17,7 +17,8 @@
 
 export const API_CONFIG = {
   // Cambia esta IP si cambias de red WiFi
-  BASE_URL: 'http://192.168.0.164:8082/api',
+  //BASE_URL: 'http://192.168.0.164:8082/api',
+  BASE_URL: 'http://localhost:8082/api', // para pruebas en web
 
   // Timeout para requests (30 segundos)
   TIMEOUT: 30000,

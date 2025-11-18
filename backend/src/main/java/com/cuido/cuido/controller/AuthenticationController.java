@@ -17,7 +17,7 @@ import com.cuido.cuido.service.PasswordResetService;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/auth")
 public class AuthenticationController {
 
     @Autowired

@@ -48,7 +48,7 @@ public class SecurityConfig {
 				// =============================================
 				// RUTAS PÚBLICAS (sin autenticación)
 				// =============================================
-                .requestMatchers("/auth/**").permitAll()
+                .requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers("/api/imagenes/**").permitAll()
 
 				// =============================================

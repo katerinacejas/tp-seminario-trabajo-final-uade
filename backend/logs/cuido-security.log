@@ -87,3 +87,7 @@
 2025-11-17 21:07:39.069 [http-nio-8082-exec-1] INFO  c.c.c.service.AuthenticationService - Autenticación exitosa para usuario ID: 2, Rol: CUIDADOR
 2025-11-17 21:10:29.697 [http-nio-8082-exec-4] INFO  c.c.c.service.AuthenticationService - Intento de autenticación para email: ramikalinoski@gmail.com
 2025-11-17 21:10:29.882 [http-nio-8082-exec-4] INFO  c.c.c.service.AuthenticationService - Autenticación exitosa para usuario ID: 2, Rol: CUIDADOR
+2025-11-18 01:28:09.333 [http-nio-8082-exec-4] INFO  c.c.c.service.AuthenticationService - Intento de registro para email: valeriamelisaromero@hotmail.com, Rol: PACIENTE
+2025-11-18 01:28:10.457 [http-nio-8082-exec-4] INFO  c.c.c.service.AuthenticationService - Usuario registrado exitosamente - ID: 1, Email: valeriamelisaromero@hotmail.com, Rol: PACIENTE
+2025-11-18 01:28:10.493 [http-nio-8082-exec-4] INFO  c.c.c.service.AuthenticationService - Registro de paciente creado exitosamente para usuario ID: 1
+2025-11-18 01:28:15.141 [http-nio-8082-exec-4] INFO  c.c.c.service.AuthenticationService - Email de bienvenida enviado a: valeriamelisaromero@hotmail.com
