@@ -37,8 +37,8 @@ export function PacienteProvider({ children }) {
 
 	const cargarListaPacientes = async () => {
 		try {
-			// Obtener rol del usuario
-			const role = localStorage.getItem('cuido.role');
+			// Obtener rol del usuario (normalizar a minúsculas por si acaso)
+			const role = localStorage.getItem('cuido.role')?.toLowerCase();
 			let data = [];
 
 			if (role === 'cuidador') {
