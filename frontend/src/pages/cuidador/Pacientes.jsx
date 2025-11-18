@@ -42,10 +42,15 @@ export default function Pacientes() {
 	}, []);
 
 	useEffect(() => {
-		if (pacienteSeleccionado) {
+		// Solo cargar datos si hay un paciente seleccionado Y está en la lista de pacientes vinculados
+		if (pacienteSeleccionado && pacientes.some(p => p.id === pacienteSeleccionado.id)) {
 			cargarDatosPaciente();
+		} else if (pacienteSeleccionado && pacientes.length === 0) {
+			// Si hay un paciente seleccionado pero no está en la lista, limpiar la selección
+			setPacienteDetalle(null);
+			setContactosEmergencia([]);
 		}
-	}, [pacienteSeleccionado]);
+	}, [pacienteSeleccionado, pacientes]);
 
 	const cargarCuidadorYDatos = async () => {
 		try {

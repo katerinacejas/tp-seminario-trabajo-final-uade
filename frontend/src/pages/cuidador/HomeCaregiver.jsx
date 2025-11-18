@@ -36,6 +36,16 @@ export default function HomeCuidador() {
 		cargarDatos();
 	}, [pacienteSeleccionado]);
 
+	// Limpiar pacienteId del localStorage si no es válido
+	useEffect(() => {
+		const savedPacienteId = localStorage.getItem('cuido.pacienteId');
+		if (savedPacienteId && pacienteSeleccionado?.id &&
+		    savedPacienteId !== pacienteSeleccionado.id.toString()) {
+			// El paciente guardado no coincide con el seleccionado, limpiarlo
+			localStorage.removeItem('cuido.pacienteId');
+		}
+	}, [pacienteSeleccionado]);
+
 	const cargarDatos = async () => {
 		try {
 			setLoading(true);

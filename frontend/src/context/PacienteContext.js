@@ -9,27 +9,55 @@ export function PacienteProvider({ children }) {
 	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
-		// Cargar el paciente guardado en localStorage al iniciar
-		const savedPacienteId = localStorage.getItem('cuido.pacienteId');
-		if (savedPacienteId) {
-			cargarPaciente(savedPacienteId);
-		} else {
-			setLoading(false);
-		}
+		// Primero cargar lista de pacientes disponibles
+		const cargarInicial = async () => {
+			await cargarListaPacientes();
 
-		// Cargar lista de pacientes disponibles
-		cargarListaPacientes();
+			// Luego intentar cargar el paciente guardado en localStorage
+			const savedPacienteId = localStorage.getItem('cuido.pacienteId');
+			if (savedPacienteId) {
+				// Solo cargar si el usuario tiene pacientes vinculados
+				const role = localStorage.getItem('cuido.role')?.toLowerCase();
+				if (role === 'cuidador') {
+					// Esperar un momento para que pacientes esté actualizado
+					setTimeout(() => {
+						cargarPaciente(savedPacienteId);
+					}, 100);
+				} else {
+					cargarPaciente(savedPacienteId);
+				}
+			} else {
+				setLoading(false);
+			}
+		};
+
+		cargarInicial();
 	}, []);
 
 	const cargarPaciente = async (pacienteId) => {
 		try {
 			setLoading(true);
+
+			// Validar que el paciente existe en la lista de pacientes vinculados
+			const role = localStorage.getItem('cuido.role')?.toLowerCase();
+			if (role === 'cuidador' && pacientes.length > 0) {
+				const existeEnLista = pacientes.some(p => p.id === parseInt(pacienteId));
+				if (!existeEnLista) {
+					console.warn(`Paciente ID ${pacienteId} no está en la lista de pacientes vinculados`);
+					localStorage.removeItem('cuido.pacienteId');
+					setPacienteSeleccionado(null);
+					setLoading(false);
+					return;
+				}
+			}
+
 			const data = await pacientesAPI.getById(pacienteId);
 			setPacienteSeleccionado(data);
 			localStorage.setItem('cuido.pacienteId', pacienteId);
 		} catch (error) {
 			console.error('Error al cargar paciente:', error);
 			localStorage.removeItem('cuido.pacienteId');
+			setPacienteSeleccionado(null);
 		} finally {
 			setLoading(false);
 		}
@@ -60,9 +88,14 @@ export function PacienteProvider({ children }) {
 
 			setPacientes(data);
 
-			// Si no hay paciente seleccionado pero hay pacientes, seleccionar el primero
-			if (!pacienteSeleccionado && data.length > 0) {
-				seleccionarPaciente(data[0].id);
+			// Si no hay paciente seleccionado pero hay pacientes vinculados, seleccionar el primero
+			// SOLO para cuidadores que tienen pacientes
+			if (!pacienteSeleccionado && data.length > 0 && role === 'cuidador') {
+				// Verificar que no haya un pacienteId inválido en localStorage
+				const savedPacienteId = localStorage.getItem('cuido.pacienteId');
+				if (!savedPacienteId || !data.some(p => p.id === parseInt(savedPacienteId))) {
+					seleccionarPaciente(data[0].id);
+				}
 			}
 		} catch (error) {
 			console.error('Error al cargar lista de pacientes:', error);
