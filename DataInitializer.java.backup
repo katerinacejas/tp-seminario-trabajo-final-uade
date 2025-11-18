@@ -1,0 +1,285 @@
+package com.cuido.cuido.config;
+
+import com.cuido.cuido.model.*;
+import com.cuido.cuido.repository.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.Optional;
+
+@Component
+public class DataInitializer implements CommandLineRunner {
+
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private BitacoraRepository bitacoraRepository;
+
+    @Autowired
+    private CitaMedicaRepository citaMedicaRepository;
+
+    @Autowired
+    private MedicamentoRepository medicamentoRepository;
+
+    @Autowired
+    private HorarioMedicamentoRepository horarioMedicamentoRepository;
+
+    @Autowired
+    private PacienteRepository pacienteRepository;
+
+    @Autowired
+    private CuidadorPacienteRepository cuidadorPacienteRepository;
+
+    @Autowired
+    private ContactoEmergenciaRepository contactoEmergenciaRepository;
+
+    @Autowired
+    private TareaRepository tareaRepository;
+
+    @Override
+    public void run(String... args) throws Exception {
+
+        System.out.println("===================================================");
+        System.out.println("🌱 INICIALIZANDO DATOS DE PRUEBA PARA CUIDO");
+        System.out.println("===================================================");
+
+        // ========== ADMIN ==========
+        String adminEmail = "admin@cuido.com";
+        Usuario admin = null;
+        if (!usuarioRepository.existsByEmail(adminEmail)) {
+            admin = new Usuario();
+            admin.setNombreCompleto("Administrador");
+            admin.setEmail(adminEmail);
+            admin.setPassword(passwordEncoder.encode("Admin123!"));
+            admin.setRol(Rol.ADMIN);
+            admin.setDireccion("Calle Admin 123, Buenos Aires");
+            admin.setTelefono("1123456789");
+            admin.setAvatar("avatar1.png");
+            admin.setFechaNacimiento(LocalDate.of(1985, 5, 15));
+            admin = usuarioRepository.save(admin);
+            System.out.println("✅ Usuario ADMIN creado: " + adminEmail + " / contraseña: Admin123!");
+        } else {
+            admin = usuarioRepository.findByEmail(adminEmail).orElse(null);
+            System.out.println("ℹ️  Usuario ADMIN ya existe");
+        }
+
+        // ========== CUIDADOR 1 ==========
+        String cuidador1Email = "cuidador1@cuido.com";
+        Usuario cuidador1 = null;
+        if (!usuarioRepository.existsByEmail(cuidador1Email)) {
+            cuidador1 = new Usuario();
+            cuidador1.setNombreCompleto("María González");
+            cuidador1.setEmail(cuidador1Email);
+            cuidador1.setPassword(passwordEncoder.encode("Cuido123!"));
+            cuidador1.setRol(Rol.CUIDADOR);
+            cuidador1.setDireccion("Av. Corrientes 1500, CABA");
+            cuidador1.setTelefono("1134567890");
+            cuidador1.setAvatar("avatar_maria.png");
+            cuidador1.setFechaNacimiento(LocalDate.of(1990, 3, 20));
+            cuidador1 = usuarioRepository.save(cuidador1);
+            System.out.println("✅ CUIDADOR creado: " + cuidador1Email + " / contraseña: Cuido123!");
+        } else {
+            cuidador1 = usuarioRepository.findByEmail(cuidador1Email).orElse(null);
+            System.out.println("ℹ️  CUIDADOR 1 ya existe");
+        }
+
+        // ========== PACIENTE 1 ==========
+        String paciente1Email = "paciente1@cuido.com";
+        Usuario paciente1 = null;
+        if (!usuarioRepository.existsByEmail(paciente1Email)) {
+            paciente1 = new Usuario();
+            paciente1.setNombreCompleto("Juan Pérez");
+            paciente1.setEmail(paciente1Email);
+            paciente1.setPassword(passwordEncoder.encode("Paciente123!"));
+            paciente1.setRol(Rol.PACIENTE);
+            paciente1.setDireccion("San Martín 800, CABA");
+            paciente1.setTelefono("1145678901");
+            paciente1.setAvatar("avatar_juan.png");
+            paciente1.setFechaNacimiento(LocalDate.of(1950, 8, 10));
+            paciente1 = usuarioRepository.save(paciente1);
+            System.out.println("✅ PACIENTE creado: " + paciente1Email + " / contraseña: Paciente123!");
+        } else {
+            paciente1 = usuarioRepository.findByEmail(paciente1Email).orElse(null);
+            System.out.println("ℹ️  PACIENTE 1 ya existe");
+        }
+
+        // ========== PACIENTE 2 ==========
+        String paciente2Email = "paciente2@cuido.com";
+        Usuario paciente2 = null;
+        if (!usuarioRepository.existsByEmail(paciente2Email)) {
+            paciente2 = new Usuario();
+            paciente2.setNombreCompleto("Ana Martínez");
+            paciente2.setEmail(paciente2Email);
+            paciente2.setPassword(passwordEncoder.encode("Paciente123!"));
+            paciente2.setRol(Rol.PACIENTE);
+            paciente2.setDireccion("Belgrano 450, CABA");
+            paciente2.setTelefono("1156789012");
+            paciente2.setAvatar("avatar_ana.png");
+            paciente2.setFechaNacimiento(LocalDate.of(1955, 12, 5));
+            paciente2 = usuarioRepository.save(paciente2);
+            System.out.println("✅ PACIENTE creado: " + paciente2Email + " / contraseña: Paciente123!");
+        } else {
+            paciente2 = usuarioRepository.findByEmail(paciente2Email).orElse(null);
+            System.out.println("ℹ️  PACIENTE 2 ya existe");
+        }
+
+        // Solo crear datos relacionados si los usuarios fueron creados
+        if (cuidador1 != null && paciente1 != null) {
+            crearDatosDePrueba(cuidador1, paciente1);
+        }
+
+        System.out.println("===================================================");
+        System.out.println("✅ INICIALIZACIÓN COMPLETA");
+        System.out.println("===================================================");
+    }
+
+    private void crearDatosDePrueba(Usuario cuidador, Usuario paciente) {
+        // ========== BITÁCORAS ==========
+        if (bitacoraRepository.findByPacienteId(paciente.getId()).isEmpty()) {
+            // Bitácora 1
+            Bitacora bitacora1 = new Bitacora();
+            bitacora1.setPacienteId(paciente.getId());
+            bitacora1.setCuidadorId(cuidador.getId());
+            bitacora1.setFecha(LocalDate.now().minusDays(2));
+            bitacora1.setTitulo("Bitácora del " + LocalDate.now().minusDays(2));
+            bitacora1.setDescripcion("El paciente presentó buen estado general. Tomó todos sus medicamentos según lo prescrito. Realizó caminata de 15 minutos por el parque.");
+            bitacora1.setObservaciones("Se mostró animado y con apetito normal.");
+            bitacoraRepository.save(bitacora1);
+
+            // Bitácora 2
+            Bitacora bitacora2 = new Bitacora();
+            bitacora2.setPacienteId(paciente.getId());
+            bitacora2.setCuidadorId(cuidador.getId());
+            bitacora2.setFecha(LocalDate.now().minusDays(1));
+            bitacora2.setTitulo("Bitácora del " + LocalDate.now().minusDays(1));
+            bitacora2.setDescripcion("Día tranquilo. El paciente descansó bien durante la noche. Presión arterial: 130/85 mmHg. Glucosa en ayunas: 110 mg/dL.");
+            bitacora2.setObservaciones("Recordar control médico la próxima semana.");
+            bitacoraRepository.save(bitacora2);
+
+            // Bitácora 3
+            Bitacora bitacora3 = new Bitacora();
+            bitacora3.setPacienteId(paciente.getId());
+            bitacora3.setCuidadorId(cuidador.getId());
+            bitacora3.setFecha(LocalDate.now());
+            bitacora3.setTitulo("Bitácora del " + LocalDate.now());
+            bitacora3.setDescripcion("El paciente se despertó temprano con buen ánimo. Desayunó normalmente. Se realizó control de signos vitales.");
+            bitacora3.setObservaciones("Todo dentro de parámetros normales.");
+            bitacoraRepository.save(bitacora3);
+
+            System.out.println("✅ 3 BITÁCORAS creadas para " + paciente.getNombreCompleto());
+        }
+
+        // ========== CITAS MÉDICAS ==========
+        if (citaMedicaRepository.findByPacienteId(paciente.getId()).isEmpty()) {
+            // Cita 1 - Próxima
+            CitaMedica cita1 = new CitaMedica();
+            cita1.setPacienteId(paciente.getId());
+            cita1.setCuidadorId(cuidador.getId());
+            cita1.setFechaHora(LocalDateTime.now().plusDays(5).withHour(10).withMinute(30));
+            cita1.setUbicacion("Hospital Italiano, Av. Pueyrredón 1234");
+            cita1.setNombreDoctor("Dr. Roberto Fernández");
+            cita1.setEspecialidad("Cardiología");
+            cita1.setMotivo("Control mensual de presión arterial");
+            cita1.setObservaciones("Llevar estudios de laboratorio recientes");
+            cita1.setCompletada(false);
+            citaMedicaRepository.save(cita1);
+
+            // Cita 2 - Próxima
+            CitaMedica cita2 = new CitaMedica();
+            cita2.setPacienteId(paciente.getId());
+            cita2.setCuidadorId(cuidador.getId());
+            cita2.setFechaHora(LocalDateTime.now().plusDays(10).withHour(15).withMinute(0));
+            cita2.setUbicacion("Clínica Santa María, Calle 50 #123");
+            cita2.setNombreDoctor("Dra. Laura Gómez");
+            cita2.setEspecialidad("Endocrinología");
+            cita2.setMotivo("Control de diabetes");
+            cita2.setObservaciones("Control trimestral, revisar hemoglobina glicosilada");
+            cita2.setCompletada(false);
+            citaMedicaRepository.save(cita2);
+
+            System.out.println("✅ 2 CITAS MÉDICAS creadas para " + paciente.getNombreCompleto());
+        }
+
+        // ========== MEDICAMENTOS ==========
+        if (medicamentoRepository.findByPacienteIdAndActivoTrue(paciente.getId()).isEmpty()) {
+            // Medicamento 1: Losartán
+            Medicamento losartan = new Medicamento();
+            losartan.setPacienteId(paciente.getId());
+            losartan.setCuidadorId(cuidador.getId());
+            losartan.setNombre("Losartán");
+            losartan.setDosis("50 mg");
+            losartan.setFrecuencia("Una vez al día");
+            losartan.setViaAdministracion("Oral");
+            losartan.setFechaInicio(LocalDate.now().minusMonths(6));
+            losartan.setActivo(true);
+            losartan.setObservaciones("Tomar en ayunas por la mañana");
+            losartan = medicamentoRepository.save(losartan);
+
+            // Horarios del Losartán
+            HorarioMedicamento horarioLosartan = new HorarioMedicamento();
+            horarioLosartan.setMedicamentoId(losartan.getId());
+            horarioLosartan.setHora(LocalTime.of(8, 0));
+            horarioLosartan.setDiasSemana("[\"L\",\"M\",\"X\",\"J\",\"V\",\"S\",\"D\"]");
+            horarioMedicamentoRepository.save(horarioLosartan);
+
+            // Medicamento 2: Metformina
+            Medicamento metformina = new Medicamento();
+            metformina.setPacienteId(paciente.getId());
+            metformina.setCuidadorId(cuidador.getId());
+            metformina.setNombre("Metformina");
+            metformina.setDosis("850 mg");
+            metformina.setFrecuencia("Dos veces al día");
+            metformina.setViaAdministracion("Oral");
+            metformina.setFechaInicio(LocalDate.now().minusMonths(3));
+            metformina.setActivo(true);
+            metformina.setObservaciones("Tomar con las comidas");
+            metformina = medicamentoRepository.save(metformina);
+
+            // Horarios de la Metformina
+            HorarioMedicamento horarioMet1 = new HorarioMedicamento();
+            horarioMet1.setMedicamentoId(metformina.getId());
+            horarioMet1.setHora(LocalTime.of(9, 0));
+            horarioMet1.setDiasSemana("[\"L\",\"M\",\"X\",\"J\",\"V\",\"S\",\"D\"]");
+            horarioMedicamentoRepository.save(horarioMet1);
+
+            HorarioMedicamento horarioMet2 = new HorarioMedicamento();
+            horarioMet2.setMedicamentoId(metformina.getId());
+            horarioMet2.setHora(LocalTime.of(21, 0));
+            horarioMet2.setDiasSemana("[\"L\",\"M\",\"X\",\"J\",\"V\",\"S\",\"D\"]");
+            horarioMedicamentoRepository.save(horarioMet2);
+
+            // Medicamento 3: Atorvastatina
+            Medicamento atorva = new Medicamento();
+            atorva.setPacienteId(paciente.getId());
+            atorva.setCuidadorId(cuidador.getId());
+            atorva.setNombre("Atorvastatina");
+            atorva.setDosis("20 mg");
+            atorva.setFrecuencia("Una vez al día");
+            atorva.setViaAdministracion("Oral");
+            atorva.setFechaInicio(LocalDate.now().minusMonths(4));
+            atorva.setActivo(true);
+            atorva.setObservaciones("Tomar por la noche");
+            atorva = medicamentoRepository.save(atorva);
+
+            // Horarios de la Atorvastatina
+            HorarioMedicamento horarioAtorva = new HorarioMedicamento();
+            horarioAtorva.setMedicamentoId(atorva.getId());
+            horarioAtorva.setHora(LocalTime.of(22, 0));
+            horarioAtorva.setDiasSemana("[\"L\",\"M\",\"X\",\"J\",\"V\",\"S\",\"D\"]");
+            horarioMedicamentoRepository.save(horarioAtorva);
+
+            System.out.println("✅ 3 MEDICAMENTOS con horarios creados para " + paciente.getNombreCompleto());
+        }
+
+        System.out.println("✅ Datos de prueba creados para cuidador y paciente");
+    }
+}
