@@ -2,6 +2,7 @@ package com.cuido.cuido.security;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import java.security.Key;
 import java.util.Date;
@@ -10,13 +11,14 @@ import java.util.function.Function;
 @Component
 public class JwtUtil {
 
-    private static final long EXPIRATION_TIME = 1000 * 60 * 60 * 10;
+    @Value("${jwt.secret}")
+    private String secretKey;
 
-    private static final String SECRET_KEY = "6d304f2e4d41665b4f6a5c4b325d2c786e614c5a55664867696a55504275405a";
-
+    @Value("${jwt.expiration}")
+    private long expirationTime;
 
     private Key getKey() {
-        return Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
+        return Keys.hmacShaKeyFor(secretKey.getBytes());
     }
 
     public String generateToken(String email, String rol) {
@@ -24,7 +26,7 @@ public class JwtUtil {
                 .setSubject(email)
 				.claim("rol", rol)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+                .setExpiration(new Date(System.currentTimeMillis() + expirationTime))
                 .signWith(getKey(), SignatureAlgorithm.HS256)
                 .compact();
     }

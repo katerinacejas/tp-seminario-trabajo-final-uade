@@ -1,0 +1,427 @@
+/* ===========================
+   HOME CUIDADOR - DISEÑO FIGMA
+   =========================== */
+
+.home-container {
+	padding: 16px;
+	max-width: 100%;
+	margin: 0 auto;
+}
+
+/* ============ HEADER BIENVENIDA ============ */
+.home-welcome-card {
+	background: var(--surf-0);
+	border-radius: 12px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+	padding: 24px 20px;
+	margin-bottom: 20px;
+	text-align: center;
+}
+
+.home-welcome-titulo {
+	margin: 0 0 12px 0;
+	font-size: var(--fs-xl);
+	font-weight: 700;
+	color: var(--ink);
+	background: var(--gradient-primary);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	background-clip: text;
+}
+
+.home-welcome-texto {
+	margin: 0;
+	font-size: var(--fs-md);
+	color: var(--muted);
+	line-height: 1.6;
+}
+
+/* Header con saludo personalizado */
+.home-header-card {
+	background: var(--gradient-primary);
+	border-radius: 12px;
+	box-shadow: 0 2px 8px rgba(77, 172, 235, 0.2);
+	padding: 20px;
+	margin-bottom: 20px;
+}
+
+.home-saludo {
+	margin: 0 0 8px 0;
+	font-size: var(--fs-xl);
+	font-weight: 700;
+	color: #ffffff;
+}
+
+.home-paciente {
+	margin: 0;
+	font-size: var(--fs-md);
+	color: #ffffff;
+	opacity: 0.95;
+}
+
+.home-paciente strong {
+	font-weight: 700;
+	opacity: 1;
+}
+
+/* ============ SECCIONES ============ */
+.home-seccion-card {
+	background: var(--surf-0);
+	border-radius: 12px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+	padding: 16px 20px;
+	margin-bottom: 16px;
+	border: 1px solid var(--bd);
+}
+
+.seccion-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	margin-bottom: 16px;
+	flex-wrap: wrap;
+}
+
+.seccion-header-left {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.seccion-icono {
+	font-size: 24px;
+	color: var(--primary);
+	flex-shrink: 0;
+}
+
+.seccion-titulo {
+	margin: 0;
+	font-size: var(--fs-lg);
+	font-weight: 700;
+	color: var(--ink);
+}
+
+/* Botón Ver Más */
+.btn-ver-mas {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	background: none;
+	border: none;
+	color: var(--primary);
+	font-size: var(--fs-sm);
+	font-weight: 600;
+	cursor: pointer;
+	padding: 6px 10px;
+	border-radius: 8px;
+	transition: all var(--trans);
+}
+
+.btn-ver-mas:hover {
+	background: var(--brand-50);
+}
+
+.btn-ver-mas svg {
+	font-size: 18px;
+}
+
+/* ============ ESTADOS VACÍOS ============ */
+.estado-vacio {
+	text-align: center;
+	padding: 32px 20px;
+	color: var(--muted);
+}
+
+.estado-vacio-icono {
+	font-size: 48px;
+	margin-bottom: 12px;
+	color: var(--gray-light);
+	opacity: 0.5;
+}
+
+.estado-vacio-texto {
+	margin: 0;
+	font-size: var(--fs-sm);
+	font-weight: 500;
+	color: var(--muted);
+}
+
+/* ============ TARJETAS ============ */
+.tarjetas-lista {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+
+.tarjeta-item {
+	background: linear-gradient(180deg, var(--surf-1), var(--surf-0));
+	border: 1px solid var(--bd);
+	border-radius: 12px;
+	padding: 14px 16px;
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	cursor: pointer;
+	transition: all var(--trans);
+	position: relative;
+}
+
+.tarjeta-item:hover {
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+	transform: translateY(-1px);
+	border-color: var(--primary-light);
+}
+
+.tarjeta-hora-badge {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	background: var(--brand-50);
+	color: var(--primary);
+	padding: 6px 10px;
+	border-radius: 8px;
+	font-size: var(--fs-sm);
+	font-weight: 600;
+	flex-shrink: 0;
+}
+
+.tarjeta-hora-badge svg {
+	font-size: 16px;
+}
+
+.tarjeta-contenido {
+	flex: 1;
+	min-width: 0;
+}
+
+.tarjeta-titulo {
+	margin: 0 0 4px 0;
+	font-size: var(--fs-md);
+	font-weight: 700;
+	color: var(--ink);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.tarjeta-subtitulo {
+	margin: 0 0 6px 0;
+	font-size: var(--fs-sm);
+	color: var(--muted);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.tarjeta-detalle {
+	margin: 4px 0 0 0;
+	font-size: var(--fs-xs);
+	color: var(--muted);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.tarjeta-descripcion {
+	margin: 0 0 8px 0;
+	font-size: var(--fs-sm);
+	color: var(--muted);
+	line-height: 1.5;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+}
+
+.tarjeta-fecha {
+	margin: 4px 0 0 0;
+	font-size: var(--fs-xs);
+	color: var(--muted);
+	font-weight: 500;
+}
+
+.tarjeta-icono-nav {
+	font-size: 20px;
+	color: var(--muted);
+	flex-shrink: 0;
+	transition: color var(--trans);
+}
+
+.tarjeta-item:hover .tarjeta-icono-nav {
+	color: var(--primary);
+}
+
+/* ============ MEDICAMENTOS ============ */
+.medicamento-horarios {
+	display: flex;
+	gap: 6px;
+	flex-wrap: wrap;
+	margin: 8px 0 4px 0;
+}
+
+.horario-badge {
+	display: inline-block;
+	background: var(--brand-100);
+	color: var(--primary);
+	padding: 4px 10px;
+	border-radius: 6px;
+	font-size: var(--fs-xs);
+	font-weight: 600;
+	border: 1px solid var(--brand-300);
+}
+
+/* ============ TAREAS ============ */
+.tarjeta-tarea {
+	padding-left: 12px;
+}
+
+.tarea-checkbox-btn {
+	background: none;
+	border: none;
+	padding: 0;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 26px;
+	flex-shrink: 0;
+	transition: all var(--trans);
+}
+
+.tarea-checkbox-btn:hover {
+	transform: scale(1.15);
+}
+
+.checkbox-pendiente {
+	color: var(--gray-light);
+}
+
+.checkbox-completada {
+	color: var(--ok);
+}
+
+.tarea-footer {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	margin-top: 8px;
+	flex-wrap: wrap;
+}
+
+.prioridad-badge {
+	display: inline-flex;
+	align-items: center;
+	padding: 4px 10px;
+	border-radius: 6px;
+	font-size: var(--fs-xs);
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.3px;
+	border: 1px solid;
+}
+
+.tarea-hora {
+	font-size: var(--fs-xs);
+	color: var(--muted);
+	font-weight: 500;
+}
+
+/* ============ LOADING Y ERROR ============ */
+.mensaje-loading {
+	text-align: center;
+	padding: 60px 20px;
+	color: var(--muted);
+	font-size: var(--fs-md);
+}
+
+.mensaje-error {
+	background: var(--danger-100);
+	color: var(--danger);
+	padding: 12px 16px;
+	border-radius: 12px;
+	margin-bottom: 16px;
+	font-size: var(--fs-sm);
+	border: 1px solid #fecaca;
+	font-weight: 500;
+}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width: 768px) {
+	.home-container {
+		padding: 12px;
+	}
+
+	.home-header-card {
+		padding: 16px;
+	}
+
+	.home-saludo {
+		font-size: var(--fs-lg);
+	}
+
+	.home-paciente {
+		font-size: var(--fs-sm);
+	}
+
+	.home-seccion-card {
+		padding: 14px 16px;
+	}
+
+	.seccion-titulo {
+		font-size: var(--fs-md);
+	}
+
+	.seccion-icono {
+		font-size: 20px;
+	}
+
+	.tarjeta-item {
+		padding: 12px 14px;
+	}
+
+	.tarjeta-titulo {
+		font-size: var(--fs-sm);
+	}
+
+	.btn-ver-mas span {
+		display: none;
+	}
+
+	.btn-ver-mas {
+		padding: 6px;
+	}
+
+	.tarjeta-hora-badge {
+		padding: 5px 8px;
+		font-size: var(--fs-xs);
+	}
+}
+
+@media (max-width: 480px) {
+	.home-container {
+		padding: 10px;
+	}
+
+	.home-header-card,
+	.home-seccion-card {
+		border-radius: 10px;
+	}
+
+	.seccion-header {
+		flex-wrap: nowrap;
+	}
+
+	.tarjeta-item {
+		padding: 10px 12px;
+	}
+
+	.medicamento-horarios {
+		gap: 4px;
+	}
+
+	.horario-badge {
+		padding: 3px 8px;
+		font-size: 10px;
+	}
+}

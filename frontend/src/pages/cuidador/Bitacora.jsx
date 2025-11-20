@@ -1,141 +1,492 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from 'react';
+import { bitacorasAPI } from '../../services/api';
+import { usePaciente } from '../../context/PacienteContext';
+import {
+	IoAddCircleOutline,
+	IoInformationCircleOutline,
+	IoCalendarOutline,
+	IoCreateOutline,
+	IoTrashOutline,
+	IoCloseCircle
+} from 'react-icons/io5';
+import './Bitacora.css';
 
-const sintomasBase = ["Dolor de cabeza","Fiebre","Tos","Cansancio","Náuseas","Mareo"];
+export default function Bitacora() {
+	// Obtener paciente seleccionado del contexto
+	const { pacienteSeleccionado } = usePaciente();
+	const pacienteId = pacienteSeleccionado?.id;
 
-export default function Bitacora(){
-  const [sintomas, setSintomas] = useState(["Tos"]);
-  const [nuevo, setNuevo] = useState("");
+	// Estado del formulario
+	const [mostrarFormulario, setMostrarFormulario] = useState(false);
+	const [modoEdicion, setModoEdicion] = useState(false);
+	const [bitacoraEditando, setBitacoraEditando] = useState(null);
 
-  const toggle = (s)=>{
-    setSintomas(prev => prev.includes(s) ? prev.filter(x=>x!==s) : [...prev, s]);
-  };
+	const [formData, setFormData] = useState({
+		fecha: new Date().toISOString().split('T')[0],
+		titulo: '',
+		descripcion: '',
+		sintomas: '',
+		observaciones: '',
+	});
 
-  const addSintoma = ()=>{
-    const v = nuevo.trim();
-    if(!v) return;
-    if(!sintomasBase.includes(v)) sintomasBase.push(v);
-    setSintomas(prev => prev.includes(v)? prev : [...prev, v]);
-    setNuevo("");
-  };
+	// Selector de fecha
+	const [opcionFecha, setOpcionFecha] = useState('hoy'); // 'hoy', 'ayer', 'personalizada'
 
-  return (
-    <div className="grid">
-      <div className="col-12">
-        <div className="hero">
-          <div className="title"><h1>Bitácora</h1></div>
-          <div className="subtitle">Registra síntomas, notas y adjuntos del día.</div>
+	// Lista de bitácoras
+	const [bitacoras, setBitacoras] = useState([]);
+	const [loading, setLoading] = useState(false);
+	const [error, setError] = useState(null);
 
-          <div className="quick-actions">
-            <button className="btn pill primary">Guardar registro</button>
-            <button className="btn pill">Ver historial</button>
-          </div>
-        </div>
-      </div>
+	// Modal de confirmación
+	const [modalEliminar, setModalEliminar] = useState(null);
 
-      <div className="col-12 col-6">
-        <div className="card">
-          <h2>Síntomas de hoy</h2>
+	// Cargar bitácoras al montar
+	useEffect(() => {
+		if (pacienteId) {
+			cargarBitacoras();
+		}
+	}, [pacienteId]);
 
-          <div className="tags" style={{marginBottom:10}}>
-            {sintomasBase.map(s=>(
-              <span
-                key={s}
-                className={`tag ${sintomas.includes(s) ? "active": ""}`}
-                onClick={()=>toggle(s)}
-              >
-                {s}
-              </span>
-            ))}
-          </div>
+	// Cargar bitácoras desde el backend
+	const cargarBitacoras = async () => {
+		setLoading(true);
+		setError(null);
+		try {
+			const data = await bitacorasAPI.getByPaciente(pacienteId);
+			setBitacoras(data);
+		} catch (err) {
+			console.error('Error al cargar bitácoras:', err);
+			setError('Error al cargar las bitácoras. Por favor, intenta nuevamente.');
+			// Fallback con datos mock para desarrollo
+			setBitacoras([
+				{
+					id: 1,
+					fecha: '2025-11-09',
+					titulo: 'Bitácora del 09/11/2025',
+					descripcion: 'Desayuno completo. Ejercicios de movilidad. Salida al jardín.',
+					sintomas: 'Leve dolor de espalda',
+					observaciones: 'Día tranquilo, buen ánimo.',
+					cuidadorNombre: 'Katerina Cejas',
+					createdAt: '2025-11-09T10:30:00',
+				},
+				{
+					id: 2,
+					fecha: '2025-11-08',
+					titulo: 'Bitácora del 08/11/2025',
+					descripcion: 'Control médico virtual. Ajuste de medicación.',
+					sintomas: null,
+					observaciones: 'Médico indicó continuar con tratamiento actual.',
+					cuidadorNombre: 'Santiago López',
+					createdAt: '2025-11-08T15:20:00',
+				},
+			]);
+		} finally {
+			setLoading(false);
+		}
+	};
 
-          <div className="row" style={{gap:10}}>
-            <input className="input" placeholder="Agregar síntoma..." value={nuevo} onChange={e=>setNuevo(e.target.value)} />
-            <button className="btn">Añadir</button>
-            <button className="btn primary" onClick={addSintoma}>Guardar</button>
-          </div>
-        </div>
-      </div>
+	// Abrir formulario para nueva bitácora
+	const abrirFormularioNuevo = () => {
+		setModoEdicion(false);
+		setBitacoraEditando(null);
+		setFormData({
+			fecha: new Date().toISOString().split('T')[0],
+			titulo: '',
+			descripcion: '',
+			sintomas: '',
+			observaciones: '',
+		});
+		setOpcionFecha('hoy');
+		setMostrarFormulario(true);
+	};
 
-      <div className="col-12 col-6">
-        <div className="card">
-          <h2>Notas</h2>
-          <textarea rows={6} className="input" placeholder="Escribí observaciones, qué se hizo, evolución, etc." />
-          <div className="row" style={{marginTop:10}}>
-            <button className="btn">Adjuntar archivo</button>
-            <button className="btn primary">Guardar</button>
-          </div>
-        </div>
-      </div>
+	// Abrir formulario para editar bitácora
+	const abrirFormularioEditar = (bitacora) => {
+		setModoEdicion(true);
+		setBitacoraEditando(bitacora);
+		setFormData({
+			fecha: bitacora.fecha,
+			titulo: bitacora.titulo,
+			descripcion: bitacora.descripcion,
+			sintomas: bitacora.sintomas || '',
+			observaciones: bitacora.observaciones || '',
+		});
 
-      <div className="col-12">
-        <div className="card">
-          <h2>Historial</h2>
-          <div className="timeline">
-            <div className="t-item">
-              <div className="t-head">
-                <div className="t-date">
-                  <div className="day">22</div>
-                  <div>
-                    <div style={{fontWeight:800}}>2025-10-22</div>
-                    <div className="dow">Miércoles</div>
-                  </div>
-                </div>
-                <span className="badge">Por: Katerina Cejas</span>
-              </div>
-              <div className="t-body">
-                <div className="t-section">
-                  <h4>Síntomas</h4>
-                  <div className="tags">
-                    <span className="tag active">Cansancio</span>
-                    <span className="tag">Mareo</span>
-                  </div>
-                </div>
-                <div className="t-section">
-                  <h4>Notas</h4>
-                  <p>Descansó siesta. Se monitoreó presión. Buena hidratación.</p>
-                </div>
-              </div>
-            </div>
+		// Determinar opción de fecha
+		const hoy = new Date().toISOString().split('T')[0];
+		const ayer = new Date(Date.now() - 86400000).toISOString().split('T')[0];
+		if (bitacora.fecha === hoy) {
+			setOpcionFecha('hoy');
+		} else if (bitacora.fecha === ayer) {
+			setOpcionFecha('ayer');
+		} else {
+			setOpcionFecha('personalizada');
+		}
 
-            <div className="t-item">
-              <div className="t-head">
-                <div className="t-date">
-                  <div className="day">21</div>
-                  <div>
-                    <div style={{fontWeight:800}}>2025-10-21</div>
-                    <div className="dow">Martes</div>
-                  </div>
-                </div>
-                <span className="badge">Por: S. López</span>
-              </div>
-              <div className="t-body">
-                <div className="t-section">
-                  <h4>Síntomas</h4>
-                  <div className="tags">
-                    <span className="tag active">Fiebre</span>
-                    <span className="tag active">Tos</span>
-                  </div>
-                </div>
-                <div className="t-section">
-                  <h4>Notas</h4>
-                  <p>Mejoró con té y reposo. Control 37.4° a las 22:00.</p>
-                </div>
-                <div className="t-section">
-                  <h4>Adjuntos</h4>
-                  <div className="t-files">
-                    <span className="t-file">Temp_22hs.png</span>
-                  </div>
-                </div>
-              </div>
-            </div>
+		setMostrarFormulario(true);
+	};
 
-          </div>
+	// Cerrar formulario
+	const cerrarFormulario = () => {
+		setMostrarFormulario(false);
+		setModoEdicion(false);
+		setBitacoraEditando(null);
+		setError(null);
+	};
 
-          <div className="row" style={{marginTop:12}}>
-            <button className="btn">Cargar más</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+	// Cambiar fecha según opción
+	const handleOpcionFechaChange = (opcion) => {
+		setOpcionFecha(opcion);
+		if (opcion === 'hoy') {
+			setFormData({ ...formData, fecha: new Date().toISOString().split('T')[0] });
+		} else if (opcion === 'ayer') {
+			const ayer = new Date(Date.now() - 86400000);
+			setFormData({ ...formData, fecha: ayer.toISOString().split('T')[0] });
+		}
+		// Si es 'personalizada', no cambiar la fecha actual
+	};
+
+	// Manejar cambios en el formulario
+	const handleInputChange = (e) => {
+		const { name, value } = e.target;
+		setFormData({ ...formData, [name]: value });
+	};
+
+	// Enviar formulario
+	const handleSubmit = async (e) => {
+		e.preventDefault();
+		setLoading(true);
+		setError(null);
+
+		// Validación
+		if (!formData.descripcion.trim()) {
+			setError('La descripción de actividades es obligatoria');
+			setLoading(false);
+			return;
+		}
+
+		try {
+			const bitacoraData = {
+				pacienteId: pacienteId,
+				fecha: formData.fecha,
+				titulo: formData.titulo.trim() || null, // null para auto-generar
+				descripcion: formData.descripcion.trim(),
+				sintomas: formData.sintomas.trim() || null,
+				observaciones: formData.observaciones.trim() || null,
+			};
+
+			if (modoEdicion) {
+				await bitacorasAPI.actualizar(bitacoraEditando.id, bitacoraData);
+			} else {
+				await bitacorasAPI.crear(bitacoraData);
+			}
+
+			// Recargar bitácoras
+			await cargarBitacoras();
+			cerrarFormulario();
+		} catch (err) {
+			console.error('Error al guardar bitácora:', err);
+			setError('Error al guardar la bitácora. Por favor, intenta nuevamente.');
+		} finally {
+			setLoading(false);
+		}
+	};
+
+	// Confirmar eliminación
+	const confirmarEliminar = (bitacora) => {
+		setModalEliminar(bitacora);
+	};
+
+	// Eliminar bitácora
+	const eliminarBitacora = async () => {
+		if (!modalEliminar) return;
+
+		setLoading(true);
+		try {
+			await bitacorasAPI.eliminar(modalEliminar.id);
+			await cargarBitacoras();
+			setModalEliminar(null);
+		} catch (err) {
+			console.error('Error al eliminar bitácora:', err);
+			setError('Error al eliminar la bitácora. Por favor, intenta nuevamente.');
+		} finally {
+			setLoading(false);
+		}
+	};
+
+	// Formatear fecha
+	const formatearFecha = (fechaISO) => {
+		const fecha = new Date(fechaISO + 'T00:00:00');
+		const opciones = { day: '2-digit', month: '2-digit', year: 'numeric' };
+		return fecha.toLocaleDateString('es-AR', opciones);
+	};
+
+	// Formatear fecha con día de la semana
+	const formatearFechaConDia = (fechaISO) => {
+		const fecha = new Date(fechaISO + 'T00:00:00');
+		const diasSemana = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+		const dia = diasSemana[fecha.getDay()];
+		return `${formatearFecha(fechaISO)} - ${dia}`;
+	};
+
+	return (
+		<div className="bitacora-container">
+			{/* Header */}
+			<div className="bitacora-header">
+				<div className="header-content">
+					<h1>Bitácoras</h1>
+					<button className="btn-info-icon" title="Información">
+						<IoInformationCircleOutline size={24} />
+					</button>
+				</div>
+				<button className="btn-añadir-bitacora" onClick={abrirFormularioNuevo}>
+					<IoAddCircleOutline size={20} />
+					<span>Añadir bitácora</span>
+				</button>
+			</div>
+
+			{/* Formulario */}
+			{mostrarFormulario && (
+				<div className="formulario-bitacora">
+					<div className="formulario-titulo">
+						<span>{modoEdicion ? 'Editar bitácora' : 'Nueva bitácora'}</span>
+						<button className="btn-cerrar-formulario" onClick={cerrarFormulario}>
+							<IoCloseCircle size={28} />
+						</button>
+					</div>
+					<p className="formulario-subtitulo">
+						{modoEdicion
+							? 'Actualiza los detalles de la bitácora'
+							: 'Registra actividades, síntomas y observaciones del paciente'}
+					</p>
+
+					{error && (
+						<div className="alert alert-error">
+							<span>{error}</span>
+							<button className="alert-close" onClick={() => setError(null)}>
+								×
+							</button>
+						</div>
+					)}
+
+					<form onSubmit={handleSubmit}>
+						{/* Selector de fecha */}
+						<div className="form-group">
+							<label>
+								Fecha <span className="campo-obligatorio">*</span>
+							</label>
+							<div className="fecha-selector">
+								<button
+									type="button"
+									className={`btn-fecha ${opcionFecha === 'hoy' ? 'active' : ''}`}
+									onClick={() => handleOpcionFechaChange('hoy')}
+								>
+									Hoy
+								</button>
+								<button
+									type="button"
+									className={`btn-fecha ${opcionFecha === 'ayer' ? 'active' : ''}`}
+									onClick={() => handleOpcionFechaChange('ayer')}
+								>
+									Ayer
+								</button>
+								<button
+									type="button"
+									className={`btn-fecha ${opcionFecha === 'personalizada' ? 'active' : ''}`}
+									onClick={() => handleOpcionFechaChange('personalizada')}
+								>
+									Otra fecha
+								</button>
+								{opcionFecha === 'personalizada' && (
+									<div className="fecha-personalizada">
+										<input
+											type="date"
+											name="fecha"
+											className="input"
+											value={formData.fecha}
+											onChange={handleInputChange}
+											required
+										/>
+									</div>
+								)}
+							</div>
+						</div>
+
+						{/* Título (opcional) */}
+						<div className="form-group">
+							<label className="label-con-tooltip">
+								Título (opcional)
+								<span className="tooltip-icon" title="Si dejás vacío, se genera como 'Bitácora del DD/MM/YYYY'">
+									ℹ️
+								</span>
+							</label>
+							<input
+								type="text"
+								name="titulo"
+								className="input"
+								placeholder='Ejemplo: "Control post-quirúrgico"'
+								value={formData.titulo}
+								onChange={handleInputChange}
+								maxLength={255}
+							/>
+						</div>
+
+						{/* Descripción de actividades (obligatorio) */}
+						<div className="form-group">
+							<label>
+								Descripción <span className="campo-obligatorio">*</span>
+							</label>
+							<textarea
+								name="descripcion"
+								className="input textarea"
+								placeholder="Describe las actividades del día: comidas, ejercicios, salidas, terapias, etc."
+								value={formData.descripcion}
+								onChange={handleInputChange}
+								rows={4}
+								required
+							/>
+						</div>
+
+						{/* Síntomas (opcional, textarea multiline) */}
+						<div className="form-group">
+							<label>Síntomas (opcional)</label>
+							<textarea
+								name="sintomas"
+								className="input textarea"
+								placeholder="Describe síntomas observados, si los hubo"
+								value={formData.sintomas}
+								onChange={handleInputChange}
+								rows={3}
+							/>
+						</div>
+
+						{/* Observaciones (opcional) */}
+						<div className="form-group">
+							<label>Observaciones (opcional)</label>
+							<textarea
+								name="observaciones"
+								className="input textarea"
+								placeholder="Agrega cualquier observación relevante sobre el día"
+								value={formData.observaciones}
+								onChange={handleInputChange}
+								rows={3}
+							/>
+						</div>
+
+						{/* Botones */}
+						<div className="form-buttons">
+							<button type="button" className="btn btn-cancelar" onClick={cerrarFormulario}>
+								Cancelar
+							</button>
+							<button type="submit" className="btn btn-primary btn-submit" disabled={loading}>
+								{loading ? 'Guardando...' : modoEdicion ? 'Actualizar bitácora' : 'Guardar bitácora'}
+							</button>
+						</div>
+					</form>
+				</div>
+			)}
+
+			{/* Lista de bitácoras */}
+			<div className="lista-bitacoras-card">
+				<h2 className="lista-titulo">Historial de bitácoras</h2>
+				<p className="lista-subtitulo">
+					Registro completo de actividades y observaciones del paciente
+				</p>
+
+				{loading && !mostrarFormulario && (
+					<div className="mensaje-loading">Cargando bitácoras...</div>
+				)}
+
+				{!loading && bitacoras.length === 0 && (
+					<div className="mensaje-vacio">
+						📋 No hay bitácoras registradas aún. Crea la primera bitácora para comenzar.
+					</div>
+				)}
+
+				<div className="bitacoras-lista">
+					{bitacoras.map((bitacora) => (
+						<div key={bitacora.id} className="bitacora-item">
+							<div className="bitacora-item-header">
+								<div className="bitacora-fecha-titulo">
+									<div className="bitacora-fecha">
+										<IoCalendarOutline size={16} /> {formatearFechaConDia(bitacora.fecha)}
+									</div>
+									<div className="bitacora-titulo">{bitacora.titulo}</div>
+									<div className="bitacora-cuidador">
+										Por: {bitacora.cuidadorNombre}
+									</div>
+								</div>
+								<div className="bitacora-acciones">
+									<button
+										className="btn-editar"
+										onClick={() => abrirFormularioEditar(bitacora)}
+										title="Editar"
+									>
+										<IoCreateOutline size={20} />
+									</button>
+									<button
+										className="btn-eliminar"
+										onClick={() => confirmarEliminar(bitacora)}
+										title="Eliminar"
+									>
+										<IoTrashOutline size={20} />
+									</button>
+								</div>
+							</div>
+
+							<div className="bitacora-contenido">
+								<div className="contenido-section">
+									<div className="contenido-label">Descripción</div>
+									<div className="contenido-texto">{bitacora.descripcion}</div>
+								</div>
+
+								{bitacora.sintomas && (
+									<div className="contenido-section">
+										<div className="contenido-label">Síntomas</div>
+										<div className="contenido-texto">{bitacora.sintomas}</div>
+									</div>
+								)}
+
+								{bitacora.observaciones && (
+									<div className="contenido-section">
+										<div className="contenido-label">Observaciones</div>
+										<div className="contenido-texto">{bitacora.observaciones}</div>
+									</div>
+								)}
+							</div>
+						</div>
+					))}
+				</div>
+
+				{/* Botón cargar más (para paginación futura) */}
+				{bitacoras.length > 0 && bitacoras.length % 10 === 0 && (
+					<button className="btn-cargar-mas" onClick={cargarBitacoras}>
+						Cargar más bitácoras
+					</button>
+				)}
+			</div>
+
+			{/* Modal de confirmación de eliminación */}
+			{modalEliminar && (
+				<div className="modal-overlay">
+					<div className="modal-confirmar">
+						<h3>¿Eliminar bitácora?</h3>
+						<p>
+							Estás por eliminar la bitácora <strong>"{modalEliminar.titulo}"</strong> del{' '}
+							{formatearFecha(modalEliminar.fecha)}.
+						</p>
+						<p className="modal-advertencia">Esta acción no se puede deshacer.</p>
+						<div className="modal-buttons">
+							<button className="btn btn-secondary" onClick={() => setModalEliminar(null)}>
+								Cancelar
+							</button>
+							<button className="btn btn-danger" onClick={eliminarBitacora} disabled={loading}>
+								{loading ? 'Eliminando...' : 'Eliminar'}
+							</button>
+						</div>
+					</div>
+				</div>
+			)}
+		</div>
+	);
 }

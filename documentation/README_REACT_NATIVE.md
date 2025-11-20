@@ -1,0 +1,1 @@
+# Cuido - React Native Setup

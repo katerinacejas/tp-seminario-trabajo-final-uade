@@ -1,0 +1,230 @@
+/* ===========================
+   PREGUNTAS FRECUENTES - MOBILE FIRST
+   Diseño adaptado de Figma con sistema accordion
+   =========================== */
+
+/* Container principal */
+.preguntas-container {
+	padding: 16px;
+	max-width: 800px;
+	margin: 0 auto;
+	padding-bottom: 100px; /* Espacio para footer nav */
+}
+
+/* ===========================
+   TÍTULO PRINCIPAL
+   =========================== */
+.preguntas-titulo-principal {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	margin-bottom: 24px;
+	padding-bottom: 16px;
+	border-bottom: 2px solid var(--bd);
+}
+
+.preguntas-titulo-principal h1 {
+	font-size: var(--fs-xxl);
+	font-weight: 800;
+	color: var(--ink);
+	margin: 0;
+}
+
+.titulo-icono {
+	font-size: 32px;
+	color: var(--primary);
+	flex-shrink: 0;
+}
+
+/* ===========================
+   LISTA ACCORDION
+   =========================== */
+.preguntas-lista {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+
+/* ===========================
+   ACCORDION ITEM
+   =========================== */
+.accordion-item {
+	background: var(--surf-0);
+	border: 1px solid var(--bd);
+	border-radius: 12px;
+	padding: 16px 20px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+	cursor: pointer;
+}
+
+.accordion-item:hover {
+	background: var(--surf-1);
+	border-color: var(--primary-light);
+	transform: translateY(-1px);
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+}
+
+.accordion-item.abierta {
+	border-color: var(--primary);
+	box-shadow: 0 4px 12px rgba(77, 172, 235, 0.15);
+}
+
+/* ===========================
+   HEADER DEL ACCORDION (Pregunta)
+   =========================== */
+.accordion-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+	cursor: pointer;
+	user-select: none;
+}
+
+.accordion-pregunta {
+	margin: 0;
+	font-size: 15px;
+	font-weight: 700;
+	color: var(--ink);
+	line-height: 1.5;
+	flex: 1;
+}
+
+.accordion-icono {
+	font-size: 24px;
+	color: var(--primary);
+	flex-shrink: 0;
+	transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), color 0.2s;
+}
+
+.accordion-item:hover .accordion-icono {
+	transform: scale(1.1);
+}
+
+.accordion-item.abierta .accordion-icono {
+	color: var(--primary);
+}
+
+/* ===========================
+   RESPUESTA (Contenido colapsable)
+   =========================== */
+.accordion-respuesta-wrapper {
+	max-height: 0;
+	overflow: hidden;
+	opacity: 0;
+	transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+	            opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+	            margin-top 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.accordion-item.abierta .accordion-respuesta-wrapper {
+	max-height: 500px;
+	opacity: 1;
+	margin-top: 12px;
+}
+
+.accordion-respuesta-contenido {
+	padding-top: 12px;
+	border-top: 1px solid var(--bd);
+}
+
+.accordion-respuesta-texto {
+	margin: 0;
+	font-size: 14px;
+	color: var(--muted);
+	line-height: 1.6;
+}
+
+/* ===========================
+   RESPONSIVE
+   =========================== */
+
+/* Tablets */
+@media (min-width: 768px) {
+	.preguntas-container {
+		padding: 20px;
+	}
+
+	.preguntas-titulo-principal h1 {
+		font-size: var(--fs-xxl);
+	}
+
+	.accordion-pregunta {
+		font-size: 16px;
+	}
+
+	.accordion-respuesta-texto {
+		font-size: 15px;
+	}
+
+	.accordion-item {
+		padding: 18px 24px;
+	}
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+	.preguntas-container {
+		padding: 24px;
+	}
+
+	.preguntas-titulo-principal {
+		margin-bottom: 28px;
+	}
+
+	.preguntas-lista {
+		gap: 14px;
+	}
+
+	.accordion-item {
+		padding: 20px 28px;
+	}
+}
+
+/* ===========================
+   ANIMACIONES
+   =========================== */
+@keyframes slideDown {
+	from {
+		opacity: 0;
+		transform: translateY(-8px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+.accordion-item.abierta .accordion-respuesta-contenido {
+	animation: slideDown 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ===========================
+   ACCESIBILIDAD
+   =========================== */
+.accordion-item:focus-visible {
+	outline: 2px solid var(--primary);
+	outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.accordion-item,
+	.accordion-icono,
+	.accordion-respuesta-wrapper {
+		transition: none;
+		animation: none;
+	}
+}
+
+/* ===========================
+   EMPTY STATE (por si acaso)
+   =========================== */
+.preguntas-lista:empty::after {
+	content: "No hay preguntas frecuentes disponibles";
+	display: block;
+	text-align: center;
+	padding: 60px 20px;
+	color: var(--muted);
+	font-size: 14px;
+}

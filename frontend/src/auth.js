@@ -7,17 +7,23 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     const saved = localStorage.getItem("cuido.role");
-    if (saved) setRole(saved);
+    if (saved) setRole(saved.toLowerCase());
   }, []);
 
   const login = (r) => {
-    setRole(r);
-    localStorage.setItem("cuido.role", r);
+    // Normalize role to lowercase for consistent checks
+    const normalizedRole = r?.toLowerCase();
+    setRole(normalizedRole);
+    localStorage.setItem("cuido.role", normalizedRole);
   };
 
   const logout = () => {
     setRole(null);
     localStorage.removeItem("cuido.role");
+    localStorage.removeItem("cuido.token");
+    localStorage.removeItem("cuido.pacienteId");
+    // Redirect to login page
+    window.location.href = "/login";
   };
 
   const value = {
