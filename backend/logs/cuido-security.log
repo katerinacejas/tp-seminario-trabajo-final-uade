@@ -112,3 +112,39 @@
 2025-11-18 13:58:01.172 [http-nio-8082-exec-9] INFO  c.c.c.service.AuthenticationService - Intento de autenticación para email: ramikalinoski@gmail.com
 2025-11-18 13:58:01.274 [http-nio-8082-exec-9] INFO  c.c.c.service.AuthenticationService - Autenticación exitosa para usuario ID: 2, Rol: CUIDADOR
 2025-11-18 14:00:00.780 [scheduling-1] INFO  c.c.c.service.PasswordResetService - Limpieza automática ejecutada: Tokens OTP expirados eliminados
+2025-11-18 18:00:00.205 [scheduling-1] INFO  c.c.c.service.PasswordResetService - Limpieza automática ejecutada: Tokens OTP expirados eliminados
+2025-11-18 18:00:34.038 [http-nio-8082-exec-2] WARN  c.c.c.s.JwtAuthenticationFilter - Error al procesar token JWT: JWT expired at 2025-11-18T17:28:01Z. Current time: 2025-11-18T21:00:34Z, a difference of 12753024 milliseconds.  Allowed clock skew: 0 milliseconds.
+2025-11-18 18:01:10.110 [http-nio-8082-exec-4] INFO  c.c.c.service.AuthenticationService - Intento de autenticación para email: ramikalinoski@gmail.com
+2025-11-18 18:01:10.408 [http-nio-8082-exec-4] INFO  c.c.c.service.AuthenticationService - Autenticación exitosa para usuario ID: 2, Rol: CUIDADOR
+2025-11-18 18:02:06.582 [http-nio-8082-exec-3] INFO  c.c.c.service.AuthenticationService - Intento de autenticación para email: ramikalinoski@gmail.com
+2025-11-18 18:02:06.667 [http-nio-8082-exec-3] INFO  c.c.c.service.AuthenticationService - Autenticación exitosa para usuario ID: 2, Rol: CUIDADOR
+2025-11-18 18:05:19.516 [http-nio-8082-exec-4] INFO  c.c.c.service.AuthenticationService - Intento de registro para email: mariela@test.com, Rol: PACIENTE
+2025-11-18 18:05:19.818 [http-nio-8082-exec-4] INFO  c.c.c.service.AuthenticationService - Usuario registrado exitosamente - ID: 1, Email: mariela@test.com, Rol: PACIENTE
+2025-11-18 18:05:19.847 [http-nio-8082-exec-4] INFO  c.c.c.service.AuthenticationService - Registro de paciente creado exitosamente para usuario ID: 1
+2025-11-18 18:05:24.062 [http-nio-8082-exec-4] INFO  c.c.c.service.AuthenticationService - Email de bienvenida enviado a: mariela@test.com
+2025-11-18 18:06:52.873 [http-nio-8082-exec-4] WARN  c.c.c.s.JwtAuthenticationFilter - Error al procesar token JWT: JWT expired at 2025-11-18T17:12:00Z. Current time: 2025-11-18T21:06:52Z, a difference of 14092858 milliseconds.  Allowed clock skew: 0 milliseconds.
+2025-11-18 18:07:13.497 [http-nio-8082-exec-7] INFO  c.c.c.service.AuthenticationService - Intento de autenticación para email: mariela@test.com
+2025-11-18 18:07:13.754 [http-nio-8082-exec-7] INFO  c.c.c.service.AuthenticationService - Autenticación exitosa para usuario ID: 1, Rol: PACIENTE
+2025-11-18 19:00:03.943 [scheduling-1] INFO  c.c.c.service.PasswordResetService - Limpieza automática ejecutada: Tokens OTP expirados eliminados
+2025-11-18 19:00:37.650 [http-nio-8082-exec-2] WARN  c.c.c.s.JwtAuthenticationFilter - Error al procesar token JWT: JWT expired at 2025-11-18T21:35:24Z. Current time: 2025-11-18T22:00:37Z, a difference of 1513398 milliseconds.  Allowed clock skew: 0 milliseconds.
+2025-11-18 19:26:01.304 [http-nio-8082-exec-4] INFO  c.c.c.service.AuthenticationService - Intento de registro para email: test@test.com, Rol: CUIDADOR
+2025-11-18 19:26:01.738 [http-nio-8082-exec-4] INFO  c.c.c.service.AuthenticationService - Usuario registrado exitosamente - ID: 1, Email: test@test.com, Rol: CUIDADOR
+2025-11-18 19:26:06.090 [http-nio-8082-exec-4] INFO  c.c.c.service.AuthenticationService - Email de bienvenida enviado a: test@test.com
+2025-11-18 19:53:44.283 [http-nio-8082-exec-9] INFO  c.c.c.service.AuthenticationService - Intento de registro para email: mariela@test.com, Rol: PACIENTE
+2025-11-18 19:53:44.772 [http-nio-8082-exec-9] INFO  c.c.c.service.AuthenticationService - Usuario registrado exitosamente - ID: 2, Email: mariela@test.com, Rol: PACIENTE
+2025-11-18 19:53:45.016 [http-nio-8082-exec-9] INFO  c.c.c.service.AuthenticationService - Registro de paciente creado exitosamente para usuario ID: 2
+2025-11-18 19:53:49.533 [http-nio-8082-exec-9] INFO  c.c.c.service.AuthenticationService - Email de bienvenida enviado a: mariela@test.com
+2025-11-18 19:54:12.628 [http-nio-8082-exec-10] INFO  c.c.c.service.AuthenticationService - Intento de autenticación para email: mariela@test.com
+2025-11-18 19:54:13.374 [http-nio-8082-exec-10] INFO  c.c.c.service.AuthenticationService - Autenticación exitosa para usuario ID: 2, Rol: PACIENTE
+2025-11-18 19:54:56.682 [http-nio-8082-exec-8] INFO  c.c.c.service.AuthenticationService - Intento de registro para email: ramikalinoski@gmail.com, Rol: CUIDADOR
+2025-11-18 19:54:56.879 [http-nio-8082-exec-8] INFO  c.c.c.service.AuthenticationService - Usuario registrado exitosamente - ID: 3, Email: ramikalinoski@gmail.com, Rol: CUIDADOR
+2025-11-18 19:54:59.488 [http-nio-8082-exec-8] INFO  c.c.c.service.AuthenticationService - Email de bienvenida enviado a: ramikalinoski@gmail.com
+2025-11-18 19:55:16.661 [http-nio-8082-exec-3] INFO  c.c.c.service.AuthenticationService - Intento de autenticación para email: mariela@test.com
+2025-11-18 19:55:16.838 [http-nio-8082-exec-3] INFO  c.c.c.service.AuthenticationService - Autenticación exitosa para usuario ID: 2, Rol: PACIENTE
+2025-11-18 19:55:43.061 [http-nio-8082-exec-10] INFO  c.c.c.service.AuthenticationService - Intento de autenticación para email: ramikalinoski@gmail.com
+2025-11-18 19:55:43.233 [http-nio-8082-exec-10] INFO  c.c.c.service.AuthenticationService - Autenticación exitosa para usuario ID: 3, Rol: CUIDADOR
+2025-11-18 19:56:01.551 [http-nio-8082-exec-2] INFO  c.c.c.service.AuthenticationService - Intento de autenticación para email: ramikalinoski@gmail.com
+2025-11-18 19:56:01.698 [http-nio-8082-exec-2] WARN  c.c.c.service.AuthenticationService - Fallo de autenticación para email: ramikalinoski@gmail.com
+2025-11-18 19:56:05.559 [http-nio-8082-exec-5] INFO  c.c.c.service.AuthenticationService - Intento de autenticación para email: ramikalinoski@gmail.com
+2025-11-18 19:56:05.732 [http-nio-8082-exec-5] INFO  c.c.c.service.AuthenticationService - Autenticación exitosa para usuario ID: 3, Rol: CUIDADOR
+2025-11-18 20:00:00.421 [scheduling-1] INFO  c.c.c.service.PasswordResetService - Limpieza automática ejecutada: Tokens OTP expirados eliminados
