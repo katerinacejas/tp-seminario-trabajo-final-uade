@@ -64,7 +64,6 @@ export default function MisCuidadores() {
 			await cargarDatos();
 		} catch (error) {
 			console.error("Error enviando invitacion:", error);
-			alert(error.message || "Error al enviar invitacion");
 		} finally {
 			setActionLoading(false);
 		}
