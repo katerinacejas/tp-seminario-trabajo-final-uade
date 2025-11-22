@@ -43,7 +43,7 @@ export function PacienteProvider({ children }) {
 
 				if (role === 'cuidador') {
 					// Para cuidadores: validar que el paciente guardado existe en la lista
-					if (pacientesVinculados.length > 0 && savedPacienteId) {
+					if (savedPacienteId && pacientesVinculados.some(p => p.id === parseInt(savedPacienteId))) {
 						const pacienteExiste = pacientesVinculados.some(p => p.id === parseInt(savedPacienteId));
 
 						if (pacienteExiste) {
@@ -125,6 +125,7 @@ export function PacienteProvider({ children }) {
 	// Función para recargar la lista de pacientes (sin auto-selección)
 	const cargarListaPacientes = async () => {
 		try {
+			console.log('ingrese al cargarListaPacientes de PacienteContext.js')
 			const role = localStorage.getItem('cuido.role')?.toLowerCase();
 
 			if (!role) {
@@ -143,6 +144,7 @@ export function PacienteProvider({ children }) {
 
 			setPacientes(data);
 		} catch (error) {
+			console.log('lo que devuelve el paciente context en cargar lista pacientes es:', role);
 			console.error('Error al cargar lista de pacientes:', error);
 			setPacientes([]);
 		}
@@ -164,6 +166,7 @@ export function PacienteProvider({ children }) {
 		seleccionarPaciente,
 		limpiarPaciente,
 		recargarPaciente: () => pacienteSeleccionado && cargarPaciente(pacienteSeleccionado.id),
+		cargarListaPacientes,   
 	};
 
 	return <PacienteContext.Provider value={value}>{children}</PacienteContext.Provider>;

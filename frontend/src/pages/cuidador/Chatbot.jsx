@@ -15,6 +15,7 @@ export default function Chatbot() {
 
 	// Cargar historial al montar y cuando cambia el paciente
 	useEffect(() => {
+		console.log('paciente seleccionado del useEffect de Chatbot tiene: ', pacienteSeleccionado);
 		if (pacienteSeleccionado) {
 			cargarHistorial();
 			// Restaurar borrador del input

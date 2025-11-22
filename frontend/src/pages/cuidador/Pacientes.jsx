@@ -27,7 +27,7 @@ import {
 import "./Pacientes.css";
 
 export default function Pacientes() {
-	const { pacienteSeleccionado, pacientes, seleccionarPaciente } = usePaciente();
+	const { pacienteSeleccionado, pacientes, seleccionarPaciente, cargarListaPacientes } = usePaciente();
 
 	const [invitacionesPendientes, setInvitacionesPendientes] = useState([]);
 	const [pacienteDetalle, setPacienteDetalle] = useState(null);
@@ -91,11 +91,16 @@ export default function Pacientes() {
 
 			// Cargar información completa del paciente
 			const pacienteData = await pacientesAPI.getById(pacienteSeleccionado.id);
-			setPacienteDetalle(pacienteData);
+			if (pacienteSeleccionado.estadoRelacion == 'ACEPTADO') {
+				setPacienteDetalle(pacienteData);
+				// Cargar contactos de emergencia
+				const contactos = await contactosEmergenciaAPI.getByPaciente(pacienteSeleccionado.id);
+				setContactosEmergencia(contactos || []);
+			}
+			else {
+				return;
+			}
 
-			// Cargar contactos de emergencia
-			const contactos = await contactosEmergenciaAPI.getByPaciente(pacienteSeleccionado.id);
-			setContactosEmergencia(contactos || []);
 		} catch (err) {
 			console.error("Error al cargar datos del paciente:", err);
 			setError("Error al cargar la información del paciente");
@@ -108,12 +113,17 @@ export default function Pacientes() {
 		try {
 			await cuidadoresPacientesAPI.aceptarInvitacion(invitacionId);
 			alert("Invitación aceptada exitosamente");
-			// Recargar invitaciones
-			if (cuidadorId) {
-				await cargarInvitaciones(cuidadorId);
+
+			const usuario = await usuariosAPI.getMe();
+
+			// 1) actualizar la lista del contexto
+			await cargarListaPacientes();
+
+			// 2) seleccionar al nuevo paciente del context
+			const vinculadosActualizados = await cuidadoresPacientesAPI.getPacientesVinculados(usuario.id);
+			if (vinculadosActualizados.length > 0) {
+				seleccionarPaciente(vinculadosActualizados[0].id);
 			}
-			// Recargar la lista de pacientes (esto actualizará el contexto)
-			window.location.reload();
 		} catch (err) {
 			console.error("Error al aceptar invitación:", err);
 			alert(err.message || "Error al aceptar la invitación");
@@ -194,9 +204,8 @@ export default function Pacientes() {
 						{pacientes.map((paciente) => (
 							<button
 								key={paciente.id}
-								className={`paciente-tab ${
-									pacienteSeleccionado?.id === paciente.id ? "active" : ""
-								}`}
+								className={`paciente-tab ${pacienteSeleccionado?.id === paciente.id ? "active" : ""
+									}`}
 								onClick={() => seleccionarPaciente(paciente.id)}
 							>
 								<IoPerson />

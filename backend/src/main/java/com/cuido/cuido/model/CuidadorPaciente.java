@@ -38,7 +38,7 @@ public class CuidadorPaciente {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "estado", nullable = false)
-    private EstadoRelacion estado = EstadoRelacion.PENDIENTE;
+    private EstadoRelacion estado;
 
     @Column(name = "fecha_invitacion", nullable = false, updatable = false)
     private LocalDateTime fechaInvitacion;

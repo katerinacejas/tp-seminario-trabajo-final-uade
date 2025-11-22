@@ -18,4 +18,5 @@ public class PacienteResponseDTO {
     private List<String> notasImportantes;
     private String obraSocial;
     private String numeroAfiliado;
+	private String estadoRelacion;
 }
