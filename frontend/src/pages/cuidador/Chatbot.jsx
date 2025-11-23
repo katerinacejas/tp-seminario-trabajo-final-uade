@@ -217,7 +217,7 @@ export default function Chatbot() {
 		<div className="chatbot-container">
 			{/* Header con botón de borrar historial */}
 			<div className="chatbot-header">
-				<h3>Chat con {pacienteSeleccionado.nombreCompleto}</h3>
+				<h3>Chat sobre el paciente: {pacienteSeleccionado.nombreCompleto}</h3>
 				{mensajes.length > 1 && (
 					<button
 						className="chatbot-btn-borrar"

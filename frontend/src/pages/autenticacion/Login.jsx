@@ -1,8 +1,15 @@
+// src/pages/autenticacion/Login.jsx
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../../auth";
 import { authAPI } from "../../services/api";
-import { IoMailOutline, IoLockClosedOutline, IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
+import {
+	IoMailOutline,
+	IoLockClosedOutline,
+	IoEyeOutline,
+	IoEyeOffOutline,
+} from "react-icons/io5";
+import "./Login.css";
 
 export default function Login() {
 	const [email, setEmail] = useState("");
@@ -41,166 +48,141 @@ export default function Login() {
 			}
 		} catch (err) {
 			console.error("Error en login:", err);
-			setError(err.response?.data?.message || "Credenciales inválidas. Por favor, verifica tu email y contraseña.");
+			setError(
+				err.response?.data?.message ||
+					"Credenciales inválidas. Por favor, verifica tu email y contraseña."
+			);
 		} finally {
 			setLoading(false);
 		}
 	};
 
 	return (
-		<div className="page-center">
-			<div className="auth-card">
-				<div className="auth-head">
-					<img src="/logo.png" alt="Cuido" className="auth-logo" />
-					<h1 className="auth-title">Iniciar sesión</h1>
-					<p className="auth-sub">Cuidadores y pacientes en un mismo lugar</p>
-				</div>
-
-				<form className="auth-form" onSubmit={submit}>
-					{error && (
-						<div style={{
-							background: "var(--danger-100)",
-							border: "1px solid var(--danger)",
-							color: "var(--danger)",
-							padding: "12px 14px",
-							borderRadius: "10px",
-							fontSize: "14px",
-							marginBottom: "16px"
-						}}>
-							{error}
-						</div>
-					)}
-
-					<div className="form-row">
-						<label>
-							Email <span style={{ color: "var(--danger)" }}>*</span>
-						</label>
-						<div style={{ position: "relative" }}>
-							<IoMailOutline style={{
-								position: "absolute",
-								left: "14px",
-								top: "50%",
-								transform: "translateY(-50%)",
-								color: "var(--muted)",
-								fontSize: "18px"
-							}} />
-							<input
-								className="input"
-								value={email}
-								onChange={e => setEmail(e.target.value)}
-								type="email"
-								required
-								placeholder="tu@email.com"
-								disabled={loading}
-								style={{
-									paddingLeft: "44px",
-									fontSize: "15px",
-									borderRadius: "10px"
-								}}
-							/>
-						</div>
+		<div className="login-screen">
+			<div className="login-card">
+				<header className="login-hero">
+					<div className="login-hero-top">
+						<span className="login-skip"> </span>
 					</div>
 
-					<div className="form-row">
-						<label>
-							Contraseña <span style={{ color: "var(--danger)" }}>*</span>
-						</label>
-						<div style={{ position: "relative" }}>
-							<IoLockClosedOutline style={{
-								position: "absolute",
-								left: "14px",
-								top: "50%",
-								transform: "translateY(-50%)",
-								color: "var(--muted)",
-								fontSize: "18px"
-							}} />
-							<input
-								className="input"
-								value={password}
-								onChange={e => setPassword(e.target.value)}
-								type={showPassword ? "text" : "password"}
-								required
-								placeholder="Ingresa tu contraseña"
-								disabled={loading}
-								minLength={6}
+					<div className="login-avatar">
+						<img src="/logo.png" alt="Cuido" />
+					</div>
+
+					<h1 className="login-title">¡Bienvenido/a de nuevo!</h1>
+					<p className="login-subtitle">
+						Cuidadores y pacientes en un mismo lugar
+					</p>
+				</header>
+
+				<main className="login-body">
+					<form className="login-form" onSubmit={submit}>
+						{error && <div className="auth-error">{error}</div>}
+
+						{/* Email */}
+						<div className="login-field">
+							<label className="login-label">Email</label>
+							<div style={{ position: "relative" }}>
+								<IoMailOutline
+									style={{
+										position: "absolute",
+										left: "12px",
+										top: "50%",
+										transform: "translateY(-50%)",
+										color: "var(--muted)",
+										fontSize: "18px",
+									}}
+								/>
+								<input
+									className="login-input"
+									name="email"
+									value={email}
+									onChange={(e) => setEmail(e.target.value)}
+									type="email"
+									required
+									placeholder="usuario@correo.com"
+									disabled={loading}
+									style={{ paddingLeft: "40px" }}
+								/>
+							</div>
+						</div>
+
+						{/* Contraseña con ojito */}
+						<div className="login-field">
+							<label className="login-label">Contraseña</label>
+							<div className="login-pass-wrapper">
+								<IoLockClosedOutline
+									style={{
+										position: "absolute",
+										left: "12px",
+										top: "50%",
+										transform: "translateY(-50%)",
+										color: "var(--muted)",
+										fontSize: "18px",
+									}}
+								/>
+								<input
+									className="login-input login-input-pass"
+									name="password"
+									value={password}
+									onChange={(e) => setPassword(e.target.value)}
+									type={showPassword ? "text" : "password"}
+									required
+									placeholder="••••••••"
+									minLength={6}
+									disabled={loading}
+									style={{ paddingLeft: "40px", paddingRight: "44px" }}
+								/>
+								<button
+									type="button"
+									className="login-eye-btn"
+									onClick={() => setShowPassword((v) => !v)}
+									aria-label={
+										showPassword ? "Ocultar contraseña" : "Mostrar contraseña"
+									}
+								>
+									{showPassword ? <IoEyeOffOutline /> : <IoEyeOutline />}
+								</button>
+							</div>
+
+							<div
 								style={{
-									paddingLeft: "44px",
-									paddingRight: "44px",
-									fontSize: "15px",
-									borderRadius: "10px"
-								}}
-							/>
-							<button
-								type="button"
-								onClick={() => setShowPassword(!showPassword)}
-								style={{
-									position: "absolute",
-									right: "14px",
-									top: "50%",
-									transform: "translateY(-50%)",
-									background: "transparent",
-									border: "none",
-									cursor: "pointer",
-									padding: "4px",
-									color: "var(--muted)",
-									fontSize: "18px",
-									display: "flex",
-									alignItems: "center"
+									textAlign: "right",
+									marginTop: "4px",
+									fontSize: "14px",
 								}}
 							>
-								{showPassword ? <IoEyeOffOutline /> : <IoEyeOutline />}
-							</button>
+								<Link
+									to="/forgot-password"
+									style={{
+										color: "var(--primary)",
+										fontWeight: "600",
+										textDecoration: "none",
+									}}
+								>
+									¿Olvidaste tu contraseña?
+								</Link>
+							</div>
 						</div>
-					</div>
 
-					<div style={{ textAlign: "right", marginBottom: "8px" }}>
-						<Link
-							to="/forgot-password"
-							style={{
-								color: "var(--primary)",
-								fontSize: "14px",
-								fontWeight: "600",
-								textDecoration: "none"
-							}}
-						>
-							¿Olvidaste tu contraseña?
-						</Link>
-					</div>
+						<div className="login-footer">
+							<button
+								className="login-btn-primary"
+								type="submit"
+								disabled={loading}
+							>
+								{loading ? "Ingresando..." : "Iniciar sesión"}
+							</button>
 
-					<button
-						className="btn auth-primary"
-						type="submit"
-						disabled={loading}
-						style={{
-							width: "100%",
-							marginTop: "8px",
-							padding: "12px 18px",
-							fontSize: "16px",
-							fontWeight: "700"
-						}}
-					>
-						{loading ? "Ingresando..." : "Ingresar"}
-					</button>
-
-					<div style={{
-						textAlign: "center",
-						marginTop: "20px",
-						color: "var(--muted)",
-						fontSize: "14px"
-					}}>
-						¿No tienes cuenta?{" "}
-						<Link
-							to="/register"
-							style={{
-								color: "var(--primary)",
-								fontWeight: "700",
-								textDecoration: "none"
-							}}
-						>
-							Crear cuenta
-						</Link>
-					</div>
-				</form>
+							<p className="login-text-small">
+								¿No tenés cuenta?{" "}
+								<Link to="/register" className="login-link-strong">
+									Crear cuenta
+								</Link>
+							</p>
+						</div>
+					</form>
+				</main>
 			</div>
 		</div>
 	);

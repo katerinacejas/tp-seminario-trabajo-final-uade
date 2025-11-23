@@ -277,7 +277,7 @@ export default function HomeCuidador() {
 			<div className="home-header-card">
 				<h1 className="home-saludo">¡Hola, {cuidadorNombre}!</h1>
 				<p className="home-paciente">
-					Paciente: <strong>{pacienteSeleccionado.nombreCompleto}</strong>
+					Paciente seleccionado: <strong>{pacienteSeleccionado.nombreCompleto}</strong>
 				</p>
 			</div>
 

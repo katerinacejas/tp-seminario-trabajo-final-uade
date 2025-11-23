@@ -126,7 +126,6 @@ export default function Pacientes() {
 			}
 		} catch (err) {
 			console.error("Error al aceptar invitación:", err);
-			alert(err.message || "Error al aceptar la invitación");
 		}
 	};
 

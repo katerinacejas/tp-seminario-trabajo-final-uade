@@ -10,6 +10,8 @@ import Login from "./pages/autenticacion/Login";
 import Register from "./pages/autenticacion/Register";
 import ForgotPassword from "./pages/autenticacion/ForgotPassword";
 import ResetPassword from "./pages/autenticacion/ResetPassword";
+import Welcome from "./pages/autenticacion/Welcome"; // 👈 NUEVO
+
 import HomeCuidador from "./pages/cuidador/HomeCaregiver";
 import HomePaciente from "./pages/paciente/HomePatient";
 import Bitacora from "./pages/cuidador/Bitacora";
@@ -28,7 +30,10 @@ import FooterNav from "./components/FooterNav";
 
 function RequireRole({ allow, children }) {
 	const { role } = useAuth();
-	if (!role) return <Navigate to="/login" replace />;
+
+	// 👇 Si no hay sesión, mandamos a Welcome (no directo a Login)
+	if (!role) return <Navigate to="/welcome" replace />;
+
 	if (!allow.includes(role)) {
 		return <Navigate to={role === "cuidador" ? "/" : "/paciente"} replace />;
 	}
@@ -80,6 +85,9 @@ function AppRoutes() {
 
 	return (
 		<Routes>
+			{/* Landing pública */}
+			<Route path="/welcome" element={<Welcome />} />
+
 			{/* Auth */}
 			<Route path="/login" element={<Login />} />
 			<Route path="/register" element={<Register />} />
@@ -159,6 +167,16 @@ function AppRoutes() {
 					</RequireRole>
 				}
 			/>
+			<Route
+				path="/preguntas-frecuentes"
+				element={
+					<RequireRole allow={["cuidador"]}>
+						<AppShell>
+							<PreguntasFrecuentes />
+						</AppShell>
+					</RequireRole>
+				}
+			/>
 
 			{/* PERFIL compartido (cuidador y paciente) */}
 			<Route
@@ -218,7 +236,8 @@ function AppRoutes() {
 							replace
 						/>
 					) : (
-						<Navigate to="/login" replace />
+						// 👇 si no hay sesión, cualquier ruta desconocida va a Welcome
+						<Navigate to="/welcome" replace />
 					)
 				}
 			/>

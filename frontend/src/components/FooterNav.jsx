@@ -26,7 +26,7 @@ export default function FooterNav() {
 	const handleLogout = () => {
 		logout();
 		setOpen(false);
-		nav("/login", { replace: true });
+		nav("/welcome", { replace: true });
 	};
 
 	// Cerrar menú al hacer click fuera

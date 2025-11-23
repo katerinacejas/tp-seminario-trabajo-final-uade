@@ -174,10 +174,8 @@ export default function PerfilCuidador() {
 	};
 
 	const handleCerrarSesion = () => {
-		if (window.confirm('¿Estás seguro de que deseas cerrar sesión?')) {
-			logout();
-			navigate('/login', { replace: true });
-		}
+		logout();
+		navigate('/welcome', { replace: true });
 	};
 
 	const handleInputChange = (e) => {
@@ -487,10 +485,10 @@ export default function PerfilCuidador() {
 						<div className="form-value">
 							{usuario?.fechaNacimiento
 								? new Date(usuario.fechaNacimiento).toLocaleDateString('es-AR', {
-										year: 'numeric',
-										month: 'long',
-										day: 'numeric',
-								  })
+									year: 'numeric',
+									month: 'long',
+									day: 'numeric',
+								})
 								: 'No especificada'}
 						</div>
 					) : (
