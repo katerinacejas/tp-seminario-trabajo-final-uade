@@ -26,6 +26,7 @@ from routers import chatbot
 from services.llm_service import LLMService
 from models.api_models import HealthResponse
 import pytesseract
+from create_table import create_table
 
 
 @asynccontextmanager
@@ -42,6 +43,8 @@ async def lifespan(app: FastAPI):
         # Verificar conexión a BD
         await init_db()
         logger.info("✅ Conexión a MySQL establecida")
+        await create_table()
+        logger.info("🛠️ Tabla conversaciones_chatbot verificada/creada")
 
         # Verificar LM Studio
         llm = LLMService()
