@@ -23,6 +23,7 @@ import Pacientes from "./pages/cuidador/Pacientes";
 import MisCuidadores from "./pages/paciente/MisCuidadores";
 import TopBar from "./components/TopBar";
 import FooterNav from "./components/FooterNav";
+import PerfilPaciente from "./pages/paciente/PerfilPaciente";
 
 function RequireRole({ allow, children }) {
   const { role } = useAuth();
@@ -104,6 +105,7 @@ function AppRoutes() {
 	  {/* SOLO paciente (ejemplo) */}
 	  <Route path="/mis-cuidadores" element={<RequireRole allow={["paciente"]}><AppShell><MisCuidadores/></AppShell></RequireRole>} />
 	  <Route path="/invitar-cuidador" element={<RequireRole allow={["paciente"]}><AppShell><div className="card"><h2>Invitar cuidador</h2></div></AppShell></RequireRole>} />
+	  <Route path="/perfil" element={<RequireRole allow={["paciente"]}><AppShell><PerfilPaciente/></AppShell></RequireRole>} />
 
 	  {/* fallback */}
 	  <Route
