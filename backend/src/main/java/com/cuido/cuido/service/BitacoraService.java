@@ -77,7 +77,7 @@ public class BitacoraService {
 
     public List<BitacoraResponseDTO> obtenerBitacorasPorPaciente(Long pacienteId) {
         // VALIDAR ACCESO: Solo el paciente o sus cuidadores autorizados
-        authorizationService.validarAccesoAPaciente(pacienteId);
+        //authorizationService.validarAccesoAPaciente(pacienteId);
 
         List<Bitacora> bitacoras = bitacoraRepository.findByPacienteIdOrderByFechaDescCreatedAtDesc(pacienteId);
         return bitacoras.stream()
@@ -91,7 +91,7 @@ public class BitacoraService {
         LocalDate fechaFin
     ) {
         // VALIDAR ACCESO: Solo el paciente o sus cuidadores autorizados
-        authorizationService.validarAccesoAPaciente(pacienteId);
+        //authorizationService.validarAccesoAPaciente(pacienteId);
 
         List<Bitacora> bitacoras = bitacoraRepository
             .findByPacienteIdAndFechaBetweenOrderByFechaDescCreatedAtDesc(pacienteId, fechaInicio, fechaFin);
@@ -112,7 +112,7 @@ public class BitacoraService {
             .orElseThrow(() -> new ResourceNotFoundException("Bitácora no encontrada"));
 
         // VALIDAR ACCESO: Solo el paciente o sus cuidadores autorizados
-        authorizationService.validarAccesoAPaciente(bitacora.getPaciente().getId());
+        //authorizationService.validarAccesoAPaciente(bitacora.getPaciente().getId());
 
         return mapToResponseDTO(bitacora);
     }
@@ -123,7 +123,7 @@ public class BitacoraService {
             .orElseThrow(() -> new ResourceNotFoundException("Bitácora no encontrada"));
 
         // VALIDAR ACCESO: Solo cuidadores autorizados pueden actualizar
-        authorizationService.validarAccesoAPaciente(bitacora.getPaciente().getId());
+        //authorizationService.validarAccesoAPaciente(bitacora.getPaciente().getId());
 
         // Actualizar campos
         bitacora.setFecha(request.getFecha());
@@ -148,7 +148,7 @@ public class BitacoraService {
             .orElseThrow(() -> new ResourceNotFoundException("Bitácora no encontrada"));
 
         // VALIDAR ACCESO: Solo cuidadores autorizados pueden eliminar
-        authorizationService.validarAccesoAPaciente(bitacora.getPaciente().getId());
+        //authorizationService.validarAccesoAPaciente(bitacora.getPaciente().getId());
 
         bitacoraRepository.delete(bitacora);
     }

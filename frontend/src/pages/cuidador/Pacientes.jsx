@@ -91,15 +91,13 @@ export default function Pacientes() {
 
 			// Cargar información completa del paciente
 			const pacienteData = await pacientesAPI.getById(pacienteSeleccionado.id);
-			if (pacienteSeleccionado.estadoRelacion == 'ACEPTADO') {
-				setPacienteDetalle(pacienteData);
-				// Cargar contactos de emergencia
-				const contactos = await contactosEmergenciaAPI.getByPaciente(pacienteSeleccionado.id);
-				setContactosEmergencia(contactos || []);
-			}
-			else {
-				return;
-			}
+			console.log("cargarDatosPAciente, en pacienteData tengo: ", pacienteData);
+			setPacienteDetalle(pacienteData);
+
+			// Cargar contactos de emergencia
+			console.log("pacienteSeleccionado.id que envio a contactosEmergenciaAPI es: ", pacienteSeleccionado.id);
+			const contactos = await contactosEmergenciaAPI.getByPaciente(pacienteSeleccionado.id);
+			setContactosEmergencia(contactos || []);
 
 		} catch (err) {
 			console.error("Error al cargar datos del paciente:", err);

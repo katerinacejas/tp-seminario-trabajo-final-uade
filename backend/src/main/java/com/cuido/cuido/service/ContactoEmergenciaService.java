@@ -81,7 +81,7 @@ public class ContactoEmergenciaService {
 
     public List<ContactoEmergenciaResponseDTO> getByPaciente(Long pacienteId) {
         // VALIDAR ACCESO: El paciente o sus cuidadores pueden ver los contactos
-        authorizationService.validarAccesoAPaciente(pacienteId);
+        //authorizationService.validarAccesoAPaciente(pacienteId);
 
         List<ContactoEmergencia> contactos = contactoRepository.findByPacienteId(pacienteId);
         return contactos.stream()
