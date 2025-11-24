@@ -253,14 +253,10 @@ export default function Documentos() {
 
 		try {
 			if (modoEdicion) {
-				// Edición: solo actualizar metadatos (nombre, tipo, descripción)
-				// Nota: El backend actual NO soporta PUT, así que eliminamos y recreamos
-				// O podríamos solo mostrar un mensaje que no se puede editar
 				setError('La edición de documentos no está soportada actualmente. Por favor, elimina y sube nuevamente.');
 				setLoading(false);
 				return;
 			} else {
-				// Creación: subir nuevo documento
 				const formDataUpload = new FormData();
 				formDataUpload.append('archivo', archivoSeleccionado);
 				formDataUpload.append('pacienteId', pacienteId);
@@ -272,7 +268,6 @@ export default function Documentos() {
 
 				await documentosAPI.subir(formDataUpload);
 
-				// Recargar documentos
 				await cargarDocumentos();
 				cerrarModalForm();
 			}
@@ -388,7 +383,7 @@ export default function Documentos() {
 				<div className="header-content">
 					<div>
 						<h1>Documentos</h1>
-						<p className="header-subtitulo">De {pacienteSeleccionado?.nombre || 'Paciente'}</p>
+						<p className="header-subtitulo">De {pacienteSeleccionado?.nombreCompleto || 'Paciente'}</p>
 					</div>
 					<button className="btn-info-icon" title="Información">
 						<IoInformationCircleOutline size={24} />
@@ -405,8 +400,8 @@ export default function Documentos() {
 				</button>
 
 				{/* Controles: Ordenamiento y Filtros */}
-				<div className="controles-container">
-					<div className="ordenamiento">
+				<div className="documentos-controles">
+					<div className="documentos-ordenamiento">
 						<label>Ordenar por:</label>
 						<select value={ordenamiento} onChange={(e) => setOrdenamiento(e.target.value)}>
 							<option value="DESC">Más recientes primero</option>
@@ -414,34 +409,34 @@ export default function Documentos() {
 						</select>
 					</div>
 
-					<div className="filtros">
+					<div className="documentos-filtros">
 						<label>Tipo:</label>
 						<button
-							className={`filtro-button ${tipoFiltro === 'TODOS' ? 'active' : ''}`}
+							className={`documentos-filtro-button ${tipoFiltro === 'TODOS' ? 'active' : ''}`}
 							onClick={() => setTipoFiltro('TODOS')}
 						>
 							Todos
 						</button>
 						<button
-							className={`filtro-button ${tipoFiltro === 'FICHA_MEDICA' ? 'active' : ''}`}
+							className={`documentos-filtro-button ${tipoFiltro === 'FICHA_MEDICA' ? 'active' : ''}`}
 							onClick={() => setTipoFiltro('FICHA_MEDICA')}
 						>
 							Ficha Médica
 						</button>
 						<button
-							className={`filtro-button ${tipoFiltro === 'RECETA' ? 'active' : ''}`}
+							className={`documentos-filtro-button ${tipoFiltro === 'RECETA' ? 'active' : ''}`}
 							onClick={() => setTipoFiltro('RECETA')}
 						>
 							Receta
 						</button>
 						<button
-							className={`filtro-button ${tipoFiltro === 'ESTUDIO' ? 'active' : ''}`}
+							className={`documentos-filtro-button ${tipoFiltro === 'ESTUDIO' ? 'active' : ''}`}
 							onClick={() => setTipoFiltro('ESTUDIO')}
 						>
 							Estudio
 						</button>
 						<button
-							className={`filtro-button ${tipoFiltro === 'OTRO' ? 'active' : ''}`}
+							className={`documentos-filtro-button ${tipoFiltro === 'OTRO' ? 'active' : ''}`}
 							onClick={() => setTipoFiltro('OTRO')}
 						>
 							Otro
@@ -516,9 +511,9 @@ export default function Documentos() {
 								)}
 							</div>
 
-							<div className="card-acciones">
+							<div className="card-accionesDocu">
 								<button
-									className="btn-accion btn-ver"
+									className="btn-accionDocu btn-verDocu"
 									onClick={() => window.open(documento.downloadUrl, '_blank')}
 									title="Ver/Descargar"
 								>
@@ -526,7 +521,7 @@ export default function Documentos() {
 									<span>Ver/Descargar</span>
 								</button>
 								<button
-									className="btn-accion btn-eliminar"
+									className="btn-accionDocu btn-eliminardocu"
 									onClick={() => confirmarEliminar(documento)}
 									title="Eliminar"
 								>

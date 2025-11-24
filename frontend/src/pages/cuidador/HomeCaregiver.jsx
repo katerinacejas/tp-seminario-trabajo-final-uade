@@ -102,11 +102,13 @@ export default function HomeCuidador() {
 			const hoy = new Date();
 			const diaSemanaNombre = ['D', 'L', 'M', 'X', 'J', 'V', 'S'][hoy.getDay()];
 			const fechaHoy = hoy.toISOString().split('T')[0];
+			console.log(fechaHoy);
 
 			const todosMedicamentos = await medicamentosAPI.getByPaciente(
 				pacienteSeleccionado.id,
 				true // Solo activos
 			);
+			console.log("todos los medicamentos que recibo del cargarMedicamentosHoy es: ", todosMedicamentos);
 
 			// Filtrar medicamentos que aplican hoy
 			const medicamentosHoyTemp = todosMedicamentos.filter((med) => {
@@ -118,7 +120,7 @@ export default function HomeCuidador() {
 				if (!med.horarios || med.horarios.length === 0) return false;
 
 				return med.horarios.some((horario) =>
-					horario.diasSemana && horario.diasSemana.includes(diaSemanaNombre)
+					(horario.diasSemana && horario.diasSemana.includes(diaSemanaNombre))
 				);
 			});
 
