@@ -7,6 +7,15 @@
 
 /* Tokens */
 :root {
+	--bg: #031525;
+	--bg-accent: #0f6be0;
+	--ink: #0f172a;
+	--muted: #6b7280;
+	--brand: #14c4f5;
+	--brand-dark: #0f9bd0;
+	--bd: rgba(148, 163, 184, 0.5);
+	--surf-0: #020617;
+	--danger-panic: #e86d6f;
 	/* Fondo y contraste */
 	--bg: #eef3f9;
 	/* más contraste con cards */
@@ -939,83 +948,104 @@ hr {
 
 /* ============ LOGIN POLISH ============ */
 .page-center {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: clamp(14px, 3vw, 24px);
-  overflow-y: auto;
+	min-height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: clamp(14px, 3vw, 24px);
+	overflow-y: auto;
 }
 
 .auth-card {
-  width: 100%;
-  max-width: 420px;
-  background: linear-gradient(180deg, #ffffff, #f8fbff);
-  border: 1px solid var(--bd);
-  border-radius: var(--r-xl);
-  box-shadow: var(--shadow-md);
-  padding: clamp(18px, 2.2vw, 26px);
+	width: 100%;
+	max-width: 420px;
+	background: linear-gradient(180deg, #ffffff, #f8fbff);
+	border: 1px solid var(--bd);
+	border-radius: var(--r-xl);
+	box-shadow: var(--shadow-md);
+	padding: clamp(18px, 2.2vw, 26px);
 }
 
 .auth-head {
-  text-align: center;
-  margin-bottom: 12px;
+	text-align: center;
+	margin-bottom: 12px;
 }
-.auth-logo {
-  width: 64px; height: 64px; border-radius: 14px;
-  box-shadow: 0 2px 0 rgba(0,0,0,.04), 0 8px 20px rgba(30, 144, 255, .15);
-}
-.auth-title {
-  margin: 10px 0 2px 0;
-  font-size: var(--fs-xxl);
-  letter-spacing: .3px;
-}
-.auth-sub { color: var(--muted); margin-bottom: 8px; }
 
-.auth-form .form-row { margin-bottom: 12px; }
-.auth-actions {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 12px;
-  align-items: center;
-  margin-top: 6px;
+.auth-logo {
+	width: 64px;
+	height: 64px;
+	border-radius: 14px;
+	box-shadow: 0 2px 0 rgba(0, 0, 0, .04), 0 8px 20px rgba(30, 144, 255, .15);
 }
-@media (max-width: 420px){
-  .auth-actions { grid-template-columns: 1fr; }
+
+.auth-title {
+	margin: 10px 0 2px 0;
+	font-size: var(--fs-xxl);
+	letter-spacing: .3px;
+}
+
+.auth-sub {
+	color: var(--muted);
+	margin-bottom: 8px;
+}
+
+.auth-form .form-row {
+	margin-bottom: 12px;
+}
+
+.auth-actions {
+	display: grid;
+	grid-template-columns: 1fr auto;
+	gap: 12px;
+	align-items: center;
+	margin-top: 6px;
+}
+
+@media (max-width: 420px) {
+	.auth-actions {
+		grid-template-columns: 1fr;
+	}
 }
 
 /* Inputs más altos y consistentes */
-.auth-card .input, .auth-card select {
-  padding: 12px 14px;
-  border-radius: 12px;
-  font-size: 1rem;
+.auth-card .input,
+.auth-card select {
+	padding: 12px 14px;
+	border-radius: 12px;
+	font-size: 1rem;
 }
 
 /* Botón principal más "botón" */
 .btn.auth-primary {
-  --bg: var(--gradient-primary);
-  --fg: #fff; --bd: transparent;
-  border-radius: 999px;
-  padding: 12px 18px;
-  box-shadow: 0 10px 26px rgba(77, 172, 235, .28);
+	--bg: var(--gradient-primary);
+	--fg: #fff;
+	--bd: transparent;
+	border-radius: 999px;
+	padding: 12px 18px;
+	box-shadow: 0 10px 26px rgba(77, 172, 235, .28);
 }
 
 /* Link “Crear cuenta” con estilo de botón fantasma */
 .auth-link {
-  text-decoration: none;
-  font-weight: 800;
-  padding: 10px 12px;
-  border-radius: 12px;
-  color: var(--ink);
+	text-decoration: none;
+	font-weight: 800;
+	padding: 10px 12px;
+	border-radius: 12px;
+	color: var(--ink);
 }
-.auth-link:hover { background: #eef6ff; }
+
+.auth-link:hover {
+	background: #eef6ff;
+}
 
 /* Evitar que el fondo gigante “ahogue” el card */
 body.login-view {
-  background:
-    radial-gradient(900px 360px at 65% -10%, var(--bg-hero), transparent 60%),
-    var(--bg);
+	background:
+		radial-gradient(900px 360px at 65% -10%, var(--bg-hero), transparent 60%),
+		var(--bg);
 }
 
 /* Quita márgenes raros en el form */
-.auth-card form { margin: 0; }
+.auth-card form {
+	margin: 0;
+}

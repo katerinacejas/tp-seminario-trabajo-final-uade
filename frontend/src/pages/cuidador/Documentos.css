@@ -14,7 +14,7 @@
 	justify-content: space-between;
 	align-items: center;
 	padding: 20px;
-	margin-bottom: 20px;
+	margin-bottom: 10px;
 }
 
 .header-content {
@@ -75,7 +75,7 @@
 	font-weight: 600;
 	cursor: pointer;
 	transition: all 0.2s;
-	margin-bottom: 20px;
+	margin-bottom: 16px;
 	width: 100%;
 	justify-content: center;
 }
@@ -88,17 +88,28 @@
 	font-size: 18px;
 }
 
-/* Filtros y Ordenamiento */
-.controles-container {
+/* ===========================
+   FILTROS Y ORDENAMIENTO
+   =========================== */
+
+/* Caja que contiene ambos bloques */
+.documentos-controles {
 	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	margin-bottom: 20px;
-	flex-wrap: wrap;
-	gap: 12px;
+	flex-direction: column;
+	/* arriba ordenamiento, abajo filtros */
+	align-items: stretch;
+	gap: 10px;
+	margin-bottom: 16px;
+	padding: 12px 16px;
+	background: #f9fafb;
+	border-radius: 10px;
+	border: 1px solid #e5e7eb;
+	width: 100%;
+	box-sizing: border-box;
 }
 
-.ordenamiento {
+/* Fila: Ordenar por [select] */
+.documentos-ordenamiento {
 	display: flex;
 	align-items: center;
 	gap: 8px;
@@ -106,59 +117,71 @@
 	color: #6b7280;
 }
 
-.ordenamiento label {
+.documentos-ordenamiento label {
 	font-weight: 600;
+	white-space: nowrap;
 }
 
-.ordenamiento select {
-	padding: 6px 12px;
-	border: 2px solid #e5e7eb;
+.documentos-ordenamiento select {
+	padding: 6px 10px;
+	border: 1px solid #d1d5db;
 	border-radius: 6px;
 	font-size: 13px;
 	cursor: pointer;
-	background: white;
-	transition: border-color 0.2s;
+	background: #ffffff;
+	transition: border-color 0.2s, box-shadow 0.2s;
+	min-width: 180px;
 }
 
-.ordenamiento select:focus {
+.documentos-ordenamiento select:focus {
 	outline: none;
 	border-color: #2ea3ff;
+	box-shadow: 0 0 0 1px rgba(46, 163, 255, 0.2);
 }
 
-.filtros {
+/* Fila: Tipo: [chips] en horizontal, justo debajo */
+.documentos-filtros {
+	margin-top: 4px;
 	display: flex;
 	align-items: center;
-	gap: 8px;
 	flex-wrap: wrap;
+	/* wrapean solo si no entra en el ancho */
+	gap: 8px;
+	width: 100%;
 }
 
-.filtros label {
+.documentos-filtros label {
 	font-size: 13px;
 	font-weight: 600;
 	color: #6b7280;
+	margin-right: 2px;
+	white-space: nowrap;
 }
 
-.filtro-button {
-	padding: 6px 14px;
-	background: #f9fafb;
-	border: 2px solid #e5e7eb;
-	border-radius: 6px;
+/* Botones tipo “pill” */
+.documentos-filtro-button {
+	padding: 4px 10px;
+	background: #f3f4f6;
+	border: 1px solid #e5e7eb;
+	border-radius: 999px;
 	font-size: 12px;
 	font-weight: 500;
 	cursor: pointer;
 	transition: all 0.2s;
-	color: #6b7280;
+	color: #4b5563;
+	white-space: nowrap;
 }
 
-.filtro-button:hover {
+.documentos-filtro-button:hover {
 	border-color: #2ea3ff;
-	background: #eff6ff;
+	background: #e5f0ff;
+	color: #1e40af;
 }
 
-.filtro-button.active {
+.documentos-filtro-button.active {
 	background: #dbeafe;
 	border-color: #2ea3ff;
-	color: #1e40af;
+	color: #1d4ed8;
 }
 
 /* Lista de Documentos */
@@ -327,14 +350,19 @@
 	color: #4b5563;
 }
 
-.card-acciones {
+/* ===========================
+   BOTONES ACCIONES CARD
+   =========================== */
+
+.card-accionesDocu {
 	display: flex;
 	align-items: center;
-	gap: 8px;
+	justify-content: space-between;
+	gap: 12px;
 	margin-top: 12px;
 }
 
-.btn-accion {
+.btn-accionDocu {
 	background: none;
 	border: 2px solid currentColor;
 	padding: 8px 16px;
@@ -349,28 +377,25 @@
 	gap: 6px;
 }
 
-.btn-ver {
-	color: #2ea3ff;
-	flex: 1;
+.btn-accionDocu {
+	width: 100%;
 }
 
-.btn-ver:hover {
+
+.btn-verDocu {
+	color: #2ea3ff;
+}
+
+.btn-verDocu:hover {
 	background: #eff6ff;
 }
 
-.btn-editar {
-	color: #10b981;
-}
-
-.btn-editar:hover {
-	background: #d1fae5;
-}
-
-.btn-eliminar {
+.btn-eliminardocu {
 	color: #dc2626;
+	flex: 1
 }
 
-.btn-eliminar:hover {
+.btn-eliminardocu:hover {
 	background: #fee2e2;
 }
 
@@ -390,8 +415,13 @@
 }
 
 @keyframes fadeIn {
-	from { opacity: 0; }
-	to { opacity: 1; }
+	from {
+		opacity: 0;
+	}
+
+	to {
+		opacity: 1;
+	}
 }
 
 .modal-form {
@@ -411,6 +441,7 @@
 		opacity: 0;
 		transform: translateY(20px);
 	}
+
 	to {
 		opacity: 1;
 		transform: translateY(0);
@@ -764,6 +795,7 @@ select.input {
 		opacity: 0;
 		transform: translateY(-10px);
 	}
+
 	to {
 		opacity: 1;
 		transform: translateY(0);
@@ -815,18 +847,23 @@ select.input {
 		padding: 16px;
 	}
 
-	.controles-container {
-		flex-direction: column;
-		align-items: stretch;
+	/* Controles: se mantienen dos filas, pero ancho completo */
+	.documentos-controles {
+		padding: 10px 12px;
 	}
 
-	.ordenamiento,
-	.filtros {
+	.documentos-ordenamiento {
+		width: 100%;
+		flex-wrap: wrap;
+	}
+
+	.documentos-ordenamiento select {
+		min-width: 0;
 		width: 100%;
 	}
 
-	.filtros {
-		justify-content: flex-start;
+	.documentos-filtros {
+		width: 100%;
 	}
 
 	.documento-card {
@@ -838,12 +875,8 @@ select.input {
 		gap: 6px;
 	}
 
-	.card-acciones {
+	.card-accionesDocu {
 		flex-direction: column;
-	}
-
-	.btn-accion {
-		width: 100%;
 	}
 
 	.modal-form,

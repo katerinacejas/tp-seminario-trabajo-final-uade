@@ -33,7 +33,7 @@ class Settings(BaseSettings):
     uploads_path: str = "../backend/uploads"
 
     # JWT (debe ser la misma que en Spring Boot)
-    jwt_secret: str = "cambiar_por_tu_clave_secreta"
+    jwt_secret: str = "6d304f2e4d41665b4f6a5c4b325d2c786e614c5a55664867696a55504275405a"
     jwt_algorithm: str = "HS256"
 
     # LLM Configuration

@@ -215,6 +215,9 @@ async def obtener_historial(
             )
             for conv in historial
         ]
+        
+        if conversaciones == None:
+            print("conversaciones es nulo")
 
         return HistorialResponse(
             conversaciones=conversaciones,

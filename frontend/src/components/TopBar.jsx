@@ -1,337 +1,551 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
-import { IoWarning, IoCall } from "react-icons/io5";
+import { createPortal } from "react-dom";
+import { IoWarning, IoCall, IoChevronDown } from "react-icons/io5";
 import { useAuth } from "../auth";
 import { usePaciente } from "../context/PacienteContext";
 import { usuariosAPI, contactosEmergenciaAPI } from "../services/api";
 
 export default function TopBar() {
-  const { pathname } = useLocation();
-  const { isCaregiver, isPatient } = useAuth();
-  const { pacientes, pacienteSeleccionado, seleccionarPaciente } = usePaciente();
-  const [showEmergencyModal, setShowEmergencyModal] = useState(false);
-  const [contactosEmergencia, setContactosEmergencia] = useState([]);
-  const [loadingContactos, setLoadingContactos] = useState(false);
+	const { pathname } = useLocation();
+	const { isCaregiver, isPatient } = useAuth();
+	const { pacientes, pacienteSeleccionado, seleccionarPaciente } = usePaciente();
 
-  const title = ({
-    "/": "Inicio",
-    "/bitacora": "Bitácoras",
-    "/recordatorios": "Recordatorios",
-    "/tareas": "Lista de Tareas",
-    "/docs": "Documentos",
-    "/preguntas-frecuentes": "Preguntas Frecuentes",
-    "/chatbot": "Chatbot",
-    "/perfil": "Perfil",
-    "/paciente": "Inicio",
-    "/mis-cuidadores": "Mis Cuidadores",
-    "/login": "Ingresar",
-    "/register": "Crear cuenta",
-    "/forgot-password": "Recuperar contraseña",
-    "/reset-password": "Actualizar contraseña"
-  })[pathname] || "Cuido";
+	const [showEmergencyModal, setShowEmergencyModal] = useState(false);
+	const [contactosEmergencia, setContactosEmergencia] = useState([]);
+	const [loadingContactos, setLoadingContactos] = useState(false);
 
-  // Cargar contactos de emergencia cuando se abre el modal
-  useEffect(() => {
-    if (showEmergencyModal) {
-      cargarContactosEmergencia();
-    }
-  }, [showEmergencyModal, pacienteSeleccionado]);
+	// dropdown del selector de pacientes
+	const [showPacienteDropdown, setShowPacienteDropdown] = useState(false);
+	const selectorRef = useRef(null);
 
-  const cargarContactosEmergencia = async () => {
-    setLoadingContactos(true);
-    try {
-      let pacienteId;
+	const title = ({
+		"/": "Inicio",
+		"/bitacora": "Bitácoras",
+		"/recordatorios": "Recordatorios",
+		"/tareas": "Lista de Tareas",
+		"/docs": "Documentos",
+		"/preguntas-frecuentes": "Preguntas Frecuentes",
+		"/chatbot": "Chatbot",
+		"/perfil": "Perfil",
+		"/paciente": "Inicio",
+		"/mis-cuidadores": "Mis Cuidadores",
+		"/login": "Ingresar",
+		"/register": "Crear cuenta",
+		"/forgot-password": "Recuperar contraseña",
+		"/reset-password": "Actualizar contraseña",
+	})[pathname] || "Cuido";
 
-      if (isPatient) {
-        // Si es paciente, obtener su propio ID
-        const usuario = await usuariosAPI.getMe();
-        pacienteId = usuario.id;
-      } else if (isCaregiver && pacienteSeleccionado) {
-        // Si es cuidador, usar el paciente seleccionado
-        pacienteId = pacienteSeleccionado.id;
-      }
+	// Cerrar dropdown de pacientes al hacer click fuera
+	useEffect(() => {
+		const handleClickOutside = (e) => {
+			if (
+				showPacienteDropdown &&
+				selectorRef.current &&
+				!selectorRef.current.contains(e.target)
+			) {
+				setShowPacienteDropdown(false);
+			}
+		};
 
-      if (pacienteId) {
-        const contactos = await contactosEmergenciaAPI.getByPaciente(pacienteId);
-        setContactosEmergencia(contactos || []);
-      }
-    } catch (error) {
-      console.error("Error cargando contactos de emergencia:", error);
-      setContactosEmergencia([]);
-    } finally {
-      setLoadingContactos(false);
-    }
-  };
+		document.addEventListener("mousedown", handleClickOutside);
+		return () => document.removeEventListener("mousedown", handleClickOutside);
+	}, [showPacienteDropdown]);
 
-  const handleLlamarEmergencia = (telefono) => {
-    // Limpiar el número de teléfono
-    const numeroLimpio = telefono.replace(/\s/g, '');
-    window.location.href = `tel:${numeroLimpio}`;
-  };
+	// Cargar contactos de emergencia cuando se abre el modal
+	useEffect(() => {
+		if (showEmergencyModal) {
+			cargarContactosEmergencia();
+		}
+	}, [showEmergencyModal, pacienteSeleccionado]);
 
-  const handleOpenEmergencyModal = () => {
-    // Validar que hay un paciente seleccionado si es cuidador
-    if (isCaregiver && !pacienteSeleccionado) {
-      alert('Por favor, seleccioná un paciente primero');
-      return;
-    }
-    setShowEmergencyModal(true);
-  };
+	const cargarContactosEmergencia = async () => {
+		setLoadingContactos(true);
+		try {
+			if (isPatient) {
+				const usuario = await usuariosAPI.getMe();
+				const contactos = await contactosEmergenciaAPI.getByPaciente(usuario.id);
+				setContactosEmergencia(contactos || []);
+			} else if (isCaregiver && pacienteSeleccionado) {
+				const contactos = await contactosEmergenciaAPI.getByPaciente(
+					pacienteSeleccionado.id
+				);
+				setContactosEmergencia(contactos || []);
+			} else {
+				setContactosEmergencia([]);
+			}
+		} catch (error) {
+			console.error("Error cargando contactos de emergencia:", error);
+			setContactosEmergencia([]);
+		} finally {
+			setLoadingContactos(false);
+		}
+	};
 
-  return (
-    <header className="topbar">
-      <div className="topbar-inner">
-        <img className="logo" src="/logo.png" alt="Cuido" />
-        <div className="brand-name">Cuido</div>
+	const handleLlamarEmergencia = (telefono) => {
+		const numeroLimpio = telefono.replace(/\s/g, "");
+		window.location.href = `tel:${numeroLimpio}`;
+	};
 
-        {/* Selector de Paciente (solo para cuidadores) */}
-        {isCaregiver && pacientes.length > 0 && (
-          <>
-            <div style={{ marginLeft: 8, color: "#94a3b8" }}>|</div>
-            <select
-              className="paciente-selector"
-              value={pacienteSeleccionado?.id || ''}
-              onChange={(e) => seleccionarPaciente(Number(e.target.value))}
-              style={{
-                marginLeft: 12,
-                padding: '8px 14px',
-                borderRadius: '10px',
-                border: '1px solid var(--bd)',
-                background: 'var(--surf-0)',
-                fontSize: '14px',
-                fontWeight: 600,
-                color: 'var(--ink)',
-                cursor: 'pointer',
-                outline: 'none',
-                transition: 'all 0.18s',
-                boxShadow: '0 2px 4px rgba(0,0,0,0.04)',
-              }}
-            >
-              {pacientes.map((p) => (
-                <option key={p.id} value={p.id}>
-                  {p.nombreCompleto} {p.edad ? `(${p.edad} años)` : ''}
-                </option>
-              ))}
-            </select>
-          </>
-        )}
+	const handleOpenEmergencyModal = () => {
+		if (isCaregiver && !pacienteSeleccionado) {
+			alert("Por favor, seleccioná un paciente primero");
+			return;
+		}
+		setShowEmergencyModal(true);
+	};
 
-        {/* Botón de Emergencia (PARA CUIDADORES Y PACIENTES) */}
-        <button
-          onClick={handleOpenEmergencyModal}
-          className="btn-emergency"
-          style={{
-            marginLeft: isCaregiver ? 16 : 'auto',
-            padding: '8px 14px',
-            background: 'var(--danger-panic)',
-            color: 'white',
-            border: 'none',
-            borderRadius: '10px',
-            fontSize: '13px',
-            fontWeight: 700,
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '6px',
-            transition: 'all 0.18s',
-            boxShadow: '0 4px 12px rgba(232, 109, 111, 0.3)',
-          }}
-        >
-          <IoWarning size={18} />
-          <span>Emergencia</span>
-        </button>
-      </div>
+	const handleSelectPaciente = (id) => {
+		seleccionarPaciente(Number(id));
+		setShowPacienteDropdown(false);
+	};
 
-      {/* Modal de Contactos de Emergencia */}
-      {showEmergencyModal && (
-        <div
-          onClick={() => setShowEmergencyModal(false)}
-          style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            background: 'rgba(0, 0, 0, 0.6)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: '16px',
-            zIndex: 10000,
-            backdropFilter: 'blur(4px)',
-          }}
-        >
-          <div
-            onClick={(e) => e.stopPropagation()}
-            style={{
-              background: 'white',
-              borderRadius: '18px',
-              padding: '28px 24px',
-              maxWidth: '420px',
-              width: '100%',
-              boxShadow: '0 20px 40px rgba(0, 0, 0, 0.25)',
-              maxHeight: '80vh',
-              overflowY: 'auto',
-            }}
-          >
-            <div style={{
-              width: '68px',
-              height: '68px',
-              borderRadius: '50%',
-              background: '#fee2e2',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              margin: '0 auto 20px',
-            }}>
-              <IoWarning size={36} color="var(--danger-panic)" />
-            </div>
+	// --------- MODAL via PORTAL ----------
+	const emergencyModal = showEmergencyModal
+		? createPortal(
+				<div
+					onClick={() => setShowEmergencyModal(false)}
+					style={{
+						position: "fixed",
+						inset: 0,
+						background: "rgba(0, 0, 0, 0.6)",
+						display: "flex",
+						justifyContent: "center",
+						alignItems: "flex-start",
+						padding: "16px",
+						paddingTop: "80px",
+						zIndex: 99999,
+						backdropFilter: "blur(4px)",
+						overflowY: "auto",
+					}}
+				>
+					<div
+						onClick={(e) => e.stopPropagation()}
+						style={{
+							background: "white",
+							borderRadius: "18px",
+							padding: "28px 24px",
+							maxWidth: "420px",
+							width: "100%",
+							maxHeight: "80vh",
+							overflowY: "auto",
+						}}
+					>
+						<div
+							style={{
+								width: "68px",
+								height: "68px",
+								borderRadius: "50%",
+								background: "#fee2e2",
+								display: "flex",
+								alignItems: "center",
+								justifyContent: "center",
+								margin: "0 auto 20px",
+							}}
+						>
+							<IoWarning size={36} color="var(--danger-panic)" />
+						</div>
 
-            <h2 style={{
-              fontSize: '22px',
-              fontWeight: 800,
-              textAlign: 'center',
-              margin: '0 0 12px 0',
-              color: 'var(--ink)',
-            }}>
-              Contactos de emergencia
-            </h2>
+						<h2
+							style={{
+								fontSize: "22px",
+								fontWeight: 800,
+								textAlign: "center",
+								margin: "0 0 12px 0",
+								color: "var(--ink)",
+							}}
+						>
+							Contactos de emergencia
+						</h2>
 
-            <p style={{
-              fontSize: '14px',
-              textAlign: 'center',
-              color: 'var(--muted)',
-              margin: '0 0 28px 0',
-              lineHeight: 1.6,
-            }}>
-              {isPatient
-                ? 'Llamá a uno de tus contactos inmediatamente'
-                : `Contactos de emergencia de ${pacienteSeleccionado?.nombreCompleto || 'paciente'}`
-              }
-            </p>
+						<p
+							style={{
+								fontSize: "14px",
+								textAlign: "center",
+								color: "var(--muted)",
+								margin: "0 0 28px 0",
+								lineHeight: 1.6,
+							}}
+						>
+							{isPatient
+								? "Llamá a uno de tus contactos inmediatamente"
+								: `Contactos de emergencia de ${
+										pacienteSeleccionado?.nombreCompleto || "paciente"
+								  }`}
+						</p>
 
-            {loadingContactos ? (
-              <p style={{
-                textAlign: 'center',
-                color: 'var(--muted)',
-                padding: '32px 0',
-              }}>
-                Cargando contactos...
-              </p>
-            ) : contactosEmergencia.length > 0 ? (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '20px' }}>
-                {contactosEmergencia.map((contacto) => (
-                  <div
-                    key={contacto.id}
-                    style={{
-                      padding: '16px',
-                      background: 'linear-gradient(180deg, #ffffff, #f8fafc)',
-                      borderRadius: '12px',
-                      border: '1px solid var(--bd)',
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                      gap: '12px',
-                    }}
-                  >
-                    <div style={{ flex: 1, minWidth: 0 }}>
-                      <div style={{
-                        fontWeight: 700,
-                        fontSize: '15px',
-                        color: 'var(--ink)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '8px'
-                      }}>
-                        {contacto.nombre}
-                        {contacto.esContactoPrincipal && (
-                          <span style={{
-                            fontSize: '11px',
-                            padding: '2px 8px',
-                            background: '#fef3c7',
-                            color: '#92400e',
-                            borderRadius: '999px',
-                            fontWeight: 700,
-                          }}>
-                            Principal
-                          </span>
-                        )}
-                      </div>
-                      {contacto.relacion && (
-                        <div style={{ fontSize: '13px', color: 'var(--muted)', marginTop: '4px' }}>
-                          {contacto.relacion}
-                        </div>
-                      )}
-                      <div style={{ fontSize: '14px', color: '#475569', marginTop: '6px', fontWeight: 600 }}>
-                        {contacto.telefono}
-                      </div>
-                    </div>
-                    <button
-                      onClick={() => handleLlamarEmergencia(contacto.telefono)}
-                      style={{
-                        padding: '12px 18px',
-                        background: 'var(--danger-panic)',
-                        color: 'white',
-                        border: 'none',
-                        borderRadius: '10px',
-                        cursor: 'pointer',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '6px',
-                        fontSize: '14px',
-                        fontWeight: 700,
-                        flexShrink: 0,
-                        boxShadow: '0 4px 12px rgba(232, 109, 111, 0.3)',
-                        transition: 'all 0.18s',
-                      }}
-                    >
-                      <IoCall />
-                      Llamar
-                    </button>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <p style={{
-                textAlign: 'center',
-                color: '#94a3b8',
-                fontSize: '14px',
-                padding: '32px 16px',
-                background: '#f8fafc',
-                borderRadius: '12px',
-                marginBottom: '20px',
-              }}>
-                No hay contactos de emergencia configurados.
-                {isPatient && (
-                  <>
-                    <br />
-                    <br />
-                    Podés agregarlos desde tu perfil.
-                  </>
-                )}
-              </p>
-            )}
+						{loadingContactos ? (
+							<p
+								style={{
+									textAlign: "center",
+									color: "var(--muted)",
+									padding: "32px 0",
+								}}
+							>
+								Cargando contactos...
+							</p>
+						) : contactosEmergencia.length > 0 ? (
+							<div
+								style={{
+									display: "flex",
+									flexDirection: "column",
+									gap: "12px",
+									marginBottom: "20px",
+								}}
+							>
+								{contactosEmergencia.map((contacto) => (
+									<div
+										key={contacto.id}
+										style={{
+											padding: "16px",
+											background:
+												"linear-gradient(180deg, #ffffff, #f8fafc)",
+											borderRadius: "12px",
+											border: "1px solid var(--bd)",
+											display: "flex",
+											justifyContent: "space-between",
+											alignItems: "center",
+											gap: "12px",
+										}}
+									>
+										<div style={{ flex: 1, minWidth: 0 }}>
+											<div
+												style={{
+													fontWeight: 700,
+													fontSize: "15px",
+													color: "var(--ink)",
+													display: "flex",
+													alignItems: "center",
+													gap: "8px",
+												}}
+											>
+												{contacto.nombre}
+												{contacto.esContactoPrincipal && (
+													<span
+														style={{
+															fontSize: "11px",
+															padding: "2px 8px",
+															background: "#fef3c7",
+															color: "#92400e",
+															borderRadius: "999px",
+															fontWeight: 700,
+														}}
+													>
+														Principal
+													</span>
+												)}
+											</div>
+											{contacto.relacion && (
+												<div
+													style={{
+														fontSize: "13px",
+														color: "var(--muted)",
+														marginTop: "4px",
+													}}
+												>
+													{contacto.relacion}
+												</div>
+											)}
+											<div
+												style={{
+													fontSize: "14px",
+													color: "#475569",
+													marginTop: "6px",
+													fontWeight: 600,
+												}}
+											>
+												{contacto.telefono}
+											</div>
+										</div>
+										<button
+											onClick={() =>
+												handleLlamarEmergencia(contacto.telefono)
+											}
+											style={{
+												padding: "12px 18px",
+												background: "var(--danger-panic)",
+												color: "white",
+												border: "none",
+												borderRadius: "10px",
+												cursor: "pointer",
+												display: "flex",
+												alignItems: "center",
+												gap: "6px",
+												fontSize: "14px",
+												fontWeight: 700,
+												flexShrink: 0,
+											}}
+										>
+											<IoCall />
+											Llamar
+										</button>
+									</div>
+								))}
+							</div>
+						) : (
+							<p
+								style={{
+									textAlign: "center",
+									color: "#94a3b8",
+									fontSize: "14px",
+									padding: "32px 16px",
+									background: "#f8fafc",
+									borderRadius: "12px",
+									marginBottom: "20px",
+								}}
+							>
+								No hay contactos de emergencia configurados.
+								{isPatient && (
+									<>
+										<br />
+										<br />
+										Podés agregarlos desde tu perfil.
+									</>
+								)}
+							</p>
+						)}
 
-            <button
-              onClick={() => setShowEmergencyModal(false)}
-              style={{
-                width: '100%',
-                padding: '14px',
-                background: '#f1f5f9',
-                color: '#64748b',
-                border: 'none',
-                borderRadius: '12px',
-                fontSize: '15px',
-                fontWeight: 700,
-                cursor: 'pointer',
-                transition: 'all 0.18s',
-              }}
-            >
-              Cerrar
-            </button>
-          </div>
-        </div>
-      )}
-    </header>
-  );
+						<button
+							onClick={() => setShowEmergencyModal(false)}
+							style={{
+								width: "100%",
+								padding: "14px",
+								background: "#f1f5f9",
+								color: "#64748b",
+								border: "none",
+								borderRadius: "12px",
+								fontSize: "15px",
+								fontWeight: 700,
+								cursor: "pointer",
+							}}
+						>
+							Cerrar
+						</button>
+					</div>
+				</div>,
+				document.body
+		  )
+		: null;
+
+	return (
+		<>
+			<header
+				className="topbar"
+				style={{
+					position: "sticky",
+					top: 0,
+					zIndex: 40,
+					background:
+						"linear-gradient(180deg, rgba(2, 6, 23, 0.96), rgba(15, 23, 42, 0.98))",
+					backdropFilter: "blur(18px)",
+					borderBottom: "1px solid rgba(148, 163, 184, 0.35)",
+				}}
+			>
+				<div
+					className="topbar-inner"
+					style={{
+						width: "100%",
+						display: "flex",
+						alignItems: "center",
+						gap: 8,
+						padding: "8px 10px",
+						color: "#e5e7eb",
+						fontFamily:
+							'"Outfit", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif',
+					}}
+				>
+					{/* Logo + marca fijo a la izquierda */}
+					<div
+						style={{
+							display: "flex",
+							alignItems: "center",
+							gap: 8,
+							flexShrink: 0,
+						}}
+					>
+						<img
+							className="logo"
+							src="/logo.png"
+							alt="Cuido"
+							style={{
+								width: 36,
+								height: 36,
+								borderRadius: 999,
+								background: "#ffffff",
+								objectFit: "contain",
+								padding: 4,
+							}}
+						/>
+						<div
+							className="brand-name"
+							style={{
+								fontSize: 16,
+								fontWeight: 800,
+								letterSpacing: "0.04em",
+							}}
+						>
+							Cuido
+						</div>
+					</div>
+
+					{/* Selector de Paciente (solo para cuidadores, ocupa todo el espacio intermedio) */}
+					{isCaregiver && pacientes.length > 0 && (
+						<div
+							ref={selectorRef}
+							style={{
+								flex: 1,
+								minWidth: 0,           // << CLAVE para que pueda achicarse en mobile
+								marginLeft: 8,
+								marginRight: 8,
+								position: "relative",
+							}}
+						>
+							<button
+								type="button"
+								onClick={() =>
+									setShowPacienteDropdown((prev) => !prev)
+								}
+								style={{
+									width: "100%",
+									borderRadius: 999,
+									border:
+										"1px solid rgba(148, 163, 184, 0.6)",
+									background: "#ffffff",
+									color: "#0f172a",
+									padding: "6px 10px",
+									display: "flex",
+									alignItems: "center",
+									justifyContent: "space-between",
+									fontSize: 13,
+									fontWeight: 600,
+									cursor: "pointer",
+								}}
+							>
+								<span
+									style={{
+										whiteSpace: "nowrap",
+										overflow: "hidden",
+										textOverflow: "ellipsis",
+									}}
+								>
+									{pacienteSeleccionado
+										? `${pacienteSeleccionado.nombreCompleto}${
+												pacienteSeleccionado.edad
+													? ` (${pacienteSeleccionado.edad} años)`
+													: ""
+										  }`
+										: "Seleccionar paciente"}
+								</span>
+								<IoChevronDown
+									size={16}
+									style={{
+										marginLeft: 8,
+										flexShrink: 0,
+										transform: showPacienteDropdown
+											? "rotate(180deg)"
+											: "rotate(0deg)",
+										transition: "transform 0.16s ease",
+										color: "#64748b",
+									}}
+								/>
+							</button>
+
+							{showPacienteDropdown && (
+								<div
+									style={{
+										position: "absolute",
+										top: "calc(100% + 6px)",
+										left: 0,
+										right: 0,
+										borderRadius: 18,
+										background: "#ffffff",
+										border:
+											"1px solid rgba(148, 163, 184, 0.45)",
+										maxHeight: 260,
+										overflowY: "auto",
+										zIndex: 50,
+									}}
+								>
+									{pacientes.map((p) => (
+										<button
+											key={p.id}
+											type="button"
+											onClick={() =>
+												handleSelectPaciente(p.id)
+											}
+											style={{
+												width: "100%",
+												textAlign: "left",
+												border: "none",
+												background: "#f9fafb",
+												padding: "10px 14px",
+												display: "flex",
+												flexDirection: "column",
+												gap: 2,
+												cursor: "pointer",
+												borderBottom:
+													"1px solid rgba(226, 232, 240, 0.9)",
+											}}
+										>
+											<span
+												style={{
+													fontSize: 14,
+													fontWeight: 600,
+													color: "#0f172a",
+												}}
+											>
+												{p.nombreCompleto}
+											</span>
+											{p.edad && (
+												<span
+													style={{
+														fontSize: 12,
+														color: "#64748b",
+													}}
+												>
+													{p.edad} años
+												</span>
+											)}
+										</button>
+									))}
+								</div>
+							)}
+						</div>
+					)}
+
+					{/* Botón de Emergencia siempre a la derecha */}
+					<button
+						onClick={handleOpenEmergencyModal}
+						className="btn-emergency"
+						style={{
+							marginLeft:
+								isCaregiver && pacientes.length > 0
+									? 0
+									: "auto",
+							padding: "8px 14px",
+							background: "var(--danger-panic)",
+							color: "white",
+							border: "none",
+							borderRadius: 999,
+							fontSize: 11,
+							fontWeight: 800,
+							cursor: "pointer",
+							display: "flex",
+							alignItems: "center",
+							gap: "4px",
+							textTransform: "uppercase",
+							letterSpacing: "0.08em",
+							whiteSpace: "nowrap",
+							flexShrink: 0,
+						}}
+					>
+						<IoWarning size={16} />
+						<span>Emergencia</span>
+					</button>
+				</div>
+			</header>
+
+			{emergencyModal}
+		</>
+	);
 }

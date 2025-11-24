@@ -810,7 +810,7 @@ export default function Recordatorios() {
 				<div className="lista-header">
 					<div>
 						<h2 className="lista-titulo">Lista de recordatorios</h2>
-						<p className="lista-subtitulo">De {pacienteSeleccionado?.nombre || "el paciente"}</p>
+						<p className="lista-subtitulo">De {pacienteSeleccionado?.nombreCompleto || "el paciente"}</p>
 					</div>
 					<button
 						className="btn-ordenar"

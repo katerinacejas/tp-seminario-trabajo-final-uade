@@ -576,12 +576,9 @@ export default function PerfilPaciente() {
 	};
 
 	const handleCerrarSesion = () => {
-		if (window.confirm('¿Estás seguro de que deseas cerrar sesión?')) {
-			logout();
-			navigate('/login', { replace: true });
-		}
+		logout();
+		navigate('/welcome', { replace: true }); 
 	};
-
 	// ==================== RENDER ====================
 
 	if (loading) {
@@ -736,10 +733,10 @@ export default function PerfilPaciente() {
 						<div className="form-value">
 							{usuario?.fechaNacimiento
 								? new Date(usuario.fechaNacimiento).toLocaleDateString('es-AR', {
-										year: 'numeric',
-										month: 'long',
-										day: 'numeric',
-								  })
+									year: 'numeric',
+									month: 'long',
+									day: 'numeric',
+								})
 								: 'No especificada'}
 						</div>
 					) : (

@@ -1,8 +1,18 @@
+// src/pages/autenticacion/Register.jsx
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../auth";
 import { authAPI } from "../../services/api";
-import { IoMailOutline, IoLockClosedOutline, IoPersonOutline, IoCallOutline, IoCalendarOutline, IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
+import {
+	IoMailOutline,
+	IoLockClosedOutline,
+	IoPersonOutline,
+	IoCallOutline,
+	IoCalendarOutline,
+	IoEyeOutline,
+	IoEyeOffOutline,
+} from "react-icons/io5";
+import "./Register.css";
 
 export default function Register() {
 	const nav = useNavigate();
@@ -15,7 +25,7 @@ export default function Register() {
 		rol: "CUIDADOR",
 		telefono: "",
 		fechaNacimiento: "",
-		direccion: ""
+		direccion: "",
 	});
 	const [showPassword, setShowPassword] = useState(false);
 	const [showPassword2, setShowPassword2] = useState(false);
@@ -72,7 +82,7 @@ export default function Register() {
 				direccion: form.direccion || null,
 				telefono: form.telefono || null,
 				fechaNacimiento: form.fechaNacimiento || null,
-				avatar: null
+				avatar: null,
 			};
 
 			// Llamar al backend
@@ -92,334 +102,301 @@ export default function Register() {
 			}
 		} catch (err) {
 			console.error("Error en registro:", err);
-			setError(err.response?.data?.message || "Error al crear la cuenta. Verifica que el email no esté registrado.");
+			setError(
+				err.response?.data?.message ||
+					"Error al crear la cuenta. Verifica que el email no esté registrado."
+			);
 		} finally {
 			setLoading(false);
 		}
 	};
 
 	return (
-		<div className="page-center">
-			<div className="auth-card">
-				<div className="auth-head">
-					<img src="/logo.png" alt="Cuido" className="auth-logo" />
-					<h1 className="auth-title">Crear cuenta</h1>
-					<p className="auth-sub">Es gratis y lleva menos de un minuto</p>
-				</div>
-
-				<form className="auth-form" onSubmit={submit}>
-					{error && (
-						<div style={{
-							background: "var(--danger-100)",
-							border: "1px solid var(--danger)",
-							color: "var(--danger)",
-							padding: "12px 14px",
-							borderRadius: "10px",
-							fontSize: "14px",
-							marginBottom: "16px"
-						}}>
-							{error}
-						</div>
-					)}
-
-					<div className="form-row">
-						<label>
-							Nombre y apellido <span style={{ color: "var(--danger)" }}>*</span>
-						</label>
-						<div style={{ position: "relative" }}>
-							<IoPersonOutline style={{
-								position: "absolute",
-								left: "14px",
-								top: "50%",
-								transform: "translateY(-50%)",
-								color: "var(--muted)",
-								fontSize: "18px"
-							}} />
-							<input
-								className="input"
-								name="nombreCompleto"
-								value={form.nombreCompleto}
-								onChange={onChange}
-								placeholder="Ej: Ana Pérez"
-								required
-								disabled={loading}
-								style={{
-									paddingLeft: "44px",
-									fontSize: "15px",
-									borderRadius: "10px"
-								}}
-							/>
-						</div>
-					</div>
-
-					<div className="form-row">
-						<label>
-							Rol <span style={{ color: "var(--danger)" }}>*</span>
-						</label>
-						<select
-							name="rol"
-							value={form.rol}
-							onChange={onChange}
-							disabled={loading}
-							style={{
-								fontSize: "15px",
-								borderRadius: "10px",
-								padding: "12px 16px"
-							}}
-						>
-							<option value="CUIDADOR">Cuidador</option>
-							<option value="PACIENTE">Paciente</option>
-						</select>
-					</div>
-
-					<div className="form-row">
-						<label>
-							Email <span style={{ color: "var(--danger)" }}>*</span>
-						</label>
-						<div style={{ position: "relative" }}>
-							<IoMailOutline style={{
-								position: "absolute",
-								left: "14px",
-								top: "50%",
-								transform: "translateY(-50%)",
-								color: "var(--muted)",
-								fontSize: "18px"
-							}} />
-							<input
-								className="input"
-								name="email"
-								type="email"
-								value={form.email}
-								onChange={onChange}
-								placeholder="tu@email.com"
-								required
-								disabled={loading}
-								style={{
-									paddingLeft: "44px",
-									fontSize: "15px",
-									borderRadius: "10px"
-								}}
-							/>
-						</div>
-					</div>
-
-					<div className="form-row">
-						<label>Teléfono</label>
-						<div style={{ position: "relative" }}>
-							<IoCallOutline style={{
-								position: "absolute",
-								left: "14px",
-								top: "50%",
-								transform: "translateY(-50%)",
-								color: "var(--muted)",
-								fontSize: "18px"
-							}} />
-							<input
-								className="input"
-								name="telefono"
-								type="tel"
-								value={form.telefono}
-								onChange={onChange}
-								placeholder="Ej: +54 11 1234 5678"
-								disabled={loading}
-								maxLength={20}
-								style={{
-									paddingLeft: "44px",
-									fontSize: "15px",
-									borderRadius: "10px"
-								}}
-							/>
-						</div>
-					</div>
-
-					<div className="form-row">
-						<label>Fecha de nacimiento</label>
-						<div style={{ position: "relative" }}>
-							<IoCalendarOutline style={{
-								position: "absolute",
-								left: "14px",
-								top: "50%",
-								transform: "translateY(-50%)",
-								color: "var(--muted)",
-								fontSize: "18px",
-								pointerEvents: "none"
-							}} />
-							<input
-								className="input"
-								name="fechaNacimiento"
-								type="date"
-								value={form.fechaNacimiento}
-								onChange={onChange}
-								disabled={loading}
-								style={{
-									paddingLeft: "44px",
-									fontSize: "15px",
-									borderRadius: "10px"
-								}}
-							/>
-						</div>
-					</div>
-
-					<div className="form-row">
-						<label>Dirección</label>
-						<input
-							className="input"
-							name="direccion"
-							value={form.direccion}
-							onChange={onChange}
-							placeholder="Ej: Av. Corrientes 1234, CABA"
-							disabled={loading}
-							maxLength={500}
-							style={{
-								fontSize: "15px",
-								borderRadius: "10px"
-							}}
-						/>
-					</div>
-
-					<div className="form-row">
-						<label>
-							Contraseña <span style={{ color: "var(--danger)" }}>*</span>
-						</label>
-						<div style={{ position: "relative" }}>
-							<IoLockClosedOutline style={{
-								position: "absolute",
-								left: "14px",
-								top: "50%",
-								transform: "translateY(-50%)",
-								color: "var(--muted)",
-								fontSize: "18px"
-							}} />
-							<input
-								className="input"
-								name="password"
-								type={showPassword ? "text" : "password"}
-								value={form.password}
-								onChange={onChange}
-								placeholder="Mínimo 8 caracteres"
-								required
-								disabled={loading}
-								minLength={8}
-								style={{
-									paddingLeft: "44px",
-									paddingRight: "44px",
-									fontSize: "15px",
-									borderRadius: "10px"
-								}}
-							/>
-							<button
-								type="button"
-								onClick={() => setShowPassword(!showPassword)}
-								style={{
-									position: "absolute",
-									right: "14px",
-									top: "50%",
-									transform: "translateY(-50%)",
-									background: "transparent",
-									border: "none",
-									cursor: "pointer",
-									padding: "4px",
-									color: "var(--muted)",
-									fontSize: "18px",
-									display: "flex",
-									alignItems: "center"
-								}}
-							>
-								{showPassword ? <IoEyeOffOutline /> : <IoEyeOutline />}
-							</button>
-						</div>
-						<small style={{ color: "var(--muted)", fontSize: "12px", display: "block", marginTop: "4px" }}>
-							Mínimo 8 caracteres (incluir mayúscula, minúscula y número)
-						</small>
-					</div>
-
-					<div className="form-row">
-						<label>
-							Repetir contraseña <span style={{ color: "var(--danger)" }}>*</span>
-						</label>
-						<div style={{ position: "relative" }}>
-							<IoLockClosedOutline style={{
-								position: "absolute",
-								left: "14px",
-								top: "50%",
-								transform: "translateY(-50%)",
-								color: "var(--muted)",
-								fontSize: "18px"
-							}} />
-							<input
-								className="input"
-								name="password2"
-								type={showPassword2 ? "text" : "password"}
-								value={form.password2}
-								onChange={onChange}
-								placeholder="Confirma tu contraseña"
-								required
-								disabled={loading}
-								minLength={8}
-								style={{
-									paddingLeft: "44px",
-									paddingRight: "44px",
-									fontSize: "15px",
-									borderRadius: "10px"
-								}}
-							/>
-							<button
-								type="button"
-								onClick={() => setShowPassword2(!showPassword2)}
-								style={{
-									position: "absolute",
-									right: "14px",
-									top: "50%",
-									transform: "translateY(-50%)",
-									background: "transparent",
-									border: "none",
-									cursor: "pointer",
-									padding: "4px",
-									color: "var(--muted)",
-									fontSize: "18px",
-									display: "flex",
-									alignItems: "center"
-								}}
-							>
-								{showPassword2 ? <IoEyeOffOutline /> : <IoEyeOutline />}
-							</button>
-						</div>
-					</div>
-
+		<div className="register-screen">
+			<div className="register-card">
+				<header className="register-hero">
 					<button
-						className="btn auth-primary"
-						type="submit"
-						disabled={loading}
-						style={{
-							width: "100%",
-							marginTop: "12px",
-							padding: "12px 18px",
-							fontSize: "16px",
-							fontWeight: "700"
-						}}
+						type="button"
+						className="register-back"
+						onClick={() => nav(-1)}
 					>
-						{loading ? "Creando cuenta..." : "Registrarme"}
+						←
 					</button>
 
-					<div style={{
-						textAlign: "center",
-						marginTop: "20px",
-						color: "var(--muted)",
-						fontSize: "14px"
-					}}>
-						¿Ya tienes cuenta?{" "}
-						<Link
-							to="/login"
-							style={{
-								color: "var(--primary)",
-								fontWeight: "700",
-								textDecoration: "none"
-							}}
-						>
-							Iniciar sesión
-						</Link>
+					<div className="register-avatar">
+						<img src="/logo.png" alt="Cuido" />
 					</div>
-				</form>
+
+					<h1 className="register-title">Crear cuenta</h1>
+					<p className="register-subtitle">
+						Cuidadores y pacientes en un mismo lugar
+					</p>
+				</header>
+
+				<main className="register-body">
+					<form className="register-form" onSubmit={submit}>
+						{error && <div className="auth-error">{error}</div>}
+
+						{/* Nombre y apellido */}
+						<div className="register-field">
+							<label className="register-label">
+								Nombre y apellido <span style={{ color: "var(--danger)" }}>*</span>
+							</label>
+							<div style={{ position: "relative" }}>
+								<IoPersonOutline
+									style={{
+										position: "absolute",
+										left: "12px",
+										top: "50%",
+										transform: "translateY(-50%)",
+										color: "var(--muted)",
+										fontSize: "18px",
+									}}
+								/>
+								<input
+									className="register-input"
+									name="nombreCompleto"
+									value={form.nombreCompleto}
+									onChange={onChange}
+									placeholder="Ej: Ana Pérez"
+									required
+									disabled={loading}
+									style={{ paddingLeft: "40px" }}
+								/>
+							</div>
+						</div>
+
+						{/* Rol */}
+						<div className="register-field">
+							<label className="register-label">
+								Rol <span style={{ color: "var(--danger)" }}>*</span>
+							</label>
+							<select
+								name="rol"
+								value={form.rol}
+								onChange={onChange}
+								disabled={loading}
+								className="register-input"
+							>
+								<option value="CUIDADOR">Cuidador</option>
+								<option value="PACIENTE">Paciente</option>
+							</select>
+						</div>
+
+						{/* Email */}
+						<div className="register-field">
+							<label className="register-label">
+								Email <span style={{ color: "var(--danger)" }}>*</span>
+							</label>
+							<div style={{ position: "relative" }}>
+								<IoMailOutline
+									style={{
+										position: "absolute",
+										left: "12px",
+										top: "50%",
+										transform: "translateY(-50%)",
+										color: "var(--muted)",
+										fontSize: "18px",
+									}}
+								/>
+								<input
+									className="register-input"
+									name="email"
+									type="email"
+									value={form.email}
+									onChange={onChange}
+									placeholder="tu@email.com"
+									required
+									disabled={loading}
+									style={{ paddingLeft: "40px" }}
+								/>
+							</div>
+						</div>
+
+						{/* Teléfono */}
+						<div className="register-field">
+							<label className="register-label">Teléfono</label>
+							<div style={{ position: "relative" }}>
+								<IoCallOutline
+									style={{
+										position: "absolute",
+										left: "12px",
+										top: "50%",
+										transform: "translateY(-50%)",
+										color: "var(--muted)",
+										fontSize: "18px",
+									}}
+								/>
+								<input
+									className="register-input"
+									name="telefono"
+									type="tel"
+									value={form.telefono}
+									onChange={onChange}
+									placeholder="Ej: +54 11 1234 5678"
+									disabled={loading}
+									maxLength={20}
+									style={{ paddingLeft: "40px" }}
+								/>
+							</div>
+						</div>
+
+						{/* Fecha de nacimiento */}
+						<div className="register-field">
+							<label className="register-label">Fecha de nacimiento</label>
+							<div style={{ position: "relative" }}>
+								<IoCalendarOutline
+									style={{
+										position: "absolute",
+										left: "12px",
+										top: "50%",
+										transform: "translateY(-50%)",
+										color: "var(--muted)",
+										fontSize: "18px",
+										pointerEvents: "none",
+									}}
+								/>
+								<input
+									className="register-input"
+									name="fechaNacimiento"
+									type="date"
+									value={form.fechaNacimiento}
+									onChange={onChange}
+									disabled={loading}
+									style={{ paddingLeft: "40px" }}
+								/>
+							</div>
+						</div>
+
+						{/* Dirección */}
+						<div className="register-field">
+							<label className="register-label">Dirección</label>
+							<input
+								className="register-input"
+								name="direccion"
+								value={form.direccion}
+								onChange={onChange}
+								placeholder="Ej: Av. Corrientes 1234, CABA"
+								disabled={loading}
+								maxLength={500}
+							/>
+						</div>
+
+						{/* Contraseña */}
+						<div className="register-field">
+							<label className="register-label">
+								Contraseña <span style={{ color: "var(--danger)" }}>*</span>
+							</label>
+							<div className="login-pass-wrapper">
+								<IoLockClosedOutline
+                                    style={{
+                                        position: "absolute",
+                                        left: "12px",
+                                        top: "50%",
+                                        transform: "translateY(-50%)",
+                                        color: "var(--muted)",
+                                        fontSize: "18px",
+                                    }}
+                                />
+								<input
+									className="register-input login-input-pass"
+									name="password"
+									type={showPassword ? "text" : "password"}
+									value={form.password}
+									onChange={onChange}
+									placeholder="Mínimo 8 caracteres"
+									required
+									disabled={loading}
+									minLength={8}
+									style={{ paddingLeft: "40px", paddingRight: "44px" }}
+								/>
+								<button
+									type="button"
+									className="login-eye-btn"
+									onClick={() => setShowPassword(!showPassword)}
+									aria-label={
+										showPassword
+											? "Ocultar contraseña"
+											: "Mostrar contraseña"
+									}
+								>
+									{showPassword ? <IoEyeOffOutline /> : <IoEyeOutline />}
+								</button>
+							</div>
+							<small
+								style={{
+									color: "var(--muted)",
+									fontSize: "12px",
+									display: "block",
+									marginTop: "4px",
+								}}
+							>
+								Mínimo 8 caracteres (incluir mayúscula, minúscula y número)
+							</small>
+						</div>
+
+						{/* Repetir contraseña */}
+						<div className="register-field">
+							<label className="register-label">
+								Repetir contraseña{" "}
+								<span style={{ color: "var(--danger)" }}>*</span>
+							</label>
+							<div className="login-pass-wrapper">
+								<IoLockClosedOutline
+									style={{
+										position: "absolute",
+										left: "12px",
+										top: "50%",
+										transform: "translateY(-50%)",
+										color: "var(--muted)",
+										fontSize: "18px",
+									}}
+								/>
+								<input
+									className="register-input login-input-pass"
+									name="password2"
+									type={showPassword2 ? "text" : "password"}
+									value={form.password2}
+									onChange={onChange}
+									placeholder="Confirma tu contraseña"
+									required
+									disabled={loading}
+									minLength={8}
+									style={{ paddingLeft: "40px", paddingRight: "44px" }}
+								/>
+								<button
+									type="button"
+									className="login-eye-btn"
+									onClick={() => setShowPassword2(!showPassword2)}
+									aria-label={
+										showPassword2
+											? "Ocultar contraseña"
+											: "Mostrar contraseña"
+									}
+								>
+									{showPassword2 ? <IoEyeOffOutline /> : <IoEyeOutline />}
+								</button>
+							</div>
+						</div>
+
+						<div className="register-footer">
+							<button
+								className="register-btn-primary"
+								type="submit"
+								disabled={loading}
+							>
+								{loading ? "Creando cuenta..." : "Registrarme"}
+							</button>
+
+							<p className="register-text-small">
+								¿Ya tenés cuenta?{" "}
+								<Link to="/login" className="register-link-strong">
+									Iniciar sesión
+								</Link>
+							</p>
+						</div>
+					</form>
+				</main>
 			</div>
 		</div>
 	);

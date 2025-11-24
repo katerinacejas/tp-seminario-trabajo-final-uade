@@ -102,8 +102,9 @@ public class CuidadorPacienteService {
 
     public List<CuidadorResponseDTO> getCuidadoresPorPaciente(Long pacienteId) {
         List<CuidadorPaciente> relaciones = cuidadorPacienteRepository
-                .findByPacienteIdAndEstado(pacienteId, EstadoRelacion.ACEPTADO);
-
+                //.findByPacienteIdAndEstado(pacienteId, EstadoRelacion.ACEPTADO);
+				.findByPacienteId(pacienteId);
+				
         return relaciones.stream()
                 .map(this::mapToDTO)
                 .toList();
@@ -159,6 +160,7 @@ public class CuidadorPacienteService {
                     dto.setUsuarioId(usuarioPaciente.getId());
                     dto.setNombreCompleto(usuarioPaciente.getNombreCompleto());
                     dto.setEmail(usuarioPaciente.getEmail());
+					dto.setEstadoRelacion(relacion.getEstado().name());
 
                     if (paciente != null) {
                         dto.setTipoSanguineo(paciente.getTipoSanguineo());

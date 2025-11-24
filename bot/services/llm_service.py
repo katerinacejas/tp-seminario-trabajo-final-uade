@@ -5,6 +5,8 @@ from openai import OpenAI, OpenAIError
 from config.settings import settings
 from typing import List, Dict
 import logging
+from datetime import datetime
+
 
 logger = logging.getLogger(__name__)
 
@@ -44,8 +46,10 @@ class LLMService:
         try:
             temperature = temperature or settings.llm_temperature
             max_tokens = max_tokens or settings.llm_max_tokens
+            
 
             logger.info(f"Enviando {len(messages)} mensajes a LM Studio...")
+            logger.info(f"llegó la solicitud en el {datetime.now().isoformat()}")
 
             completion = self.client.chat.completions.create(
                 model=self.model,
@@ -57,6 +61,7 @@ class LLMService:
 
             respuesta = completion.choices[0].message.content
             logger.info("Respuesta generada exitosamente")
+            logger.info(f"se devolvio la solicitud en el {datetime.now().isoformat()}")
 
             return respuesta.strip()
 

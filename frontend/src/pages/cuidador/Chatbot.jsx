@@ -15,6 +15,7 @@ export default function Chatbot() {
 
 	// Cargar historial al montar y cuando cambia el paciente
 	useEffect(() => {
+		console.log('paciente seleccionado del useEffect de Chatbot tiene: ', pacienteSeleccionado);
 		if (pacienteSeleccionado) {
 			cargarHistorial();
 			// Restaurar borrador del input
@@ -129,6 +130,7 @@ export default function Chatbot() {
 
 		try {
 			// Llamar al microservicio
+			console.log("el paciente seleccionado es: ", pacienteSeleccionado.id)
 			const response = await chatbotAPI.enviarMensaje(textoTrimmed, pacienteSeleccionado.id);
 
 			// Agregar respuesta del bot
@@ -216,7 +218,7 @@ export default function Chatbot() {
 		<div className="chatbot-container">
 			{/* Header con botón de borrar historial */}
 			<div className="chatbot-header">
-				<h3>Chat con {pacienteSeleccionado.nombreCompleto}</h3>
+				<h3>Chat sobre el paciente: {pacienteSeleccionado.nombreCompleto}</h3>
 				{mensajes.length > 1 && (
 					<button
 						className="chatbot-btn-borrar"

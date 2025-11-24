@@ -1,84 +1,15 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { pacientesAPI, cuidadoresPacientesAPI, usuariosAPI } from '../services/api';
+import { useAuth } from '../auth';
 
 const PacienteContext = createContext(null);
 
 export function PacienteProvider({ children }) {
+	const { role } = useAuth(); // 👈 viene del AuthProvider ("cuidador" | "paciente" | null)
+
 	const [pacienteSeleccionado, setPacienteSeleccionado] = useState(null);
 	const [pacientes, setPacientes] = useState([]);
 	const [loading, setLoading] = useState(true);
-
-	useEffect(() => {
-		// Cargar inicial: primero obtener lista de pacientes, luego validar localStorage
-		const cargarInicial = async () => {
-			try {
-				setLoading(true);
-
-				// Obtener rol del usuario
-				const role = localStorage.getItem('cuido.role')?.toLowerCase();
-
-				// Si no hay rol, no hacer nada (usuario no logueado)
-				if (!role) {
-					setPacientes([]);
-					setPacienteSeleccionado(null);
-					setLoading(false);
-					return;
-				}
-
-				// Cargar lista de pacientes vinculados
-				let pacientesVinculados = [];
-
-				if (role === 'cuidador') {
-					const usuario = await usuariosAPI.getMe();
-					pacientesVinculados = await cuidadoresPacientesAPI.getPacientesVinculados(usuario.id);
-				} else if (role === 'paciente') {
-					// Para pacientes: no cargar lista (solo tienen su propio perfil)
-					pacientesVinculados = [];
-				}
-
-				setPacientes(pacientesVinculados);
-
-				// CRÍTICO: Solo intentar cargar un paciente si hay pacientes vinculados
-				const savedPacienteId = localStorage.getItem('cuido.pacienteId');
-
-				if (role === 'cuidador') {
-					// Para cuidadores: validar que el paciente guardado existe en la lista
-					if (pacientesVinculados.length > 0 && savedPacienteId) {
-						const pacienteExiste = pacientesVinculados.some(p => p.id === parseInt(savedPacienteId));
-
-						if (pacienteExiste) {
-							// El paciente guardado es válido, cargarlo
-							await cargarPacienteDirecto(savedPacienteId);
-						} else {
-							// El paciente guardado NO está en la lista vinculada, limpiar y seleccionar el primero
-							localStorage.removeItem('cuido.pacienteId');
-							await cargarPacienteDirecto(pacientesVinculados[0].id);
-						}
-					} else if (pacientesVinculados.length > 0) {
-						// No hay paciente guardado pero sí hay pacientes vinculados, seleccionar el primero
-						await cargarPacienteDirecto(pacientesVinculados[0].id);
-					} else {
-						// NO hay pacientes vinculados, limpiar todo
-						localStorage.removeItem('cuido.pacienteId');
-						setPacienteSeleccionado(null);
-					}
-				} else if (role === 'paciente' && savedPacienteId) {
-					// Para pacientes: cargar su propio perfil si existe en localStorage
-					await cargarPacienteDirecto(savedPacienteId);
-				}
-
-			} catch (error) {
-				console.error('Error en carga inicial:', error);
-				setPacientes([]);
-				setPacienteSeleccionado(null);
-				localStorage.removeItem('cuido.pacienteId');
-			} finally {
-				setLoading(false);
-			}
-		};
-
-		cargarInicial();
-	}, []);
 
 	// Función auxiliar para cargar paciente SIN validaciones (uso interno)
 	const cargarPacienteDirecto = async (pacienteId) => {
@@ -94,17 +25,85 @@ export function PacienteProvider({ children }) {
 		}
 	};
 
+	useEffect(() => {
+		const cargarInicial = async () => {
+			try {
+				setLoading(true);
+
+				// Si no hay rol, usuario no logueado → limpio todo
+				if (!role) {
+					setPacientes([]);
+					setPacienteSeleccionado(null);
+					localStorage.removeItem('cuido.pacienteId');
+					return;
+				}
+
+				// Cargar lista de pacientes vinculados según rol
+				let pacientesVinculados = [];
+
+				if (role === 'cuidador') {
+					const usuario = await usuariosAPI.getMe();
+					pacientesVinculados = await cuidadoresPacientesAPI.getPacientesVinculados(
+						usuario.id
+					);
+				} else if (role === 'paciente') {
+					// Para pacientes: no hay lista, solo su propio perfil
+					pacientesVinculados = [];
+				}
+
+				setPacientes(pacientesVinculados);
+
+				// Solo intentar cargar un paciente si hay info en localStorage
+				const savedPacienteId = localStorage.getItem('cuido.pacienteId');
+
+				if (role === 'cuidador') {
+					if (
+						savedPacienteId &&
+						pacientesVinculados.some(
+							(p) => p.id === parseInt(savedPacienteId)
+						)
+					) {
+						// El paciente guardado es válido
+						await cargarPacienteDirecto(savedPacienteId);
+					} else if (pacientesVinculados.length > 0) {
+						// No hay paciente guardado o no es válido → tomo el primero
+						await cargarPacienteDirecto(pacientesVinculados[0].id);
+					} else {
+						// No hay pacientes vinculados
+						localStorage.removeItem('cuido.pacienteId');
+						setPacienteSeleccionado(null);
+					}
+				} else if (role === 'paciente' && savedPacienteId) {
+					// Para pacientes, si había guardado un id, lo cargo
+					await cargarPacienteDirecto(savedPacienteId);
+				}
+			} catch (error) {
+				console.error('Error en carga inicial:', error);
+				setPacientes([]);
+				setPacienteSeleccionado(null);
+				localStorage.removeItem('cuido.pacienteId');
+			} finally {
+				setLoading(false);
+			}
+		};
+
+		cargarInicial();
+	}, [role]); // 👈 ahora se dispara cada vez que cambias de paciente ↔ cuidador
+
 	// Función pública para cargar paciente (con validaciones)
 	const cargarPaciente = async (pacienteId) => {
 		try {
 			setLoading(true);
 
 			// Validar que el paciente existe en la lista de pacientes vinculados
-			const role = localStorage.getItem('cuido.role')?.toLowerCase();
 			if (role === 'cuidador' && pacientes.length > 0) {
-				const existeEnLista = pacientes.some(p => p.id === parseInt(pacienteId));
+				const existeEnLista = pacientes.some(
+					(p) => p.id === parseInt(pacienteId)
+				);
 				if (!existeEnLista) {
-					console.warn(`Paciente ID ${pacienteId} no está en la lista de pacientes vinculados`);
+					console.warn(
+						`Paciente ID ${pacienteId} no está en la lista de pacientes vinculados`
+					);
 					localStorage.removeItem('cuido.pacienteId');
 					setPacienteSeleccionado(null);
 					setLoading(false);
@@ -125,7 +124,7 @@ export function PacienteProvider({ children }) {
 	// Función para recargar la lista de pacientes (sin auto-selección)
 	const cargarListaPacientes = async () => {
 		try {
-			const role = localStorage.getItem('cuido.role')?.toLowerCase();
+			console.log('ingrese al cargarListaPacientes de PacienteContext.js');
 
 			if (!role) {
 				setPacientes([]);
@@ -136,7 +135,9 @@ export function PacienteProvider({ children }) {
 
 			if (role === 'cuidador') {
 				const usuario = await usuariosAPI.getMe();
-				data = await cuidadoresPacientesAPI.getPacientesVinculados(usuario.id);
+				data = await cuidadoresPacientesAPI.getPacientesVinculados(
+					usuario.id
+				);
 			} else if (role === 'paciente') {
 				data = [];
 			}
@@ -163,10 +164,16 @@ export function PacienteProvider({ children }) {
 		loading,
 		seleccionarPaciente,
 		limpiarPaciente,
-		recargarPaciente: () => pacienteSeleccionado && cargarPaciente(pacienteSeleccionado.id),
+		recargarPaciente:
+			() => pacienteSeleccionado && cargarPaciente(pacienteSeleccionado.id),
+		cargarListaPacientes,
 	};
 
-	return <PacienteContext.Provider value={value}>{children}</PacienteContext.Provider>;
+	return (
+		<PacienteContext.Provider value={value}>
+			{children}
+		</PacienteContext.Provider>
+	);
 }
 
 export function usePaciente() {
