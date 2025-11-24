@@ -130,6 +130,7 @@ export default function Chatbot() {
 
 		try {
 			// Llamar al microservicio
+			console.log("el paciente seleccionado es: ", pacienteSeleccionado.id)
 			const response = await chatbotAPI.enviarMensaje(textoTrimmed, pacienteSeleccionado.id);
 
 			// Agregar respuesta del bot
