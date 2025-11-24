@@ -14,6 +14,7 @@ import {
 } from 'react-icons/io5';
 import { tareasAPI } from '../../services/api';
 import { usePaciente } from '../../context/PacienteContext';
+import EvilIcons from '@expo/vector-icons/EvilIcons';
 import './Tareas.css';
 
 export default function Tareas() {
@@ -370,8 +371,8 @@ export default function Tareas() {
 								{!ordenFecha
 									? 'Fecha: Off'
 									: ordenFecha === 'conFecha'
-									? 'Con Fecha ↑'
-									: 'Sin Fecha ↑'}
+										? 'Con Fecha ↑'
+										: 'Sin Fecha ↑'}
 							</span>
 						</button>
 
@@ -385,8 +386,8 @@ export default function Tareas() {
 								{!ordenFechaDir
 									? 'Orden Fecha: Off'
 									: ordenFechaDir === 'ASC'
-									? 'Fecha ↑'
-									: 'Fecha ↓'}
+										? 'Fecha ↑'
+										: 'Fecha ↓'}
 							</span>
 						</button>
 
@@ -400,8 +401,8 @@ export default function Tareas() {
 								{!ordenPrioridad
 									? 'Prioridad: Off'
 									: ordenPrioridad === 'ASC'
-									? 'Prioridad ↓'
-									: 'Prioridad ↑'}
+										? 'Prioridad ↓'
+										: 'Prioridad ↑'}
 							</span>
 						</button>
 
@@ -497,100 +498,122 @@ export default function Tareas() {
 					<div className="tareas-lista">
 						{tareasFinales.map((tarea, index) => {
 							const expirada = esTareaExpirada(tarea.fechaVencimiento) && !tarea.completada;
+							const tieneDescripcion =
+								tarea.descripcion && tarea.descripcion.toString().trim().length > 0;
 
 							return (
 								<div
 									key={tarea.id}
-									className={`tarea-item ${tarea.completada ? 'completada' : ''} ${
-										expirada ? 'expirada' : ''
-									}`}
+									className={`tarea-item ${tarea.completada ? 'completada' : ''} ${expirada ? 'expirada' : ''
+										}`}
 								>
-									{/* Checkbox */}
-									<div className="tarea-checkbox">
-										<button
-											className="checkbox-btn"
-											onClick={() => handleToggleTarea(tarea.id)}
-											title={tarea.completada ? 'Marcar como pendiente' : 'Marcar como completada'}
-										>
-											{tarea.completada ? (
-												<IoCheckmarkCircle className="icon-completada" />
-											) : (
-												<IoEllipseOutline className="icon-pendiente" />
-											)}
-										</button>
-									</div>
-
-									{/* Contenido */}
-									<div className="tarea-contenido">
-										<h3 className="tarea-titulo">{tarea.titulo}</h3>
-
-										{tarea.descripcion && (
-											<p className="tarea-descripcion">{tarea.descripcion}</p>
-										)}
-
-										<div className="tarea-meta">
-											{tarea.fechaVencimiento && (
-												<div className="meta-item meta-fecha">
-													<IoCalendarOutline />
-													<span>{formatearFecha(tarea.fechaVencimiento)}</span>
-												</div>
-											)}
-
-											<div
-												className={`meta-item meta-prioridad prioridad-${tarea.prioridad.toLowerCase()}`}
+									<div className="tarea-main-row">
+										{/* Checkbox */}
+										<div className="tarea-checkbox">
+											<button
+												className="checkbox-btn"
+												onClick={() => handleToggleTarea(tarea.id)}
+												title={
+													tarea.completada
+														? 'Marcar como pendiente'
+														: 'Marcar como completada'
+												}
 											>
-												<IoAlertCircleOutline />
-												<span>{tarea.prioridad}</span>
+												{tarea.completada ? (
+													<IoCheckmarkCircle className="icon-completada" />
+												) : (
+													<IoEllipseOutline className="icon-pendiente" />
+												)}
+											</button>
+										</div>
+
+										{/* Contenido */}
+										<div className="tarea-contenido">
+											<div className="tarea-header-row">
+												<h3 className="tarea-titulo">{tarea.titulo}</h3>
+
+												<div
+													className={`meta-item meta-prioridad prioridad-${tarea.prioridad.toLowerCase()}`}
+												>
+													<IoAlertCircleOutline />
+													<span>{tarea.prioridad}</span>
+												</div>
+											</div>
+
+											{tieneDescripcion ? (
+												<p className="tarea-descripcion">{tarea.descripcion}</p>
+											) : (
+												<p className="tarea-descripcion tarea-descripcion-vacia">
+													<em>Sin descripción especificada</em>
+												</p>
+											)}
+
+											<div className="tarea-meta">
+												<div
+													className={`meta-item meta-fecha ${!tarea.fechaVencimiento ? 'meta-sin-fecha' : ''
+														}`}
+												>
+													<IoCalendarOutline />
+													<span>
+														{tarea.fechaVencimiento
+															? formatearFecha(tarea.fechaVencimiento)
+															: 'No tiene fecha de caducidad'}
+													</span>
+												</div>
 											</div>
 										</div>
-									</div>
 
-									{/* Acciones */}
-									<div className="tarea-acciones">
-										{modoReordenar && !hayOrdenamientoActivo && (
-											<>
-												<button
-													className="btn-accion btn-reordenar"
-													onClick={() => handleMoverArriba(tarea.id)}
-													disabled={index === 0 || tareaMoviendose === tarea.id}
-													title="Mover arriba"
-												>
-													{tareaMoviendose === tarea.id ? '...' : <IoArrowUpCircle />}
-												</button>
-												<button
-													className="btn-accion btn-reordenar"
-													onClick={() => handleMoverAbajo(tarea.id)}
-													disabled={index === tareasFinales.length - 1 || tareaMoviendose === tarea.id}
-													title="Mover abajo"
-												>
-													{tareaMoviendose === tarea.id ? '...' : <IoArrowDownCircle />}
-												</button>
-											</>
-										)}
+										{/* Acciones */}
+										<div className="tarea-acciones">
+											{modoReordenar && !hayOrdenamientoActivo && (
+												<>
+													<button
+														className="btn-accion btn-reordenar"
+														onClick={() => handleMoverArriba(tarea.id)}
+														disabled={index === 0 || tareaMoviendose === tarea.id}
+														title="Mover arriba"
+													>
+														{tareaMoviendose === tarea.id ? '...' : <IoArrowUpCircle />}
+													</button>
+													<button
+														className="btn-accion btn-reordenar"
+														onClick={() => handleMoverAbajo(tarea.id)}
+														disabled={
+															index === tareasFinales.length - 1 ||
+															tareaMoviendose === tarea.id
+														}
+														title="Mover abajo"
+													>
+														{tareaMoviendose === tarea.id ? '...' : <IoArrowDownCircle />}
+													</button>
+												</>
+											)}
 
-										{!modoReordenar && (
-											<>
-												<button
-													className="btn-accion btn-editar"
-													onClick={() => abrirModalEditar(tarea)}
-													title="Editar tarea"
-												>
-													<IoCreateOutline />
-												</button>
+											{!modoReordenar && (
+												<>
+													<button
+														className="btn-accion btn-editar"
+														onClick={() => abrirModalEditar(tarea)}
+														title="Editar tarea"
+													>
+														<EvilIcons name="pencil" size={26} color="blue" />
+													</button>
 
-												<button
-													className="btn-accion btn-eliminar"
-													onClick={() => abrirModalEliminar(tarea)}
-													title="Eliminar tarea"
-												>
-													<IoTrashOutline />
-												</button>
-											</>
-										)}
+													<button
+														className="btn-accion btn-eliminar"
+														onClick={() => abrirModalEliminar(tarea)}
+														title="Eliminar tarea"
+													>
+														<IoTrashOutline />
+													</button>
+												</>
+											)}
+										</div>
 									</div>
 								</div>
 							);
 						})}
+
 					</div>
 				)}
 			</div>
@@ -651,32 +674,31 @@ export default function Tareas() {
 							<div className="form-group">
 								<label>
 									Prioridad <span className="required">*</span>
-									<span className="tooltip-hint" title="Por defecto es MEDIA">ℹ️</span>
+									<span className="tooltip-hint" title="Por defecto es MEDIA">
+										ℹ️
+									</span>
 								</label>
 								<div className="prioridad-selector">
 									<button
 										type="button"
-										className={`prioridad-btn prioridad-baja ${
-											formData.prioridad === 'BAJA' ? 'active' : ''
-										}`}
+										className={`prioridad-btn prioridad-baja ${formData.prioridad === 'BAJA' ? 'active' : ''
+											}`}
 										onClick={() => setFormData({ ...formData, prioridad: 'BAJA' })}
 									>
 										BAJA
 									</button>
 									<button
 										type="button"
-										className={`prioridad-btn prioridad-media ${
-											formData.prioridad === 'MEDIA' ? 'active' : ''
-										}`}
+										className={`prioridad-btn prioridad-media ${formData.prioridad === 'MEDIA' ? 'active' : ''
+											}`}
 										onClick={() => setFormData({ ...formData, prioridad: 'MEDIA' })}
 									>
 										MEDIA
 									</button>
 									<button
 										type="button"
-										className={`prioridad-btn prioridad-alta ${
-											formData.prioridad === 'ALTA' ? 'active' : ''
-										}`}
+										className={`prioridad-btn prioridad-alta ${formData.prioridad === 'ALTA' ? 'active' : ''
+											}`}
 										onClick={() => setFormData({ ...formData, prioridad: 'ALTA' })}
 									>
 										ALTA
@@ -753,32 +775,31 @@ export default function Tareas() {
 							<div className="form-group">
 								<label>
 									Prioridad <span className="required">*</span>
-									<span className="tooltip-hint" title="Por defecto es MEDIA">ℹ️</span>
+									<span className="tooltip-hint" title="Por defecto es MEDIA">
+										ℹ️
+									</span>
 								</label>
 								<div className="prioridad-selector">
 									<button
 										type="button"
-										className={`prioridad-btn prioridad-baja ${
-											formData.prioridad === 'BAJA' ? 'active' : ''
-										}`}
+										className={`prioridad-btn prioridad-baja ${formData.prioridad === 'BAJA' ? 'active' : ''
+											}`}
 										onClick={() => setFormData({ ...formData, prioridad: 'BAJA' })}
 									>
 										BAJA
 									</button>
 									<button
 										type="button"
-										className={`prioridad-btn prioridad-media ${
-											formData.prioridad === 'MEDIA' ? 'active' : ''
-										}`}
+										className={`prioridad-btn prioridad-media ${formData.prioridad === 'MEDIA' ? 'active' : ''
+											}`}
 										onClick={() => setFormData({ ...formData, prioridad: 'MEDIA' })}
 									>
 										MEDIA
 									</button>
 									<button
 										type="button"
-										className={`prioridad-btn prioridad-alta ${
-											formData.prioridad === 'ALTA' ? 'active' : ''
-										}`}
+										className={`prioridad-btn prioridad-alta ${formData.prioridad === 'ALTA' ? 'active' : ''
+											}`}
 										onClick={() => setFormData({ ...formData, prioridad: 'ALTA' })}
 									>
 										ALTA

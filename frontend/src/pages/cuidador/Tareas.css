@@ -1,7 +1,7 @@
 /* TAREAS - MOBILE FIRST */
 .tareas-container {
 	padding: 16px;
-	max-width: 600px;
+	max-width: 800px;
 	margin: 0 auto;
 	min-height: 100vh;
 	background: #f9fafb;
@@ -9,27 +9,29 @@
 
 /* Header */
 .tareas-header {
-	margin-bottom: 20px;
-	padding: 12px 0;
+	margin-bottom: 16px;
+	padding: 8px 0 4px;
+	border-bottom: 1px solid #e5e7eb;
 }
 
 .tareas-header h1 {
-	margin: 0 0 8px 0;
-	font-size: 28px;
+	margin: 0 0 6px 0;
+	font-size: 26px;
 	font-weight: 700;
 	color: #1f2937;
 }
 
 .header-subtitulo {
-	font-size: 14px;
+	font-size: 13px;
 	color: #6b7280;
 	margin: 0;
 }
 
+/* FAB agregar tarea */
 .btn-agregar-tarea {
 	position: fixed;
-	bottom: 100px;
-	right: 24px;
+	bottom: 96px;
+	right: 20px;
 	background: #10b981;
 	color: white;
 	border: none;
@@ -52,54 +54,65 @@
 	box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
 }
 
-/* Controles */
+/* ================= CONTROLES (ORDEN + FILTROS) ================= */
 .controles-container {
-	background: white;
+	background: #ffffff;
 	border-radius: 12px;
-	padding: 16px;
+	padding: 14px;
 	margin-bottom: 16px;
 	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+	display: flex;
+	flex-direction: column;
+	gap: 14px;
 }
 
 .controles-seccion {
-	margin-bottom: 16px;
+	padding-bottom: 12px;
+	border-bottom: 1px solid #edf2f7;
 }
 
 .controles-seccion:last-child {
+	border-bottom: none;
+	padding-bottom: 0;
 	margin-bottom: 0;
 }
 
 .controles-titulo {
-	font-size: 13px;
+	font-size: 12px;
 	font-weight: 700;
 	color: #374151;
 	text-transform: uppercase;
-	letter-spacing: 0.5px;
-	margin: 0 0 12px 0;
+	letter-spacing: 0.06em;
+	margin: 0 0 10px 0;
 }
 
+/* Botones de ordenamiento */
 .controles-buttons {
 	display: flex;
-	gap: 8px;
 	flex-wrap: wrap;
+	gap: 8px;
 }
 
 .control-btn {
-	flex: 1;
-	min-width: 100px;
-	padding: 10px 14px;
-	background: #f3f4f6;
-	border: 2px solid #e5e7eb;
-	border-radius: 8px;
-	font-size: 13px;
-	font-weight: 600;
-	cursor: pointer;
-	transition: all 0.2s;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	gap: 6px;
+	flex: 1 1 calc(50% - 4px);
+	min-width: 140px;
+	padding: 9px 10px;
+	background: #f3f4f6;
+	border: 2px solid #e5e7eb;
+	border-radius: 10px;
+	font-size: 12px;
+	font-weight: 600;
+	cursor: pointer;
+	transition: all 0.2s;
 	color: #6b7280;
+}
+
+.control-btn span {
+	white-space: nowrap;
 }
 
 .control-btn.active {
@@ -125,7 +138,7 @@
 .filtros {
 	display: flex;
 	flex-direction: column;
-	gap: 12px;
+	gap: 10px;
 }
 
 .filtro-estado {
@@ -135,17 +148,19 @@
 }
 
 .filtro-btn {
-	flex: 1;
-	min-width: 80px;
-	padding: 8px 12px;
+	flex: 0 0 auto;
+	min-width: auto;
+	padding: 8px 16px;
 	background: #f3f4f6;
 	border: 2px solid #e5e7eb;
-	border-radius: 8px;
-	font-size: 13px;
+	border-radius: 999px;
+	font-size: 12px;
 	font-weight: 600;
 	cursor: pointer;
 	transition: all 0.2s;
 	color: #6b7280;
+	text-align: center;
+	white-space: nowrap;
 }
 
 .filtro-btn.active {
@@ -162,18 +177,19 @@
 	display: flex;
 	align-items: center;
 	gap: 8px;
-	flex-wrap: wrap;
+	flex-wrap: nowrap;
 }
 
 .input-fecha {
-	flex: 1;
-	min-width: 130px;
-	padding: 8px 12px;
+	flex: 1 1 0;
+	min-width: 0;
+	padding: 8px 10px;
 	border: 2px solid #e5e7eb;
-	border-radius: 8px;
-	font-size: 13px;
+	border-radius: 10px;
+	font-size: 12px;
 	font-family: inherit;
 	transition: border-color 0.2s;
+	background: #ffffff;
 }
 
 .input-fecha:focus {
@@ -187,24 +203,25 @@
 }
 
 .btn-limpiar-filtro {
-	padding: 8px;
+	padding: 7px;
 	background: #fee2e2;
 	color: #dc2626;
 	border: none;
-	border-radius: 8px;
+	border-radius: 10px;
 	cursor: pointer;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	transition: all 0.2s;
-	font-size: 18px;
+	font-size: 16px;
+	flex-shrink: 0;
 }
 
 .btn-limpiar-filtro:active {
 	background: #fecaca;
 }
 
-/* Lista de Tareas */
+/* ================= LISTA DE TAREAS ================= */
 .tareas-contenido {
 	margin-bottom: 80px;
 }
@@ -222,8 +239,8 @@
 	overflow: hidden;
 	transition: all 0.2s;
 	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-	display: flex;
-	flex-direction: column;
+	padding: 10px 14px;
+	/* espacio interno entre borde y contenido */
 }
 
 .tarea-item.expirada {
@@ -240,16 +257,16 @@
 	opacity: 0.7;
 }
 
-.tarea-item > .tarea-contenido {
-	padding: 14px;
+/* fila principal: checkbox + contenido + acciones */
+.tarea-main-row {
 	display: flex;
-	gap: 12px;
 	align-items: flex-start;
+	gap: 12px;
 }
 
 .tarea-checkbox {
 	flex-shrink: 0;
-	margin-top: 2px;
+	padding-top: 4px;
 }
 
 .checkbox-btn {
@@ -277,16 +294,27 @@
 	color: #9ca3af;
 }
 
-.tarea-item .tarea-contenido {
+.tarea-contenido {
 	flex: 1;
 	min-width: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
+/* título + prioridad en la misma fila */
+.tarea-header-row {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
 }
 
 .tarea-titulo {
 	font-size: 15px;
-	font-weight: 600;
+	font-weight: 700;
 	color: #1f2937;
-	margin-bottom: 4px;
+	margin: 0;
 	line-height: 1.4;
 }
 
@@ -298,16 +326,18 @@
 .tarea-descripcion {
 	font-size: 13px;
 	color: #6b7280;
-	margin-bottom: 8px;
+	margin: 2px 0 4px;
 	line-height: 1.4;
 }
 
+/* meta: fecha debajo */
 .tarea-meta {
 	display: flex;
 	gap: 12px;
 	flex-wrap: wrap;
 	font-size: 12px;
 	align-items: center;
+	margin-top: 2px;
 }
 
 .meta-item {
@@ -334,6 +364,7 @@
 	text-transform: uppercase;
 }
 
+/* prioridad pills */
 .meta-prioridad.prioridad-alta {
 	background: #fee2e2;
 	color: #991b1b;
@@ -352,67 +383,90 @@
 	border: 1px solid #bfdbfe;
 }
 
+/* Acciones de cada tarea: circulitos a la derecha */
 .tarea-acciones {
 	display: flex;
-	border-top: 1px solid #f3f4f6;
-	background: #fafafa;
+	flex-direction: column;
+	gap: 6px;
+	align-items: center;
+	justify-content: center;
+	margin-left: 4px;
 }
 
 .btn-accion {
-	flex: 1;
-	padding: 12px;
-	background: none;
-	border: none;
+	width: 32px;
+	height: 32px;
+	border-radius: 999px;
+	background: #ffffff;
+	/* fondo blanco */
+	border: 2px solid transparent;
 	cursor: pointer;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	gap: 6px;
 	font-size: 18px;
 	color: #6b7280;
 	transition: all 0.2s;
-	border-right: 1px solid #f3f4f6;
 }
 
-.btn-accion:last-child {
-	border-right: none;
+/* Forzar tamaño/visible del icono */
+.btn-accion svg {
+	width: 18px;
+	height: 18px;
 }
 
 .btn-accion:active {
-	background: #f3f4f6;
+	transform: scale(0.95);
+	box-shadow: 0 0 0 2px rgba(148, 163, 184, 0.3);
+}
+
+.tarea-descripcion-vacia {
+	color: #9ca3af;
+}
+
+.tarea-descripcion-vacia em {
+	font-style: italic;
+}
+
+/* placeholder de fecha sin caducidad */
+.meta-fecha.meta-sin-fecha span {
+	font-style: italic;
+	color: #9ca3af;
 }
 
 .btn-accion.btn-editar {
-	color: #2ea3ff;
+	border-color: #a8adb9;
+	color: #2e48d8;
+	background: #ffffff;
 }
 
 .btn-accion.btn-editar:active {
-	background: #eff6ff;
+	background: #b4c5f5;
 }
 
 .btn-accion.btn-eliminar {
+	border-color: #a8adb9;
+	background: #ffffff;
 	color: #dc2626;
 }
 
 .btn-accion.btn-eliminar:active {
-	background: #fee2e2;
+	background: #f7e6e6;
 }
 
 .btn-accion.btn-reordenar {
 	color: #6b7280;
-	font-size: 24px;
+	font-size: 22px;
+	background: #e5e7eb;
 }
 
 .btn-accion.btn-reordenar:disabled {
 	opacity: 0.3;
 	cursor: not-allowed;
+	box-shadow: none;
 }
 
-.btn-accion.btn-reordenar:disabled:active {
-	background: none;
-}
-
-/* Modal */
+/* ================= MODALES ================= */
 .modal-overlay {
 	position: fixed;
 	inset: 0;
@@ -463,8 +517,13 @@
 }
 
 @keyframes fadeIn {
-	from { opacity: 0; }
-	to { opacity: 1; }
+	from {
+		opacity: 0;
+	}
+
+	to {
+		opacity: 1;
+	}
 }
 
 @keyframes slideUp {
@@ -472,6 +531,7 @@
 		opacity: 0;
 		transform: translateY(100%);
 	}
+
 	to {
 		opacity: 1;
 		transform: translateY(0);
@@ -560,7 +620,9 @@
 	opacity: 1;
 }
 
-.input, .textarea, .select {
+.input,
+.textarea,
+.select {
 	width: 100%;
 	padding: 12px;
 	border: 2px solid #e5e7eb;
@@ -572,7 +634,9 @@
 	appearance: none;
 }
 
-.input:focus, .textarea:focus, .select:focus {
+.input:focus,
+.textarea:focus,
+.select:focus {
 	outline: none;
 	border-color: #2ea3ff;
 }
@@ -736,18 +800,49 @@
 	margin: 20px 0;
 }
 
-/* Responsive: Tablets y Desktop */
+/* ================= RESPONSIVE ================= */
 @media (min-width: 768px) {
 	.tareas-container {
-		padding: 24px;
+		padding: 24px 24px 32px;
 	}
 
 	.tareas-header h1 {
-		font-size: 32px;
+		font-size: 30px;
 	}
 
 	.header-subtitulo {
-		font-size: 15px;
+		font-size: 14px;
+	}
+
+	/* Controles en dos columnas: Ordenamiento / Filtros */
+	.controles-container {
+		display: grid;
+		grid-template-columns: 1.1fr 1.1fr;
+		gap: 16px;
+		padding: 18px;
+	}
+
+	.controles-seccion {
+		border-bottom: none;
+		padding-bottom: 0;
+	}
+
+	.control-btn {
+		flex: 1 1 100%;
+		min-width: 0;
+	}
+
+	.filtros {
+		flex-direction: column;
+		gap: 10px;
+	}
+
+	.filtro-estado {
+		gap: 10px;
+	}
+
+	.filtro-rango {
+		gap: 10px;
 	}
 
 	.modal-overlay {
