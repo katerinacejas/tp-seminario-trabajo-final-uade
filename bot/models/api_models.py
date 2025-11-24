@@ -22,7 +22,7 @@ class ChatMessageRequest(BaseModel):
 
 class ChatMessageResponse(BaseModel):
     """Response del chatbot"""
-    respuesta: str = Field(..., description="Respuesta generada por el chatbot en Markdown")
+    respuesta: str = Field(..., description="Respuesta generada por el chatbot")
     paciente_nombre: str = Field(..., description="Nombre completo del paciente")
     timestamp: datetime = Field(..., description="Fecha y hora de la respuesta")
     mensaje_id: int = Field(..., description="ID del mensaje en la BD")

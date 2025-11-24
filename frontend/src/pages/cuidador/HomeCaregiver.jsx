@@ -465,50 +465,6 @@ export default function HomeCuidador() {
 					</div>
 				)}
 			</div>
-
-			{/* Sección: Bitácora de hoy */}
-			<div className="home-seccion-card">
-				<div className="seccion-header">
-					<div className="seccion-header-left">
-						<IoClipboardOutline className="seccion-icono" />
-						<h2 className="seccion-titulo">Bitácora de hoy</h2>
-					</div>
-					{bitacoraHoy && (
-						<button
-							className="btn-ver-mas"
-							onClick={() => navigate('/bitacora')}
-							aria-label="Ver bitácora completa"
-						>
-							<span>Ver todo</span>
-							<IoChevronForwardOutline />
-						</button>
-					)}
-				</div>
-
-				{!bitacoraHoy ? (
-					<div className="estado-vacio">
-						<IoClipboardOutline className="estado-vacio-icono" />
-						<p className="estado-vacio-texto">No hay entradas de bitácora para hoy</p>
-					</div>
-				) : (
-					<div className="tarjeta-item" onClick={() => navigate('/bitacora')}>
-						<div className="tarjeta-contenido">
-							<h3 className="tarjeta-titulo">
-								{bitacoraHoy.titulo || 'Entrada del día'}
-							</h3>
-							{bitacoraHoy.descripcion && (
-								<p className="tarjeta-descripcion">
-									{truncarTexto(bitacoraHoy.descripcion, 2)}
-								</p>
-							)}
-							<p className="tarjeta-fecha">
-								{formatearHora(bitacoraHoy.createdAt)} hs
-							</p>
-						</div>
-						<IoChevronForwardOutline className="tarjeta-icono-nav" />
-					</div>
-				)}
-			</div>
 		</div>
 	);
 }
