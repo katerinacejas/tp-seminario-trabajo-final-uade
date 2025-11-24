@@ -191,6 +191,7 @@ async def obtener_historial(
 
         # Verificar acceso al paciente
         print("el paciente_id que llego es", paciente_id)
+        print("el cuidador id q llego es: ",  usuario.id)
         tiene_acceso = await PatientService.verificar_acceso_cuidador(
             db, usuario.id, paciente_id
         )

@@ -302,7 +302,7 @@ class DataService:
             intenciones.append("tareas")
 
         # Documentos/Fichas
-        if any(palabra in mensaje_lower for palabra in ["ficha", "documento", "archivo", "análisis", "estudio", "receta"]):
+        if any(palabra in mensaje_lower for palabra in ["ficha", "radiografia", "documento", "archivo", "análisis", "estudio", "receta"]):
             intenciones.append("documentos")
 
         # Contactos de emergencia
