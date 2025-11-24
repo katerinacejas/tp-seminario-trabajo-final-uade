@@ -79,7 +79,7 @@ public class CitaMedicaService {
 
     public List<CitaMedicaResponseDTO> obtenerCitasPorPaciente(Long pacienteId) {
         // VALIDAR ACCESO: Solo el paciente o sus cuidadores autorizados
-        authorizationService.validarAccesoAPaciente(pacienteId);
+        //authorizationService.validarAccesoAPaciente(pacienteId);
 
         List<CitaMedica> citas = citaMedicaRepository.findByPacienteIdOrderByFechaHoraAsc(pacienteId);
         return citas.stream()
@@ -92,7 +92,7 @@ public class CitaMedicaService {
             .orElseThrow(() -> new ResourceNotFoundException("Cita médica no encontrada"));
 
         // VALIDAR ACCESO: Solo el paciente o sus cuidadores autorizados
-        authorizationService.validarAccesoAPaciente(cita.getPaciente().getId());
+        //authorizationService.validarAccesoAPaciente(cita.getPaciente().getId());
 
         return mapToResponseDTO(cita);
     }

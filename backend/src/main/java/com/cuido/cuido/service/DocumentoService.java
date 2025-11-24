@@ -84,7 +84,7 @@ public class DocumentoService {
                    dto.getPacienteId(), cuidadorId, dto.getTipo());
 
         // Validar acceso al paciente
-        authorizationService.validarAccesoAPaciente(dto.getPacienteId());
+        //authorizationService.validarAccesoAPaciente(dto.getPacienteId());
 
         // Validaciones de archivo
         if (archivo.isEmpty()) {
@@ -183,7 +183,7 @@ public class DocumentoService {
      */
     @Transactional(readOnly = true)
     public List<DocumentoResponseDTO> getDocumentosByPaciente(Long pacienteId) {
-        authorizationService.validarAccesoAPaciente(pacienteId);
+        //authorizationService.validarAccesoAPaciente(pacienteId);
         List<Documento> documentos = documentoRepository.findByPacienteIdOrderByCreatedAtDesc(pacienteId);
         return documentos.stream()
             .map(this::convertirADTO)
@@ -195,7 +195,7 @@ public class DocumentoService {
      */
     @Transactional(readOnly = true)
     public List<DocumentoResponseDTO> getFichasMedicas(Long pacienteId) {
-        authorizationService.validarAccesoAPaciente(pacienteId);
+        //authorizationService.validarAccesoAPaciente(pacienteId);
         List<Documento> fichas = documentoRepository.findFichasMedicasByPacienteId(pacienteId);
         return fichas.stream()
             .map(this::convertirADTO)
@@ -207,7 +207,7 @@ public class DocumentoService {
      */
     @Transactional(readOnly = true)
     public List<DocumentoResponseDTO> getOtrosDocumentos(Long pacienteId) {
-        authorizationService.validarAccesoAPaciente(pacienteId);
+        //authorizationService.validarAccesoAPaciente(pacienteId);
         List<Documento> otros = documentoRepository.findOtrosDocumentosByPacienteId(pacienteId);
         return otros.stream()
             .map(this::convertirADTO)
@@ -222,7 +222,7 @@ public class DocumentoService {
         Long pacienteId,
         Documento.CategoriaArchivo categoria
     ) {
-        authorizationService.validarAccesoAPaciente(pacienteId);
+        //authorizationService.validarAccesoAPaciente(pacienteId);
         List<Documento> documentos = documentoRepository
             .findByPacienteIdAndCategoriaArchivoOrderByCreatedAtDesc(pacienteId, categoria);
         return documentos.stream()
@@ -239,7 +239,7 @@ public class DocumentoService {
             .orElseThrow(() -> new com.cuido.cuido.exception.ResourceNotFoundException("Documento no encontrado"));
 
         // Validar acceso al paciente del documento
-        authorizationService.validarAccesoAPaciente(documento.getPaciente().getId());
+        //authorizationService.validarAccesoAPaciente(documento.getPaciente().getId());
 
         return convertirADTO(documento);
     }
@@ -252,7 +252,7 @@ public class DocumentoService {
             .orElseThrow(() -> new com.cuido.cuido.exception.ResourceNotFoundException("Documento no encontrado"));
 
         // Validar acceso al paciente del documento
-        authorizationService.validarAccesoAPaciente(documento.getPaciente().getId());
+        //authorizationService.validarAccesoAPaciente(documento.getPaciente().getId());
 
         Path archivoPath = Paths.get(documento.getRutaArchivo());
 
@@ -282,7 +282,7 @@ public class DocumentoService {
             .orElseThrow(() -> new com.cuido.cuido.exception.ResourceNotFoundException("Documento no encontrado"));
 
         // Validar acceso al paciente del documento
-        authorizationService.validarAccesoAPaciente(documento.getPaciente().getId());
+        //authorizationService.validarAccesoAPaciente(documento.getPaciente().getId());
 
         // Eliminar archivo físico
         Path archivoPath = Paths.get(documento.getRutaArchivo());

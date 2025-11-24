@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { IoChatbubbleEllipsesOutline, IoSendOutline, IoTrashOutline } from "react-icons/io5";
-import { chatbotAPI } from "../../services/api";
+import { chatbotAPI, pacientesAPI } from "../../services/api";
 import { usePaciente } from "../../context/PacienteContext";
 import "./Chatbot.css";
 
@@ -56,7 +56,8 @@ export default function Chatbot() {
 		try {
 			setLoading(true);
 			setError(null);
-			const data = await chatbotAPI.obtenerHistorial(pacienteSeleccionado.id);
+			const id_paciente_usuario_data = await pacientesAPI.getById(pacienteSeleccionado.id);
+			const data = await chatbotAPI.obtenerHistorial(id_paciente_usuario_data.usuarioId);
 
 			// Convertir historial a formato de mensajes
 			const mensajesHistorial = [];
