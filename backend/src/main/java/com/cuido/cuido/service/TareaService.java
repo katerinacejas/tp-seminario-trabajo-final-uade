@@ -28,7 +28,7 @@ public class TareaService {
     @Transactional
     public TareaResponseDTO crearTarea(TareaRequestDTO dto, Long cuidadorId) {
         // VALIDAR ACCESO: Solo cuidadores autorizados pueden crear tareas
-        //authorizationService.validarAccesoAPaciente(dto.getPacienteId());
+        ////authorizationService.validarAccesoAPaciente(dto.getPacienteId());
 
         Usuario paciente = usuarioRepository.findById(dto.getPacienteId())
             .orElseThrow(() -> new RuntimeException("Paciente no encontrado"));
@@ -59,7 +59,7 @@ public class TareaService {
     @Transactional(readOnly = true)
     public List<TareaResponseDTO> getTareasByPaciente(Long pacienteId) {
         // VALIDAR ACCESO: Solo el paciente o sus cuidadores autorizados
-        //authorizationService.validarAccesoAPaciente(pacienteId);
+        ////authorizationService.validarAccesoAPaciente(pacienteId);
 
         List<Tarea> tareas = tareaRepository.findByPacienteIdOrderByOrdenManualAsc(pacienteId);
         return tareas.stream()
@@ -73,7 +73,7 @@ public class TareaService {
     @Transactional(readOnly = true)
     public List<TareaResponseDTO> getTareasByPacienteYEstado(Long pacienteId, Boolean completada) {
         // VALIDAR ACCESO: Solo el paciente o sus cuidadores autorizados
-        //authorizationService.validarAccesoAPaciente(pacienteId);
+        ////authorizationService.validarAccesoAPaciente(pacienteId);
 
         List<Tarea> tareas = tareaRepository.findByPacienteIdAndCompletadaOrderByOrdenManualAsc(pacienteId, completada);
         return tareas.stream()
@@ -91,7 +91,7 @@ public class TareaService {
         LocalDateTime fechaFin
     ) {
         // VALIDAR ACCESO: Solo el paciente o sus cuidadores autorizados
-        //authorizationService.validarAccesoAPaciente(pacienteId);
+        ////authorizationService.validarAccesoAPaciente(pacienteId);
 
         List<Tarea> tareas = tareaRepository.findByPacienteIdAndFechaVencimientoBetween(
             pacienteId, fechaInicio, fechaFin
@@ -110,7 +110,7 @@ public class TareaService {
             .orElseThrow(() -> new RuntimeException("Tarea no encontrada"));
 
         // VALIDAR ACCESO: Solo el paciente o sus cuidadores autorizados
-        //authorizationService.validarAccesoAPaciente(tarea.getPaciente().getId());
+        ////authorizationService.validarAccesoAPaciente(tarea.getPaciente().getId());
 
         return convertirADTO(tarea);
     }
@@ -124,7 +124,7 @@ public class TareaService {
             .orElseThrow(() -> new RuntimeException("Tarea no encontrada"));
 
         // VALIDAR ACCESO: Solo cuidadores autorizados pueden actualizar tareas
-        //authorizationService.validarAccesoAPaciente(tarea.getPaciente().getId());
+        ////authorizationService.validarAccesoAPaciente(tarea.getPaciente().getId());
 
         tarea.setTitulo(dto.getTitulo());
         tarea.setDescripcion(dto.getDescripcion());
@@ -151,7 +151,7 @@ public class TareaService {
             .orElseThrow(() -> new RuntimeException("Tarea no encontrada"));
 
         // VALIDAR ACCESO: Solo cuidadores autorizados pueden cambiar estado
-        //authorizationService.validarAccesoAPaciente(tarea.getPaciente().getId());
+        ////authorizationService.validarAccesoAPaciente(tarea.getPaciente().getId());
 
         tarea.setCompletada(!tarea.getCompletada());
 
@@ -168,7 +168,7 @@ public class TareaService {
             .orElseThrow(() -> new RuntimeException("Tarea no encontrada"));
 
         // VALIDAR ACCESO: Solo cuidadores autorizados pueden reordenar tareas
-        //authorizationService.validarAccesoAPaciente(tarea.getPaciente().getId());
+        ////authorizationService.validarAccesoAPaciente(tarea.getPaciente().getId());
 
         List<Tarea> todasLasTareas = tareaRepository.findByPacienteIdOrderByOrdenManualAsc(
             tarea.getPaciente().getId()
@@ -203,7 +203,7 @@ public class TareaService {
             .orElseThrow(() -> new RuntimeException("Tarea no encontrada"));
 
         // VALIDAR ACCESO: Solo cuidadores autorizados pueden reordenar tareas
-        //authorizationService.validarAccesoAPaciente(tarea.getPaciente().getId());
+        ////authorizationService.validarAccesoAPaciente(tarea.getPaciente().getId());
 
         List<Tarea> todasLasTareas = tareaRepository.findByPacienteIdOrderByOrdenManualAsc(
             tarea.getPaciente().getId()
@@ -238,7 +238,7 @@ public class TareaService {
             .orElseThrow(() -> new RuntimeException("Tarea no encontrada"));
 
         // VALIDAR ACCESO: Solo cuidadores autorizados pueden eliminar tareas
-        //authorizationService.validarAccesoAPaciente(tarea.getPaciente().getId());
+        ////authorizationService.validarAccesoAPaciente(tarea.getPaciente().getId());
 
         tareaRepository.delete(tarea);
 

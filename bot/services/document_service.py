@@ -65,12 +65,21 @@ class DocumentService:
             Exception: Si hay error al procesar el PDF
         """
         try:
+            # Armamos los parámetros para pdf2image
+            kwargs = {
+                "dpi": 300,       # Buena calidad para OCR
+                "fmt": "jpeg",
+                "thread_count": 2
+            }
+
+            # Si tenemos configurado poppler_path en settings, lo usamos
+            if settings.poppler_path:
+                kwargs["poppler_path"] = settings.poppler_path
+
             # Convertir PDF a imágenes
             imagenes = convert_from_path(
                 ruta_pdf,
-                dpi=300,  # Buena calidad para OCR
-                fmt='jpeg',
-                thread_count=2
+                **kwargs
             )
 
             texto_completo = []
@@ -80,7 +89,7 @@ class DocumentService:
                 logger.info(f"Procesando página {i} de {len(imagenes)}...")
                 texto_pagina = pytesseract.image_to_string(
                     imagen,
-                    lang=settings.ocr_language,
+                    lang=settings.ocr_language,  # español
                     config='--psm 3'
                 )
                 texto_completo.append(f"--- Página {i} ---\n{texto_pagina.strip()}")
@@ -90,6 +99,7 @@ class DocumentService:
         except Exception as e:
             logger.error(f"Error al extraer texto de PDF {ruta_pdf}: {e}")
             raise Exception(f"No pude procesar el documento PDF: {str(e)}")
+
 
     @staticmethod
     def procesar_documento(ruta_documento: str) -> str:
@@ -105,6 +115,7 @@ class DocumentService:
         Raises:
             Exception: Si el archivo no existe o hay error al procesar
         """
+        logger.info("ingrese al procesar_documento")
         if not os.path.exists(ruta_documento):
             raise FileNotFoundError(f"El documento no existe: {ruta_documento}")
 
@@ -226,7 +237,7 @@ class DocumentService:
                 tipo_carpeta = "fichas" if doc.tipo.value == "FICHA_MEDICA" else "documentos"
                 ruta = DocumentService.construir_ruta_documento(
                     doc.paciente_id,
-                    Path(doc.url).name,
+                    Path(doc.ruta_archivo).name,
                     tipo_carpeta
                 )
 

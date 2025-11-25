@@ -6,6 +6,8 @@ from config.settings import settings
 from typing import List, Dict
 import logging
 from datetime import datetime
+import re
+import httpx
 
 
 logger = logging.getLogger(__name__)
@@ -140,3 +142,41 @@ class LLMService:
         if system_prompt:
             return [system_prompt] + otros_mensajes
         return otros_mensajes
+
+    @staticmethod
+    def _limpiar_markdown(texto: str) -> str:
+        """
+        Elimina la mayoría de la sintaxis markdown de un texto para dejarlo en texto plano.
+        """
+        if not texto:
+            return texto
+
+        # Quitar negritas y cursivas (**texto**, *texto*, __texto__, _texto_)
+        texto = texto.replace("**", "")
+        texto = texto.replace("__", "")
+        texto = texto.replace("*", "")
+        texto = texto.replace("_", "")
+
+        # Quitar encabezados tipo "# Título", "## Título", etc.
+        texto = re.sub(r"^#+\s*", "", texto, flags=re.MULTILINE)
+
+        # Quitar viñetas al inicio de línea: "-", "*", "+", "- ", "* "
+        texto = re.sub(r"^[\-\+\*]\s+", "", texto, flags=re.MULTILINE)
+
+        return texto
+
+    async def generar_respuesta(self, messages: list[str]) -> str:
+        # ... tu llamada actual a LM Studio ...
+        async with httpx.AsyncClient() as client:
+            resp = await client.post(
+                "http://localhost:1234/v1/chat/completions",
+                json={"model": "lo-que-uses", "messages": messages},
+                timeout=60,
+            )
+        resp.raise_for_status()
+        data = resp.json()
+        contenido = data["choices"][0]["message"]["content"]
+
+        # LIMPIEZA FINAL
+        contenido_plano = self._limpiar_markdown(contenido)
+        return contenido_plano

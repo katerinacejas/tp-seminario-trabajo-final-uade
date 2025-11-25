@@ -30,7 +30,7 @@ class ChatMessageResponse(BaseModel):
     class Config:
         json_schema_extra = {
             "example": {
-                "respuesta": "Hoy tu paciente debe tomar los siguientes medicamentos:\n\n- **Losartán 50mg** a las 08:00\n- **Metformina 850mg** a las 09:00 y 21:00",
+                "respuesta": "Hoy tu paciente debe tomar los siguientes medicamentos:\n\n- Losartán 50mg a las 08:00\n- Metformina 850mg a las 09:00 y 21:00",
                 "paciente_nombre": "Juan Pérez",
                 "timestamp": "2025-11-12T14:30:00",
                 "mensaje_id": 123

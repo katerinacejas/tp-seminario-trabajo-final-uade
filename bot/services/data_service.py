@@ -286,31 +286,31 @@ class DataService:
         intenciones = []
 
         # Medicamentos
-        if any(palabra in mensaje_lower for palabra in ["medicamento", "medicina", "pastilla", "dosis", "tomar"]):
+        if any(palabra in mensaje_lower for palabra in ["medicamento", "medicina", "pastilla", "dosis", "tomar", "medicamentos"]):
             intenciones.append("medicamentos")
 
         # Citas médicas
-        if any(palabra in mensaje_lower for palabra in ["cita", "doctor", "médico", "médica", "consulta", "turno"]):
+        if any(palabra in mensaje_lower for palabra in ["cita", "doctor", "médico", "médica", "consulta", "turno", "citas", "turnos"]):
             intenciones.append("citas")
 
         # Bitácoras
-        if any(palabra in mensaje_lower for palabra in ["bitácora", "bitacora", "registro", "reporte", "anotación"]):
+        if any(palabra in mensaje_lower for palabra in ["bitácora", "bitacora", "registro", "reporte", "anotación", "resumen", "sintomas", "sintoma", "sintió", "sintio"]):
             intenciones.append("bitacoras")
 
         # Tareas
-        if any(palabra in mensaje_lower for palabra in ["tarea", "pendiente", "hacer", "to-do", "todo"]):
+        if any(palabra in mensaje_lower for palabra in ["tarea", "pendiente", "hacer", "to-do", "todo", "tareas"]):
             intenciones.append("tareas")
 
         # Documentos/Fichas
-        if any(palabra in mensaje_lower for palabra in ["ficha", "radiografia", "documento", "archivo", "análisis", "estudio", "receta"]):
+        if any(palabra in mensaje_lower for palabra in ["ficha", "radiografia", "documento", "archivo", "análisis", "estudio", "receta", "documentos"]):
             intenciones.append("documentos")
 
         # Contactos de emergencia
-        if any(palabra in mensaje_lower for palabra in ["contacto", "emergencia", "llamar", "teléfono", "número"]):
+        if any(palabra in mensaje_lower for palabra in ["contacto", "emergencia", "llamar", "teléfono", "número", "contactos", "numeros", "números"]):
             intenciones.append("contactos")
 
         # Información del paciente
-        if any(palabra in mensaje_lower for palabra in ["información", "datos", "paciente", "alergia", "condición", "enfermedad"]):
+        if any(palabra in mensaje_lower for palabra in ["información", "datos", "paciente", "alergia", "condición", "enfermedad", "dato", "alergias", "condiciones"]):
             intenciones.append("info_paciente")
 
         # Si no detectó ninguna intención, asumir consulta general
