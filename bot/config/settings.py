@@ -28,6 +28,9 @@ class Settings(BaseSettings):
 
     # Tesseract OCR
     tesseract_path: str = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+    
+	# Poppler ruta
+    poppler_path: str | None = r"C:\Program Files\poppler-25.11.0\Library\bin" 
 
     # Rutas de archivos
     uploads_path: str = "../backend/uploads"

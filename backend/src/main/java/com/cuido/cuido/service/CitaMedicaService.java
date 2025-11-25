@@ -28,7 +28,7 @@ public class CitaMedicaService {
     @Transactional
     public CitaMedicaResponseDTO crearCitaMedica(CitaMedicaRequestDTO request, Long cuidadorId) {
         // VALIDAR ACCESO: Solo cuidadores autorizados pueden crear citas médicas
-        authorizationService.validarAccesoAPaciente(request.getPacienteId());
+        //authorizationService.validarAccesoAPaciente(request.getPacienteId());
 
         Usuario paciente = usuarioRepository.findById(request.getPacienteId())
             .orElseThrow(() -> new ResourceNotFoundException("Paciente no encontrado"));
@@ -79,7 +79,7 @@ public class CitaMedicaService {
 
     public List<CitaMedicaResponseDTO> obtenerCitasPorPaciente(Long pacienteId) {
         // VALIDAR ACCESO: Solo el paciente o sus cuidadores autorizados
-        //authorizationService.validarAccesoAPaciente(pacienteId);
+        ////authorizationService.validarAccesoAPaciente(pacienteId);
 
         List<CitaMedica> citas = citaMedicaRepository.findByPacienteIdOrderByFechaHoraAsc(pacienteId);
         return citas.stream()
@@ -92,7 +92,7 @@ public class CitaMedicaService {
             .orElseThrow(() -> new ResourceNotFoundException("Cita médica no encontrada"));
 
         // VALIDAR ACCESO: Solo el paciente o sus cuidadores autorizados
-        //authorizationService.validarAccesoAPaciente(cita.getPaciente().getId());
+        ////authorizationService.validarAccesoAPaciente(cita.getPaciente().getId());
 
         return mapToResponseDTO(cita);
     }
@@ -103,7 +103,7 @@ public class CitaMedicaService {
             .orElseThrow(() -> new ResourceNotFoundException("Cita médica no encontrada"));
 
         // VALIDAR ACCESO: Solo cuidadores autorizados pueden eliminar citas médicas
-        authorizationService.validarAccesoAPaciente(cita.getPaciente().getId());
+        ////authorizationService.validarAccesoAPaciente(cita.getPaciente().getId());
 
         // Eliminar recordatorios asociados
         recordatorioInstanciaRepository.deleteByTipoAndReferenciaId(

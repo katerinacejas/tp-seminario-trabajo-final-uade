@@ -105,26 +105,74 @@ async def enviar_mensaje(
 
         # 5. PROCESAR DOCUMENTOS SI ES NECESARIO
         if "documentos" in intenciones:
-            # Buscar documentos
-            documentos = await DataService.obtener_documentos_paciente(
-                db, paciente.id, TipoDocumentoEnum.FICHA_MEDICA
-            )
+            documentos = await DataService.obtener_documentos_paciente(db, paciente.id)
 
             if documentos:
-                # Detectar palabra clave en el mensaje
+                # Lista simple con metadatos para responder "qué documentos hay"
+                contexto_datos["documentos_lista"] = [
+                    {
+                        "id": doc.id,
+                        "nombre": doc.nombre,
+                        "tipo": doc.tipo.value,
+                        "descripcion": doc.descripcion,
+                        "fecha": doc.updated_at.isoformat() if doc.updated_at else None,
+                        "mime_type": doc.mime_type,
+                    }
+                    for doc in documentos
+                ]
+
+                mensaje_lower = request.mensaje.lower()
+
+                # ¿El usuario está pidiendo RESUMEN o DETALLE?
+                quiere_resumen = any(
+                    palabra in mensaje_lower
+                    for palabra in ["resumen", "detalle", "explicación", "explicacion"]
+                )
+
+                # Palabras médicas / de estudio para buscar dentro del texto
                 palabra_clave = None
-                palabras_medicas = ["tiroides", "glucosa", "presión", "colesterol", "hemograma"]
+                palabras_medicas = [
+                    "radiografia", "radiografía", "rayos x",
+                    "tiroides", "glucosa",
+                    "presión", "presion",
+                    "colesterol", "hemograma",
+                    "laboratorio", "sangre", "analisis de sangre", "análisis de sangre",
+                    "estudio", "radiografia", "documento"
+                ]
                 for palabra in palabras_medicas:
-                    if palabra in request.mensaje.lower():
+                    if palabra in mensaje_lower:
                         palabra_clave = palabra
                         break
 
-                # Procesar documentos con OCR
-                logger.info(f"Procesando {len(documentos)} documentos con OCR...")
-                resultados_ocr = await document_service.procesar_documentos_paciente(
-                    documentos, palabra_clave
-                )
-                contexto_datos["documentos_ocr"] = resultados_ocr
+                # Por defecto, ningún documento seleccionado para OCR
+                documentos_para_ocr = []
+
+                # Si el usuario menciona "análisis de sangre", intentamos filtrar ese documento
+                if "analisis de sangre" in mensaje_lower or "análisis de sangre" in mensaje_lower:
+                    for doc in documentos:
+                        nombre_desc = f"{doc.nombre or ''} {doc.descripcion or ''}".lower()
+                        if "analisis de sangre" in nombre_desc or "análisis de sangre" in nombre_desc or "sangre" in nombre_desc:
+                            documentos_para_ocr.append(doc)
+                
+				# Si el usuario menciona "radiografia", intentamos filtrar ese documento
+                if "radiografia" in mensaje_lower or "radiografía" in mensaje_lower:
+                    for doc in documentos:
+                        nombre_desc = f"{doc.nombre or ''} {doc.descripcion or ''}".lower()
+                        if "radiografia" in nombre_desc or "radiografía" in nombre_desc:
+                            documentos_para_ocr.append(doc)
+
+                # Si no encontramos específicamente el de sangre, pero igual pide resumen,
+                # podrías elegir NO hacer OCR (o como fallback, usar todos, pero eso vuelve a ser pesado)
+                # Acá elegimos: solo hacer OCR si pudimos filtrar al menos 1 doc
+                if (quiere_resumen or palabra_clave) and documentos_para_ocr:
+                    logger.info(f"Procesando {len(documentos_para_ocr)} documentos con OCR...")
+                    resultados_ocr = await document_service.procesar_documentos_paciente(
+                        documentos_para_ocr,
+                        palabra_clave
+                    )
+                    contexto_datos["documentos_ocr"] = resultados_ocr
+
+
 
         # 6. OBTENER HISTORIAL DE CONVERSACIÓN
         contexto_historial = await ContextService.obtener_contexto_completo(
